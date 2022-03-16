@@ -26,5 +26,12 @@ namespace SmartStock.Controllers
 
             return View();
         }
+
+        public ActionResult HomePage()
+        {
+            ViewBag.Message = "Login";
+
+            return View();
+        }
     }
 }
