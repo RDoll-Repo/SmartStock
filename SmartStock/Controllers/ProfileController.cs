@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace CapstoneBackEnd.Controllers
+namespace SmartStock.Controllers
 {
 	public class ProfileController : Controller
 	{

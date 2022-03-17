@@ -32,29 +32,51 @@
     h1 {
         padding: 50px
     }
-
-    
 </style>
 
 
 
+@model SmartStock.Models.User
+<div class="login">
+    <!--A class for the login page.-->
 
-<div class="login">                                                     <!--A class for the login page.-->
-
-    <h1>SmartStock</h1>                 
-                                                                        <!--Title and subtitles-->
+    <h1>SmartStock</h1>
+    <!--Title and subtitles-->
     <p>~Smart Savings Start with SmartStock~</p>
     <p>Log in and Start Saving Today</p>
 
-    <fieldset class="credentials">                                      <!--fieldset for user credentials.-->
-        UserName: <input type="text"><br>
-        <br />
-        Password : <input type="text"><br>
-    </fieldset>
 
-    <div><button class="submit" type="submit">Log In</button></div>     <!--This button may require back-end before we can actually use it-->
 
-    <a href="login">Don't have an account? Sign up today.</a>           <!--This link does nothing right now-->
-</div>
+    @*<div class="item">
+        <div>@Html.LabelFor(Model => Model.User_Name)</div>
+        <div>@Html.TextBoxFor(Model => Model.User_Name, new { @autofocus = "autofocus" })</div>
+    </div>
+    <div class="item">
+        <div>@Html.LabelFor(Model => Model.Password)</div>
+        <div>@Html.TextBoxFor(Model => Model.Password, new { type = "password" })</div>
+        </div>
+    </div>*@
+
+
+        
+
+<fieldset class="credentials">
+                                                                            <!--fieldset for user credentials.-->
+    UserName: <input type="text"><br>
+    <br />
+    Password : <input type="text"><br>
+</fieldset>
+
+<div><button class="submit" type="submit">Log In</button></div>     <!--This button may require back-end before we can actually use it-->
+
+<a href="login">Don't have an account? Sign up today.</a>           <!--This link does nothing right now-->
+    </div>
+
+
+@*<script>
+    $(document).ready(function)() {
+        SetActiveMenus('signin');
+    });
+</script>*@
 
 

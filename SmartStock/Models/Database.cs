@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Collections.Generic;
 
-namespace CapstoneBackEnd.Models
+namespace SmartStock.Models
 {
 	public class Database
 	{
@@ -138,6 +138,94 @@ namespace CapstoneBackEnd.Models
 						return User.ActionTypes.UpdateSuccessful;
 					default:
 						return User.ActionTypes.Unknown;
+				}
+			}
+			catch (Exception ex) { throw new Exception(ex.Message); }
+		}
+
+		public Supplier.ActionTypes InsertSupplier(User u)
+		{
+			try
+			{
+				SqlConnection cn = null;
+				if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
+				SqlCommand cm = new SqlCommand("INSERT_SUPPLIER", cn);
+				int intReturnValue = -1;
+
+				SetParameter(ref cm, "@User_ID", u.User_ID, SqlDbType.Int, Direction: ParameterDirection.Output);
+				SetParameter(ref cm, "@First_Name", u.First_Name, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Last_Name", u.Last_Name, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Phone_Number", u.Phone_Number, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Email", u.Email, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Address_1", u.Address_1, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Address_2", u.Address_2, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Zip", u.Zip, SqlDbType.VarChar);
+				SetParameter(ref cm, "@User_Name", u.User_Name, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Password", u.Password, SqlDbType.VarChar);
+				SetParameter(ref cm, "@State_ID", u.State_ID, SqlDbType.Int);
+				SetParameter(ref cm, "@Role_ID", u.Role_ID, SqlDbType.Int);
+
+
+				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.TinyInt, Direction: ParameterDirection.ReturnValue);
+
+				cm.ExecuteReader();
+
+				intReturnValue = (int)cm.Parameters["ReturnValue"].Value;
+				CloseDBConnection(ref cn);
+
+				switch (intReturnValue)
+				{
+					case 1: // new user created
+						u.User_ID = (long)cm.Parameters["@User_ID"].Value;
+						return Supplier.ActionTypes.InsertSuccessful;
+					case -1:
+						return Supplier.ActionTypes.DuplicateEmail;
+					case -2:
+						return Supplier.ActionTypes.DuplicateUserID;
+					default:
+						return Supplier.ActionTypes.Unknown;
+				}
+			}
+			catch (Exception ex) { throw new Exception(ex.Message); }
+		}
+
+		
+
+		public Supplier.ActionTypes UpdateSupplier(User u)
+		{
+			try
+			{
+				SqlConnection cn = null;
+				if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
+				SqlCommand cm = new SqlCommand("UPDATE_SUPPLIER", cn);
+				int intReturnValue = -1;
+
+				SetParameter(ref cm, "@User_ID", u.User_ID, SqlDbType.Int, Direction: ParameterDirection.Output);
+				SetParameter(ref cm, "@First_Name", u.First_Name, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Last_Name", u.Last_Name, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Phone_Number", u.Phone_Number, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Email", u.Email, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Address_1", u.Address_1, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Address_2", u.Address_2, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Zip", u.Zip, SqlDbType.VarChar);
+				SetParameter(ref cm, "@User_Name", u.User_Name, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Password", u.Password, SqlDbType.VarChar);
+				SetParameter(ref cm, "@State_ID", u.State_ID, SqlDbType.Int);
+				SetParameter(ref cm, "@Role_ID", u.Role_ID, SqlDbType.Int);
+
+				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.Int, Direction: ParameterDirection.ReturnValue);
+
+				cm.ExecuteReader();
+
+				intReturnValue = (int)cm.Parameters["ReturnValue"].Value;
+				CloseDBConnection(ref cn);
+
+				switch (intReturnValue)
+				{
+					case 1: //new updated
+						return Supplier.ActionTypes.UpdateSuccessful;
+					default:
+						return Supplier.ActionTypes.Unknown;
 				}
 			}
 			catch (Exception ex) { throw new Exception(ex.Message); }
