@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "Users";
+}
+@model SmartStock.Models.User
+<div class="users">
+    <!--A class for the users.-->
+
+    <h1>Users</h1>
+
+    <form action="AddUser">
+        <input type="submit" value="+" />
+    </form>
+
+    <div class="item">
+        <!--In production, the user will be able to double click a row here and go to "edit user"-->
+        <table>
+            <tr>
+                <th>Role</th>
+                <th>Name</th>
+                <th>Contact Info</th>
+                <th>Address</th>
+                <th>Username</th>
+                <th>Password</th>
+            </tr>
+            <tr>
+                <td>Sample</td>
+                <td>Replace Me</td>
+                <td> 55555555<br />WithActualLogic@gmail.com</td>
+                <td>545 something st.</td>
+                <td>user</td>
+                <td>qwert12</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="item">
+        <label for="Users">Filter by Role:</label>
+
+        <select name="roles" id="roles">
+            <option value="owner">Owners</option>
+            <option value="manager">Managers</option>
+            <option value="employee">Employees</option>
+        </select>
+    </div>
+</div>
+
+

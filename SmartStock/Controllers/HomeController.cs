@@ -40,5 +40,12 @@ namespace SmartStock.Controllers
 
             return View();
         }
+
+        public ActionResult InitializeInventory()
+        {
+            ViewBag.Message = "Initialize Inventory";
+
+            return View();
+        }
     }
 }

@@ -141,5 +141,12 @@ namespace SmartStock.Controllers
 			u.RemoveUserSession();
 			return RedirectToAction("Index", "Home");
 		}
+
+		public ActionResult Users()
+		{
+			ViewBag.Message = "Users";
+
+			return View();
+		}
 	}
 }
