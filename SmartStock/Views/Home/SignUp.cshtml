@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "SignUp";
+}
+@model SmartStock.Models.User
+<div class="login">
+    <!--A class for the signup page.-->
+
+    <h1>Sign Up</h1>
+
+    <div class="item">
+        <div>
+            @Html.LabelFor(Model => Model.First_Name)
+            @Html.TextBoxFor(Model => Model.First_Name)
+        </div>
+    </div>
+
+    <div class="item">
+        <div>
+            @Html.LabelFor(Model => Model.Last_Name)
+            @Html.TextBoxFor(Model => Model.Last_Name)
+        </div>
+    </div>
+
+    @*This will need to be properly implemented once we figure out how we want to do Company Name
+        <div class="item">
+            <div>
+                @Html.LabelFor(Model => Model.Last_Name)
+                @Html.TextBoxFor(Model => Model.Last_Name)
+            </div>
+        </div>
+    *@
+
+    <div class="item">
+        <div>
+            @Html.LabelFor(Model => Model.Email)
+            @Html.TextBoxFor(Model => Model.Email)
+        </div>
+    </div>
+    <br />
+    <div class="item">
+        <div>
+            @Html.LabelFor(Model => Model.Phone_Number)
+            @Html.TextBoxFor(Model => Model.Phone_Number)
+        </div>
+    </div>
+
+    <div class="item">
+        <div>
+            @Html.LabelFor(Model => Model.Address_1)
+            @Html.TextBoxFor(Model => Model.Address_1)
+        </div>
+    </div>
+
+    <div class="item">
+        <div>
+            @Html.LabelFor(Model => Model.Zip)
+            @Html.TextBoxFor(Model => Model.Zip)
+        </div>
+    </div>
+
+    <div class="item">
+        <div>
+            @Html.LabelFor(Model => Model.User_Name)
+            @Html.TextBoxFor(Model => Model.User_Name)
+        </div>
+    </div>
+
+    <div class="item">
+        <div>
+            @Html.LabelFor(Model => Model.Password)
+            @Html.TextBoxFor(Model => Model.Password)
+        </div>
+    </div>
+
+    <div class="item">
+        <div>
+            @Html.LabelFor(Model => Model.Password)
+            @Html.TextBoxFor(Model => Model.Password)
+        </div>
+    </div>
+
+    <div><button class="submit" type="submit">Submit</button></div>
+
+    <div><button class="button-cancel" type="cancel">Back to Login</button></div>
+
+
+</div>

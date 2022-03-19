@@ -33,5 +33,12 @@ namespace SmartStock.Controllers
 
             return View();
         }
+
+        public ActionResult SignUp()
+        {
+            ViewBag.Message = "Sign Up";
+
+            return View();
+        }
     }
 }
