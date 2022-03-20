@@ -149,6 +149,13 @@ namespace SmartStock.Controllers
 			return View();
         }
 
+		public ActionResult CreateItem()
+        {
+			ViewBag.Message = "CreateItem";
+
+			return View();
+        }
+
 
 		public ActionResult Users()
 		{

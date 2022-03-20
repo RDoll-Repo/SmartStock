@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "CreateItem";
+}
+
+<div class="CreateItem">
+    <!--A class for the inv. initialization page.-->
+
+    <h1>Add Item</h1>
+
+    <div class="item">
+        <form action="AddItem">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name"><br><br>
+
+            <label for="category">Category:</label>
+            <input type="text" id="category" name="category"><br><br>
+
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location"><br><br>
+
+            <label for="price">Price:</label>
+            <input type="text" id="price" name="price"><br><br>
+
+            <label for="inventory">Inventory:</label>
+            <input type="text" id="inventory" name="inventory"><br><br>
+
+            <label for="unitMeasurement">Unit/Measurement:</label>
+            <input type="text" id="unitMesaurement" name="unitMeasurement"><br><br>
+
+            <label for="supplier">Supplier:</label>
+            <input type="text" id="supplier" name="supplier"><br><br>
+
+        </form>
+
+        <form action="Inventory">
+        <input type="submit" value="Cancel" />
+        </form>
+
+        <form action="Inventory">
+            <input type="submit" value="Submit" />
+        </form>
+
+    </div>
+</div>

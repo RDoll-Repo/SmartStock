@@ -176,6 +176,7 @@
     <Content Include="Views\Home\InitializeSuppliers.cshtml" />
     <Content Include="Views\Profile\Inventory.cshtml" />
     <Content Include="Views\Profile\EditSupplier.cshtml" />
+    <Content Include="Views\Profile\CreateItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
