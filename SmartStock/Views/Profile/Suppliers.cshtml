@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "Suppliers";
+}
+@model SmartStock.Models.Supplier
+
+<h2>Suppliers</h2>
+
+<div class="suppliers">
+    <form action="AddSupplier">
+        <input type="submit" value="+" />
+    </form>
+
+    <div class="item">
+        <!--In production, the user will be able to double click a row here and go to "edit supplier"-->
+        <table>
+            <tr>
+                <th>Company</th>
+                <th>Contact Name</th>
+                <th>Contact Info</th>
+                <th>Address</th>
+                <th>Notes</th>
+            </tr>
+            <tr>
+                <td>Cysco</td>
+                <td>Replace Me</td>
+                <td> 55555555<br />WithActualLogic@gmail.com</td>
+                <td>545 something st.</td>
+                <td>Delivers wings and potatoes</td>
+            </tr>
+        </table>
+    </div>
+        
+
+</div>
+
