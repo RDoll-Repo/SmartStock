@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "CreateUser";
+}
+@model SmartStock.Models.User
+
+<h2>CreateUser</h2>
+
+<div class="item">
+    <div>
+        @Html.LabelFor(Model => Model.First_Name)
+        @Html.TextBoxFor(Model => Model.First_Name)
+    </div>
+</div>
+
+<div class="item">
+    <div>
+        @Html.LabelFor(Model => Model.Last_Name)
+        @Html.TextBoxFor(Model => Model.Last_Name)
+    </div>
+</div>
+
+<div class="item">
+    <div>
+        @Html.LabelFor(Model => Model.Role_ID)
+        @Html.TextBoxFor(Model => Model.Role_ID)
+    </div>
+</div>
+
+<div class="item">
+    <div>
+        @Html.LabelFor(Model => Model.Phone_Number)
+        @Html.TextBoxFor(Model => Model.Phone_Number)
+    </div>
+</div>
+
+<div class="item">
+    <div>
+        @Html.LabelFor(Model => Model.Address_1)
+        @Html.TextBoxFor(Model => Model.Address_1)
+    </div>
+</div>
+
+<div class="item">
+    <div>
+        @Html.LabelFor(Model => Model.Zip)
+        @Html.TextBoxFor(Model => Model.Zip)
+    </div>
+</div>
+
+<div class="item">
+    <div>
+        @Html.LabelFor(Model => Model.User_Name)
+        @Html.TextBoxFor(Model => Model.User_Name)
+    </div>
+</div>
+
+<div class="item">
+    <div>
+        @Html.LabelFor(Model => Model.Password)
+        @Html.TextBoxFor(Model => Model.Password)
+    </div>
+</div>
+
+<div class="item">
+    <div>
+        @Html.LabelFor(Model => Model.Password)
+        @Html.TextBoxFor(Model => Model.Password)
+    </div>
+</div>
+
+<form action="Users">
+    <input type="submit" value="Submit" />
+</form>

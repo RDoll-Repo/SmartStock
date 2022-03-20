@@ -171,6 +171,7 @@
     <Content Include="Views\Home\SignUp.cshtml" />
     <Content Include="Views\Profile\Users.cshtml" />
     <Content Include="Views\Profile\Suppliers.cshtml" />
+    <Content Include="Views\Profile\CreateUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
