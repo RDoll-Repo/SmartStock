@@ -48,18 +48,10 @@ IF OBJECT_ID ('TRole')					IS NOT NULL DROP TABLE TRole
 IF OBJECT_ID ('TPayment')				IS NOT NULL DROP TABLE TPayment
 IF OBJECT_ID ('TCategory')				IS NOT NULL DROP TABLE TCategory
 IF OBJECT_ID ('TProductLocation')		IS NOT NULL DROP TABLE TProductLocation
-IF OBJECT_ID ('TState')					IS NOT NULL DROP TABLE TState
 
 -- --------------------------------------------------------------------------------
 -- Create tables
 -- --------------------------------------------------------------------------------
-
-CREATE TABLE TState
-(
-	 intStateID					INTEGER			NOT NULL
-	,strStateName				VARCHAR(50)		NOT NULL
-	,CONSTRAINT TState_PK PRIMARY KEY (intStateID)
-)
 
 CREATE TABLE TRole
 (
@@ -76,12 +68,8 @@ CREATE TABLE TUser
 	,strLastName				VARCHAR(50)		NOT NULL
 	,strPhoneNumber				VARCHAR(50)		NOT NULL
 	,strEmail					VARCHAR(255)	NOT NULL
-	,strAddress1				VARCHAR(50)		NOT NULL
-	,strAddress2				VARCHAR(50)		NOT NULL
-	,strZip						VARCHAR(50)		NOT NULL
 	,strUserName				VARCHAR(50)		NOT NULL
 	,userPassword				VARCHAR(50)		NOT NULL
-	,intStateID					INTEGER			NOT NULL
 	,intRoleID					INTEGER			NOT NULL
 	,CONSTRAINT TUser_PK PRIMARY KEY (intUserID)
 )
@@ -180,12 +168,11 @@ CREATE TABLE TSupplier
 	,strContactLastName			VARCHAR(50)		NOT NULL
 	,strEmail					VARCHAR(255)	NOT NULL
 	,strAddress1				VARCHAR(50)		NOT NULL
-	,strAddress2				VARCHAR(50)		NOT NULL
 	,strZip						VARCHAR(50)		NOT NULL
 	,strPhoneNumber				VARCHAR(50)		NOT NULL
 	,strURL						VARCHAR(50)		NOT NULL
 	,strNotes					VARCHAR(255)	NOT NULL
-	,intStateID					INTEGER			NOT NULL
+	,strContactState			VARCHAR(50)		NOT NULL
 	,CONSTRAINT TSupplier_PK PRIMARY KEY (intSupplierID)
 )
 
@@ -214,8 +201,7 @@ CREATE TABLE TSupplier
 
 
 -- 1
-ALTER TABLE TUser ADD CONSTRAINT TUser_TState_FK
-FOREIGN KEY ( intStateID ) REFERENCES TState ( intStateID )
+
 
 -- 2
 ALTER TABLE TUser ADD CONSTRAINT TUser_TRole_FK
@@ -274,8 +260,7 @@ ALTER TABLE TOrder ADD CONSTRAINT TOrder_TUser_FK
 FOREIGN KEY (intUserID) REFERENCES TUser (intUserID)
 
 -- 16
-ALTER TABLE TSupplier ADD CONSTRAINT TSupplier_TState_FK
-FOREIGN KEY (intStateID) REFERENCES TState (intStateID)
+
 
 -- --------------------------------------------------------------------------------
 -- Add Sample Data - INSERTS
@@ -378,20 +363,16 @@ FROM TInventory as TI
 -- User view
 GO
 CREATE VIEW User_View AS
-SELECT TU.intUserID as UserID, TR.strRoleName as Role,TU.strUserName as Username, TU.strFirstName as FirstName, TU.strLastName as LastName, TU.strEmail as Email, TU.strPhoneNumber as Phone, TU.strAddress1 as Address1, TU.strAddress2 as Address2, TState.strStateName as State, TU.strZip as Zip
+SELECT TU.intUserID as UserID, TR.strRoleName as Role,TU.strUserName as Username, TU.strFirstName as FirstName, TU.strLastName as LastName, TU.strEmail as Email, TU.strPhoneNumber as Phone
 FROM TUser as TU
 	JOIN TRole as TR
-	ON TR.intRoleID = TU.intRoleID
-	JOIN TState 
-	ON TState.intStateID = TU.intStateID;
+	ON TR.intRoleID = TU.intRoleID;
 
 -- Supplier view
 GO
 CREATE VIEW Supplier_View AS
-SELECT TSP.intSupplierID as SupplierID, TSP.strCompanyName as CompanyName, TSP.strContactFirstName as FirstName, TSP.strContactLastName as LastName, TSP.strPhoneNumber as Phone, TSP.strEmail as Email, TSP.strURL as URL, TSP.strAddress1 as Address1, TSP.strAddress2 as Address2, TState.strStateName as State, TSP.strZip as Zip, TSP.strNotes as Notes
+SELECT TSP.intSupplierID as SupplierID, TSP.strCompanyName as CompanyName, TSP.strContactFirstName as FirstName, TSP.strContactLastName as LastName, TSP.strPhoneNumber as Phone, TSP.strEmail as Email, TSP.strURL as URL, TSP.strAddress1 as Address, TSP.strContactState as State, TSP.strZip as Zip, TSP.strNotes as Notes
 FROM TSupplier as TSP
-	JOIN TState
-	ON TState.intStateID = TSP.intStateID;
 
 
 -- --------------------------------------------------------------------------------
@@ -407,12 +388,8 @@ CREATE PROCEDURE INSERT_USER
 ,@Last_Name VARCHAR(50)
 ,@Phone_Number VARCHAR(50)
 ,@Email VARCHAR(255)
-,@Address_1 VARCHAR(50)
-,@Address_2 VARCHAR(50)
-,@Zip VARCHAR(50)
 ,@User_Name VARCHAR(50)
 ,@Password VARCHAR(50)
-,@State_ID INTEGER
 ,@Role_ID INTEGER
 
 AS
@@ -433,12 +410,8 @@ BEGIN
 				,strLastName
 				,strPhoneNumber
 				,strEmail
-				,strAddress1
-				,strAddress2
-				,strZip
 				,strUserName
 				,userPassword
-				,intStateID
 				,intRoleID)
 			VALUES
 				(@User_ID
@@ -446,12 +419,8 @@ BEGIN
 				,@Last_Name
 				,@Phone_Number
 				,@Email
-				,@Address_1
-				,@Address_2
-				,@Zip
 				,@User_Name
 				,@Password
-				,@State_ID
 				,@Role_ID)
 
 	END
@@ -507,12 +476,8 @@ CREATE PROCEDURE UPDATE_USER
 ,@Last_Name VARCHAR(50)
 ,@Phone_Number VARCHAR(50)
 ,@Email VARCHAR(255)
-,@Address_1 VARCHAR(50)
-,@Address_2 VARCHAR(50)
-,@Zip VARCHAR(50)
 ,@User_Name VARCHAR(50)
 ,@Password VARCHAR(50)
-,@State_ID INTEGER
 ,@Role_ID INTEGER
 AS
 BEGIN
@@ -524,12 +489,8 @@ BEGIN
 		  ,strLastName = @Last_Name
 		  ,strPhoneNumber = @Phone_Number
 		  ,strEmail = @Email
-		  ,strAddress1 = @Address_1
-		  ,strAddress2 = @Address_2
-		  ,strZip = @Zip
 		  ,strUserName = @User_Name
 		  ,userPassword = @Password
-		  ,intStateID = @State_ID
 		  ,intRoleID = @Role_ID
 	 WHERE intUserID = @User_ID
 	 return 1
@@ -550,11 +511,10 @@ CREATE PROCEDURE INSERT_SUPPLIER
 ,@Contact_PhoneNumber VARCHAR(50)
 ,@Contact_Email VARCHAR(255)
 ,@Contact_Address1 VARCHAR(50)
-,@Contact_Address2 VARCHAR(50)
 ,@Contact_Zip VARCHAR(50)
 ,@URL VARCHAR(50)
 ,@Notes VARCHAR(255)
-,@Contact_State_ID INTEGER
+,@Contact_State VARCHAR(50)
 
 AS
 BEGIN
@@ -575,12 +535,11 @@ BEGIN
 				,strContactLastName
 				,strEmail
 				,strAddress1
-				,strAddress2
 				,strZip
 				,strPhoneNumber
 				,strURL
 				,strNotes
-				,intStateID)
+				,strContactState)
 			VALUES
 				(@Supplier_ID
 				,@Company_Name
@@ -589,11 +548,10 @@ BEGIN
 				,@Contact_PhoneNumber
 				,@Contact_Email
 				,@Contact_Address1
-				,@Contact_Address2
 				,@Contact_Zip
 				,@URL
 				,@Notes
-				,@Contact_State_ID)
+				,@Contact_State)
 
 	END
 
@@ -634,11 +592,10 @@ CREATE PROCEDURE UPDATE_SUPPLIER
 ,@Contact_PhoneNumber VARCHAR(50)
 ,@Contact_Email VARCHAR(255)
 ,@Contact_Address1 VARCHAR(50)
-,@Contact_Address2 VARCHAR(50)
 ,@Contact_Zip VARCHAR(50)
 ,@URL VARCHAR(50)
 ,@Notes VARCHAR(255)
-,@Contact_State_ID INTEGER
+,@Contact_State VARCHAR(50)
 AS
 BEGIN
 	
@@ -650,12 +607,11 @@ BEGIN
 		  ,strContactLastName = @Contact_LastName
 		  ,strEmail = @Contact_Email
 		  ,strAddress1 = @Contact_Address1
-		  ,strAddress2 = @Contact_Address2
 		  ,strZip = @Contact_Zip
 		  ,strPhoneNumber = @Contact_PhoneNumber
 		  ,strURL = @URL
 		  ,strNotes = @Notes
-		  ,intStateID = @Contact_State_ID
+		  ,strContactState = @Contact_State
 	 WHERE intSupplierID = @Supplier_ID
 	 return 1
 END

@@ -47,30 +47,29 @@
 
 
 
-    @*<div class="item">
+    <div class="item">
         <div>@Html.LabelFor(Model => Model.User_Name)</div>
         <div>@Html.TextBoxFor(Model => Model.User_Name, new { @autofocus = "autofocus" })</div>
     </div>
     <div class="item">
         <div>@Html.LabelFor(Model => Model.Password)</div>
         <div>@Html.TextBoxFor(Model => Model.Password, new { type = "password" })</div>
-        </div>
-    </div>*@
+    </div>
 
 
         
 
-<fieldset class="credentials">
+<!--<fieldset class="credentials">-->
                                                                             <!--fieldset for user credentials.-->
-    UserName: <input type="text"><br>
+    <!--UserName: <input type="text"><br>
     <br />
     Password : <input type="text"><br>
-</fieldset>
+</fieldset>-->
 
 <div><button class="submit" type="submit">Log In</button></div>     <!--This button may require back-end before we can actually use it-->
 
 <a href="login">Don't have an account? Sign up today.</a>           <!--This link does nothing right now-->
-    </div>
+ </div>
 
 
 @*<script>
