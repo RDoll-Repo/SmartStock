@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "SingleItem";
+}
+
+<div class="SingleItem">
+    
+
+    <h2>Sample Graph</h2>
+    <div class="item">
+
+        <!--This is literally just a placeholder image. We'll need to do some research and see how
+        to actually use data to generate a graph-->
+        <img src="~/Content/Assets/Screenshot 2022-03-20 185952.png" alt="Graph Mockup" />
+
+        <h1>Chicken Wings (Sample Item)</h1>
+        <h2>Category: Meat        Location: Freezer</h2>
+        <h2>Price per Unit: $30   Current Stock: 30lb</h2>
+        <h2>Supplier: Cysco</h2>
+    </div>
+
+    <form action="EditItem">
+        <input type="submit" value="Edit this Item" />
+    </form>
+
+    <form action="Inventory">
+        <input type="submit" value="Back to Inventory" />
+    </form>
+</div>

@@ -1,14 +1,15 @@
 ﻿
 @{
-    ViewBag.Title = "CreateItem";
+    ViewBag.Title = "EditItem";
 }
 
-<div class="CreateItem">
+<div class="EditItem">
 
-    <h1>Add Item</h1>
+    <h1>Edit Item</h1>
 
+    <!--In practice, this list will be pre-occu[ied with the values of the item to edit-->
     <div class="item">
-        <form action="AddItem">
+        <form action="EditItem">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name"><br><br>
 
@@ -32,8 +33,8 @@
 
         </form>
 
-        <form action="Inventory">
-        <input type="submit" value="Cancel" />
+        <form action="SingleItem">
+            <input type="submit" value="Cancel" />
         </form>
 
         <form action="Inventory">

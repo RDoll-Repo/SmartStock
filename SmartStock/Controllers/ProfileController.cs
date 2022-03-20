@@ -149,6 +149,20 @@ namespace SmartStock.Controllers
 			return View();
         }
 
+		public ActionResult SingleItem()
+        {
+			ViewBag.Message = "SingleItem";
+
+			return View();
+        }
+
+		public ActionResult EditItem()
+        {
+			ViewBag.Message = "EditItem";
+
+			return View();
+        }
+
 		public ActionResult CreateItem()
         {
 			ViewBag.Message = "CreateItem";

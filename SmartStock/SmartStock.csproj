@@ -131,6 +131,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Assets\Screenshot 2022-03-20 185952.png" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -177,6 +178,8 @@
     <Content Include="Views\Profile\Inventory.cshtml" />
     <Content Include="Views\Profile\EditSupplier.cshtml" />
     <Content Include="Views\Profile\CreateItem.cshtml" />
+    <Content Include="Views\Profile\SingleItem.cshtml" />
+    <Content Include="Views\Profile\EditItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
