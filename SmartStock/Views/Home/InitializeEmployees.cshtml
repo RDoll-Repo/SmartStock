@@ -1,10 +1,10 @@
 ﻿
 @{
-    ViewBag.Title = "CreateUser";
+    ViewBag.Title = "InitializeEmployees";
 }
 @model SmartStock.Models.User
 
-<h1>CreateUser</h1>
+<h1>InitializeEmployees</h1>
 
 <div class="item">
     <div>
@@ -70,6 +70,32 @@
     </div>
 </div>
 
-<form action="Users">
-    <input type="submit" value="Submit" />
+<div class="item">
+    <table>
+        <tr>
+            <th>Role</th>
+            <th>Name</th>
+            <th>Contact Info</th>
+            <th>Address</th>
+            <th>Username</th>
+            <th>Password</th>
+        </tr>
+        <tr>
+            <td>Sample</td>
+            <td>Replace Me</td>
+            <td> 55555555<br />WithActualLogic@gmail.com</td>
+            <td>545 something st.</td>
+            <td>user</td>
+            <td>qwert12</td>
+        </tr>
+    </table>
+</div>
+
+
+<form action="Dashboard">
+    <input type="submit" value="Complete" />
+</form>
+
+<form action="InitializeInventory">
+    <input type="submit" value="Cancel" />
 </form>

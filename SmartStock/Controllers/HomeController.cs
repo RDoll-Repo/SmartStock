@@ -48,6 +48,12 @@ namespace SmartStock.Controllers
             return View();
         }
 
+        public ActionResult InitializeEmployees()
+        {
+            ViewBag.Message = "Initialize Employees";
+
+            return View();
+        }
 
         public ActionResult InitializeSuppliers()
         {
