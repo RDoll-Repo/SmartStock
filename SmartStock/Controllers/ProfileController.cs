@@ -171,5 +171,12 @@ namespace SmartStock.Controllers
 
 			return View();
         }
+
+		public ActionResult EditSupplier()
+		{
+			ViewBag.Message = "Edit Supplier";
+
+			return View();
+		}
 	}
 }
