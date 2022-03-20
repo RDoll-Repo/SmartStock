@@ -142,6 +142,14 @@ namespace SmartStock.Controllers
 			return RedirectToAction("Index", "Home");
 		}
 
+		public ActionResult Inventory()
+        {
+			ViewBag.Message = "Inventory";
+
+			return View();
+        }
+
+
 		public ActionResult Users()
 		{
 			ViewBag.Message = "Users";

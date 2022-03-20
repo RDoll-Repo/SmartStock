@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Inventory";
+}
+
+<h2>Inventory</h2>
+
+<div class="inventory">
+    <form action="AddItem">
+        <input type="submit" value="+" />
+    </form>
+
+    <div class="item">
+        <!--In production, the user will be able to double click a row here and go to "edit item"-->
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Location</th>
+                <th>Price</th>
+                <th>Inventory</th>
+                <th>Supplier</th>
+            </tr>
+            <tr>
+                <td>Budweiser</td>
+                <td>Alcohol</td>
+                <td>Cooler</td>
+                <td>$15</td>
+                <td>20 Cases</td>
+                <td>Budweiser</td>
+            </tr>
+        </table>
+    </div>
+
+    <form action="PerformAdjustment">
+        <input type="submit" value="Perform Adjustment" />
+    </form>
+
+    <form action="SingleItem">
+        <input type="submit" value="SingleItem Placeholder" />
+    </form>
+
+    <!--TODO: Implement logic to filter by category, location, purveyor, etc.
+        This is part of the bread and butter of the application, and fairly complicated,
+        so a mockup will not do here. -->
+
+</div>

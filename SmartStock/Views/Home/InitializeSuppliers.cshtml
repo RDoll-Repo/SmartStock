@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewBag.Title = "InitializeSuppliers";
+}
+@model SmartStock.Models.Supplier
+
+<h2>InitializeSuppliers</h2>
+
+<div class="item">
+    <div>
+        @Html.LabelFor(Model => Model.Contact_FirstName)
+        @Html.TextBoxFor(Model => Model.Contact_FirstName)
+    </div>
+</div>
+
+<div class="item">
+    <div>
+        @Html.LabelFor(Model => Model.Contact_LastName)
+        @Html.TextBoxFor(Model => Model.Contact_LastName)
+    </div>
+</div>
+
+<div class="item">
+    <div>
+        @Html.LabelFor(Model => Model.Contact_Address1)
+        @Html.TextBoxFor(Model => Model.Contact_Address1)
+    </div>
+</div>
+
+<div class="item">
+    <div>
+        @Html.LabelFor(Model => Model.Contact_State_ID)
+        @Html.TextBoxFor(Model => Model.Contact_State_ID)
+    </div>
+</div>
+
+<div class="item">
+    <div>
+        @Html.LabelFor(Model => Model.Contact_Zip)
+        @Html.TextBoxFor(Model => Model.Contact_Zip)
+    </div>
+</div>
+
+<div class="item">
+    <div>
+        @Html.LabelFor(Model => Model.Contact_PhoneNumber)
+        @Html.TextBoxFor(Model => Model.Contact_PhoneNumber)
+    </div>
+</div>
+
+<div class="item">
+    <div>
+        @Html.LabelFor(Model => Model.Contact_Email)
+        @Html.TextBoxFor(Model => Model.Contact_Email)
+    </div>
+</div>
+
+<div class="item">
+    <div>
+        @Html.LabelFor(Model => Model.URL)
+        @Html.TextBoxFor(Model => Model.URL)
+    </div>
+</div>
+
+<table>
+    <tr>
+        <th>Company</th>
+        <th>Contact Name</th>
+        <th>Contact Info</th>
+        <th>Address</th>
+        <th>Notes</th>
+    </tr>
+    <tr>
+        <td>Cysco</td>
+        <td>Replace Me</td>
+        <td> 55555555<br />WithActualLogic@gmail.com</td>
+        <td>545 something st.</td>
+        <td>Delivers wings and potatoes</td>
+    </tr>
+</table>
+
+
+<form action="Dashboard">
+    <input type="submit" value="Complete" />
+</form>
+
+<form action="InitializeInventory">
+    <input type="submit" value="Cancel" />
+</form>
