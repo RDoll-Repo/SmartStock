@@ -142,6 +142,13 @@ namespace SmartStock.Controllers
 			return RedirectToAction("Index", "Home");
 		}
 
+		public ActionResult Dashboard()
+		{
+			ViewBag.Message = "Dashboard";
+
+			return View();
+		}
+
 		public ActionResult Inventory()
         {
 			ViewBag.Message = "Inventory";
@@ -170,6 +177,12 @@ namespace SmartStock.Controllers
 			return View();
         }
 
+		public ActionResult InventoryAdjustment()
+        {
+			ViewBag.Message = "InventoryAdjustment";
+
+			return View();
+        }
 
 		public ActionResult Users()
 		{
@@ -185,6 +198,13 @@ namespace SmartStock.Controllers
 			return View();
         }
 
+		public ActionResult EditUser()
+		{
+			ViewBag.Message = "EditUser";
+
+			return View();
+		}
+
 
 		public ActionResult Suppliers()
         {
@@ -196,6 +216,13 @@ namespace SmartStock.Controllers
 		public ActionResult EditSupplier()
 		{
 			ViewBag.Message = "Edit Supplier";
+
+			return View();
+		}
+
+		public ActionResult CreateSupplier()
+		{
+			ViewBag.Message = "Create Supplier";
 
 			return View();
 		}

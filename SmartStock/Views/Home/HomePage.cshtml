@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "homepage";
+    ViewBag.Title = "HomePage";
 }
 @model SmartStock.Models.User
 <div class="login">
@@ -12,17 +12,19 @@
     <p>Log in and Start Saving Today</p>
 
     <div class="item">
-            <div>@Html.LabelFor(Model => Model.User_Name)</div>
-            <div>@Html.TextBoxFor(Model => Model.User_Name, new { @autofocus = "autofocus" })</div>
-        </div>
-        <div class="item">
-            <div>@Html.LabelFor(Model => Model.Password)</div>
-            <div>@Html.TextBoxFor(Model => Model.Password, new { type = "password" })</div>
-        </div>
+        <div>@Html.LabelFor(Model => Model.User_Name)</div>
+        <div>@Html.TextBoxFor(Model => Model.User_Name, new { @autofocus = "autofocus" })</div>
+    </div>
+    <div class="item">
+        <div>@Html.LabelFor(Model => Model.Password)</div>
+        <div>@Html.TextBoxFor(Model => Model.Password, new { type = "password" })</div>
+    </div>
 
-    <div><button class="submit" type="submit">Log In</button></div>     <!--This button may require back-end before we can actually use it-->
+    <form action="../Profile/Dashboard">
+        <input type="submit" value="Login" />
+    </form>     
 
-    <a href="SignUp">Don't have an account? Sign up today.</a>         
+    <a href="SignUp">Don't have an account? Sign up today.</a>
 </div>
 
 

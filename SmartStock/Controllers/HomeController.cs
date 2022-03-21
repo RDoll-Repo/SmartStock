@@ -29,7 +29,7 @@ namespace SmartStock.Controllers
 
         public ActionResult HomePage()
         {
-            ViewBag.Message = "Login";
+            ViewBag.Message = "HomePage";
 
             return View();
         }

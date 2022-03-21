@@ -180,6 +180,10 @@
     <Content Include="Views\Profile\CreateItem.cshtml" />
     <Content Include="Views\Profile\SingleItem.cshtml" />
     <Content Include="Views\Profile\EditItem.cshtml" />
+    <Content Include="Views\Profile\CreateSupplier.cshtml" />
+    <Content Include="Views\Profile\EditUser.cshtml" />
+    <Content Include="Views\Profile\Dashboard.cshtml" />
+    <Content Include="Views\Profile\InventoryAdjustment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

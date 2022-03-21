@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "InventoryAdjustment";
+}
+
+<h1>Inventory Adjustment</h1>
+
+<div class="inventory">
+
+    <div class="item">
+
+        <form>
+            <input type="radio" id="delivery" name="adjustmentType" value="Delivery">
+            <label for="delivery">Delivery</label><br>
+
+            <input type="radio" id="audit" name="adjustmentType" value="Audit">
+            <label for="audit">Audit</label><br>
+        </form>
+
+        <!--In production, there will be rows occupied by current stock and unit rate
+            price will not be visible during an "Audit"-->
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Location</th>
+                <th>Price</th>
+                <th>Inventory</th>
+                <th>Supplier</th>
+            </tr>
+            <tr>
+                <td>Budweiser</td>
+                <td>Alcohol</td>
+                <td>Cooler</td>
+                <td>$15</td>
+                <td>20 Cases</td>
+                <td>Budweiser</td>
+            </tr>
+        </table>
+
+        <form action="Inventory">
+            <input type="submit" value="Cancel" />
+        </form>
+
+        <form action="Inventory">
+            <input type="submit" value="Submit" />
+        </form>
+
+    </div>
+</div>

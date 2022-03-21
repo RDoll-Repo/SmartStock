@@ -1,10 +1,9 @@
-﻿
-@{
-    ViewBag.Title = "InitializeSuppliers";
+﻿@{
+    ViewBag.Title = "CreateSupplier";
 }
 @model SmartStock.Models.Supplier
 
-<h1>InitializeSuppliers</h1>
+<h1>Create Supplier</h1>
 
 <div class="item">
     <div>
@@ -62,28 +61,17 @@
     </div>
 </div>
 
-<table>
-    <tr>
-        <th>Company</th>
-        <th>Contact Name</th>
-        <th>Contact Info</th>
-        <th>Address</th>
-        <th>Notes</th>
-    </tr>
-    <tr>
-        <td>Cysco</td>
-        <td>Replace Me</td>
-        <td> 55555555<br />WithActualLogic@gmail.com</td>
-        <td>545 something st.</td>
-        <td>Delivers wings and potatoes</td>
-    </tr>
-</table>
+<div class="item">
+    <div>
+        @Html.LabelFor(Model => Model.Notes)
+        @Html.TextAreaFor(Model => Model.Notes)
+    </div>
+</div>
 
-
-<form action="../Profile/Dashboard">
-    <input type="submit" value="Complete" />
+<form action="Suppliers">
+    <input type="submit" value="Submit" />
 </form>
 
-<form action="InitializeEmployees">
-    <input type="submit" value="Previous" />
+<form action="Suppliers">
+    <input type="submit" value="Cancel" />
 </form>
