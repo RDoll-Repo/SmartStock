@@ -8,21 +8,34 @@
 	@Styles.Render("~/Content/css")
 </head>
 <body>
-	<div id="site-header">
-		<i class="fa-solid fa-cubes"></i>
-		<span class="full-content">Smart Stock</span>
-		<span class="mobile-content">Smart Stock</span>
-	</div>
-	<div class="icon-bar">
-		<a id="icon-bar-home" href="~/Home/Index" title="Go to Home"><i class="fa fa-home"></i></a>
-		<a id="icon-bar-profile" href="~/Profile/Index" title="Profile"><i class="fas fa-user-circle"></i></a>
-		<a id="icon-bar-users" href="~/Profile/Users" title="Users"><i class="fa-solid fa-users"></i></a>
-		<a id="icon-bar-inventory" href="~/Profile/Inventory" title="Inventory"><i class="fa-solid fa-boxes-stacked"></i></a>
-		<a id="icon-bar-suppliers" href="~/Profile/Suppliers" title="Suppliers"><i class="fa-solid fa-truck"></i></a>
-		<a id="icon-bar-signout" href="~/Profile/SignOut" title="Sign Out"><i class="fas fa-sign-out-alt"></i></a>
-	</div>
-	<div id="workspace">
-		@RenderBody()
-	</div>
+	@{
+		SmartStock.Models.User uCurrent = new SmartStock.Models.User(); // get current user
+		uCurrent = uCurrent.GetUserSession();
+	}
+	@if (uCurrent.IsAuthenticated) { // already logged in
+		<div id="site-header">
+			<i class="fa-solid fa-cubes"></i>
+			<span class="full-content">Smart Stock</span>
+			<span class="mobile-content">Smart Stock</span>
+		</div>
+		<div class="icon-bar">
+			<a id="icon-bar-home" href="~/Home/Index" title="Go to Home"><i class="fa fa-home"></i></a>
+			<a id="icon-bar-profile" href="~/Profile/Index" title="Profile"><i class="fas fa-user-circle"></i></a>
+			<a id="icon-bar-users" href="~/Profile/Users" title="Users"><i class="fa-solid fa-users"></i></a>
+			<a id="icon-bar-inventory" href="~/Profile/Inventory" title="Inventory"><i class="fa-solid fa-boxes-stacked"></i></a>
+			<a id="icon-bar-suppliers" href="~/Profile/Suppliers" title="Suppliers"><i class="fa-solid fa-truck"></i></a>
+			<a id="icon-bar-signout" href="~/Profile/SignOut" title="Sign Out"><i class="fas fa-sign-out-alt"></i></a>
+		</div>
+		<div id="workspace">
+			@RenderBody()
+		</div>
+	}
+	else { // not logged in yet, redirect to login page
+		   // redirect (properties are currently configured to direct to Home/HomePage for login, may not work outside of debugging!!!)
+		   // login page doesnt like "workspace" css class
+		<div>
+			@RenderBody()
+		</div>
+	}
 </body>
 </html>

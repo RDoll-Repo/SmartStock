@@ -29,7 +29,8 @@ namespace SmartStock.Controllers
 
         public ActionResult HomePage()
         {
-            ViewBag.Message = "HomePage";
+            ViewBag.Message = "Login";
+            //return RedirectToAction("Dashboard");
 
             return View();
         }
