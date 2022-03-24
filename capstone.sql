@@ -7,17 +7,32 @@
 -- --------------------------------------------------------------------------------
 -- Options
 -- --------------------------------------------------------------------------------
-USE sqlDB1;     -- Get out of the master database
+USE [CPDM-WoodJ];     -- Get out of the master database
 SET NOCOUNT ON; -- Report only errors
 
 -- --------------------------------------------------------------------------------
---	Step #1 : Drop VIEWS
+-- Drop PROCEDURES
+-- --------------------------------------------------------------------------------
+
+IF OBJECT_ID ('INSERT_USER')			IS NOT NULL DROP PROCEDURE INSERT_USER
+IF OBJECT_ID ('LOGIN')					IS NOT NULL DROP PROCEDURE LOGIN
+IF OBJECT_ID ('SELECT_USER')			IS NOT NULL DROP PROCEDURE SELECT_USER
+IF OBJECT_ID ('UPDATE_USER')			IS NOT NULL DROP PROCEDURE UPDATE_USER
+IF OBJECT_ID ('INSERT_SUPPLIER')		IS NOT NULL DROP PROCEDURE INSERT_SUPPLIER
+IF OBJECT_ID ('SELECT_SUPPLIER')		IS NOT NULL DROP PROCEDURE SELECT_SUPPLIER
+IF OBJECT_ID ('UPDATE_SUPPLIER')		IS NOT NULL DROP PROCEDURE UPDATE_SUPPLIER
+IF OBJECT_ID ('INSERT_PRODUCT')			IS NOT NULL DROP PROCEDURE INSERT_PRODUCT
+IF OBJECT_ID ('SELECT_PRODUCT')			IS NOT NULL DROP PROCEDURE SELECT_PRODUCT
+IF OBJECT_ID ('UPDATE_PRODUCT')			IS NOT NULL DROP PROCEDURE UPDATE_PRODUCT
+
+-- --------------------------------------------------------------------------------
+-- Drop VIEWS
 -- --------------------------------------------------------------------------------
 IF OBJECT_ID ('Inventory_View')			IS NOT NULL DROP VIEW Inventory_View
 IF OBJECT_ID ('User_View')				IS NOT NULL DROP VIEW User_View
 IF OBJECT_ID ('Supplier_View')			IS NOT NULL DROP VIEW Supplier_View
 -- --------------------------------------------------------------------------------
---	Step #1 : Drop tables
+-- Drop tables
 -- --------------------------------------------------------------------------------
 IF OBJECT_ID ('TOrderProducts')			IS NOT NULL DROP TABLE TOrderProducts
 IF OBJECT_ID ('TOrder')					IS NOT NULL DROP TABLE TOrder
@@ -33,24 +48,16 @@ IF OBJECT_ID ('TRole')					IS NOT NULL DROP TABLE TRole
 IF OBJECT_ID ('TPayment')				IS NOT NULL DROP TABLE TPayment
 IF OBJECT_ID ('TCategory')				IS NOT NULL DROP TABLE TCategory
 IF OBJECT_ID ('TProductLocation')		IS NOT NULL DROP TABLE TProductLocation
-IF OBJECT_ID ('TState')					IS NOT NULL DROP TABLE TState
 
 -- --------------------------------------------------------------------------------
---	Step #1.1 : Create tables
+-- Create tables
 -- --------------------------------------------------------------------------------
-
-CREATE TABLE TState
-(
-	 intStateID					INTEGER			NOT NULL
-	,strStateName				VARCHAR(50)		NOT NULL
-	,CONSTRAINT TState_PK PRIMARY KEY (intStateID)
-)
 
 CREATE TABLE TRole
 (
 	 intRoleID					INTEGER			NOT NULL
 	,strRoleName				VARCHAR(50)		NOT NULL
-	,strRoleDesc				VARCHAR(255)	NOT NULL
+	,strRoleDesc				VARCHAR(50)		NOT NULL
 	,CONSTRAINT TRole_PK PRIMARY KEY (intRoleID)
 )
 
@@ -61,12 +68,8 @@ CREATE TABLE TUser
 	,strLastName				VARCHAR(50)		NOT NULL
 	,strPhoneNumber				VARCHAR(50)		NOT NULL
 	,strEmail					VARCHAR(255)	NOT NULL
-	,strAddress1				VARCHAR(50)		NOT NULL
-	,strAddress2				VARCHAR(50)		NOT NULL
-	,strZip						VARCHAR(50)		NOT NULL
 	,strUserName				VARCHAR(50)		NOT NULL
 	,userPassword				VARCHAR(50)		NOT NULL
-	,intStateID					INTEGER			NOT NULL
 	,intRoleID					INTEGER			NOT NULL
 	,CONSTRAINT TUser_PK PRIMARY KEY (intUserID)
 )
@@ -85,14 +88,14 @@ CREATE TABLE TAdjustment
 (
 	 intAdjustmentID			INTEGER			NOT NULL
 	,strAdjustmentType			VARCHAR(50)		NOT NULL
-	,strAdjustmentDesc			VARCHAR(255)	NOT NULL
+	,strAdjustmentDesc			VARCHAR(100)	NOT NULL
 	,CONSTRAINT TAdjustment_PK PRIMARY KEY (intAdjustmentID)
 )
 
 CREATE TABLE TInventory
 (
 	 intInventoryID				INTEGER			NOT NULL
-	,intProductID				INTEGER			NOT NULL
+	,intProductID				INTEGER			NOT NULL 
 	,intStatusID				INTEGER			NOT NULL
 	,intCurrentInventory		INTEGER			NOT NULL
 	,CONSTRAINT TInventory_PK PRIMARY KEY (intInventoryID)
@@ -124,18 +127,17 @@ CREATE TABLE TProduct
 	 intProductID				INTEGER			NOT NULL
 	,strProductName				VARCHAR(50)		NOT NULL
 	,strProductDesc				VARCHAR(255)	NOT NULL
-	,intUnitSize				INTEGER			NOT NULL
-	,intUnitType				INTEGER			NOT NULL
-	,monUnitPrice				MONEY			NOT NULL
 	,intCategoryID				INTEGER			NOT NULL
-	,intProductLocationID		INTEGER			NOT NULL
 	,CONSTRAINT TProduct_PK PRIMARY KEY (intProductID)
 )
 
 CREATE TABLE TOrderProducts
 (
 	 intOrderProductsID			INTEGER			NOT NULL
-	,intProductQuantity			INTEGER			NOT NULL
+	,intUnitSize				INTEGER			NOT NULL
+	,intUnitType				INTEGER			NOT NULL
+	,monUnitPrice				MONEY			NOT NULL
+	,intProductLocationID		INTEGER			NOT NULL
 	,intOrderID					INTEGER			NOT NULL
 	,intProductID				INTEGER			NOT NULL
 	,CONSTRAINT TOrderProducts_PK PRIMARY KEY (intOrderProductsID)
@@ -160,23 +162,22 @@ CREATE TABLE TOrder
 
 CREATE TABLE TSupplier
 (
-	 intSupplierID				INTEGER			NOT NULL
-	,strCompanyName				VARCHAR(50)	NOT NULL
+	 intSupplierID 				INTEGER		NOT NULL
+	,strCompanyName				VARCHAR(255)	NOT NULL
 	,strContactFirstName		VARCHAR(50)		NOT NULL
 	,strContactLastName			VARCHAR(50)		NOT NULL
-	,strEmail					VARCHAR(50)		NOT NULL
+	,strEmail					VARCHAR(255)	NOT NULL
 	,strAddress1				VARCHAR(50)		NOT NULL
-	,strAddress2				VARCHAR(50)		NOT NULL
 	,strZip						VARCHAR(50)		NOT NULL
 	,strPhoneNumber				VARCHAR(50)		NOT NULL
 	,strURL						VARCHAR(50)		NOT NULL
 	,strNotes					VARCHAR(255)	NOT NULL
-	,intStateID					INTEGER			NOT NULL
+	,strContactState			VARCHAR(50)		NOT NULL
 	,CONSTRAINT TSupplier_PK PRIMARY KEY (intSupplierID)
 )
 
 -- --------------------------------------------------------------------------------
--- Step #1.2: Identify and Create Foreign Keys
+-- Identify and Create Foreign Keys
 -- --------------------------------------------------------------------------------
 -- -    -----					------					---------
 -- #	Child					Parent					Column(s)
@@ -200,8 +201,7 @@ CREATE TABLE TSupplier
 
 
 -- 1
-ALTER TABLE TUser ADD CONSTRAINT TUser_TState_FK
-FOREIGN KEY ( intStateID ) REFERENCES TState ( intStateID )
+
 
 -- 2
 ALTER TABLE TUser ADD CONSTRAINT TUser_TRole_FK
@@ -232,7 +232,7 @@ ALTER TABLE TInventory ADD CONSTRAINT TInventory_TStatus_FK
 FOREIGN KEY ( intStatusID ) REFERENCES TStatus ( intStatusID )
 
 -- 9
-ALTER TABLE TProduct ADD CONSTRAINT TProduct_TProductLocation_FK
+ALTER TABLE TOrderProducts ADD CONSTRAINT TOrderProducts_TProductLocation_FK
 FOREIGN KEY (intProductLocationID) REFERENCES TProductLocation (intProductLocationID)
 
 -- 10
@@ -260,11 +260,10 @@ ALTER TABLE TOrder ADD CONSTRAINT TOrder_TUser_FK
 FOREIGN KEY (intUserID) REFERENCES TUser (intUserID)
 
 -- 16
-ALTER TABLE TSupplier ADD CONSTRAINT TSupplier_TState_FK
-FOREIGN KEY (intStateID) REFERENCES TState (intStateID)
+
 
 -- --------------------------------------------------------------------------------
---	Step #2 : Add Sample Data - INSERTS
+-- Add Sample Data - INSERTS
 -- --------------------------------------------------------------------------------
 /*INSERT INTO TState (intStateID, strStateName)
 VALUES	 (1, 'Ohio')
@@ -343,12 +342,12 @@ INSERT INTO TSupplier(intSupplierID, strCompanyName,strContactFirstName,strConta
 VALUES	 (1, 'Sysco','Bill','Thomson','Billy@something.com','908098098','6th st','','98798',3,'someURL','a solid food purveyor')*/
 
 -- --------------------------------------------------------------------------------
---	Step #4: VIEWS
+-- VIEWS
 -- --------------------------------------------------------------------------------
  --Inventory view
 GO
 CREATE VIEW Inventory_View AS
-SELECT TI.intInventoryID as InventoryID, TP.strProductName as Product, TSS.strStatusType as Status, TPL.strLocation as StoredLocation, TP.intUnitSize as UnitSize, TP.intUnitType as CaseSize, TP.strProductDesc as Description
+SELECT TI.intInventoryID as InventoryID, TP.strProductName as Product, TSS.strStatusType as Status, TPL.strLocation as StoredLocation, TPO.intUnitSize as UnitSize, TPO.intUnitType as CaseSize, TP.strProductDesc as Description
 FROM TInventory as TI
 	JOIN TProduct as TP
 	ON TP.intProductID = TI.intProductID
@@ -356,23 +355,342 @@ FROM TInventory as TI
 	ON TSS.intStatusID = TI.intStatusID
 	JOIN TCategory as TC
 	ON TC.intCategoryID = TP.intCategoryID
+	JOIN TOrderProducts as TPO
+	ON TPO.intProductID = TP.intProductID
 	JOIN TProductLocation as TPL
-	ON TPL.intProductLocationID = TP.intProductLocationID;
+	ON TPL.intProductLocationID = TPO.intProductLocationID;
 
 -- User view
 GO
 CREATE VIEW User_View AS
-SELECT TU.intUserID as UserID, TR.strRoleName as Role,TU.strUserName as Username, TU.strFirstName as FirstName, TU.strLastName as LastName, TU.strEmail as Email, TU.strPhoneNumber as Phone, TU.strAddress1 as Address1, TU.strAddress2 as Address2, TState.strStateName as State, TU.strZip as Zip
+SELECT TU.intUserID as UserID, TR.strRoleName as Role,TU.strUserName as Username, TU.strFirstName as FirstName, TU.strLastName as LastName, TU.strEmail as Email, TU.strPhoneNumber as Phone
 FROM TUser as TU
 	JOIN TRole as TR
-	ON TR.intRoleID = TU.intRoleID
-	JOIN TState 
-	ON TState.intStateID = TU.intStateID;
+	ON TR.intRoleID = TU.intRoleID;
 
 -- Supplier view
 GO
 CREATE VIEW Supplier_View AS
-SELECT TSP.intSupplierID as SupplierID, TSP.strCompanyName as CompanyName, TSP.strContactFirstName as FirstName, TSP.strContactLastName as LastName, TSP.strPhoneNumber as Phone, TSP.strEmail as Email, TSP.strURL as URL, TSP.strAddress1 as Address1, TSP.strAddress2 as Address2, TState.strStateName as State, TSP.strZip as Zip, TSP.strNotes as Notes
+SELECT TSP.intSupplierID as SupplierID, TSP.strCompanyName as CompanyName, TSP.strContactFirstName as FirstName, TSP.strContactLastName as LastName, TSP.strPhoneNumber as Phone, TSP.strEmail as Email, TSP.strURL as URL, TSP.strAddress1 as Address, TSP.strContactState as State, TSP.strZip as Zip, TSP.strNotes as Notes
 FROM TSupplier as TSP
-	JOIN TState
-	ON TState.intStateID = TSP.intStateID;
+
+
+-- --------------------------------------------------------------------------------
+-- PROCEDURES USER
+-- --------------------------------------------------------------------------------
+
+-- INSERT_USER PROCEDURE
+
+GO
+CREATE PROCEDURE INSERT_USER
+@User_ID bigint = null output
+,@First_Name VARCHAR(50)
+,@Last_Name VARCHAR(50)
+,@Phone_Number VARCHAR(50)
+,@Email VARCHAR(255)
+,@User_Name VARCHAR(50)
+,@Password VARCHAR(50)
+,@Role_ID INTEGER
+
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	declare @count tinyint
+
+	select @count=count(*) from TUser where strEmail=@Email
+	if @count >0 return -1
+
+	select @count=count(*) from TUser where intUserID=@User_ID
+	if @count >0 return -2
+
+	INSERT INTO TUser
+				(intUserID
+				,strFirstName
+				,strLastName
+				,strPhoneNumber
+				,strEmail
+				,strUserName
+				,userPassword
+				,intRoleID)
+			VALUES
+				(@User_ID
+				,@First_Name
+				,@Last_Name
+				,@Phone_Number
+				,@Email
+				,@User_Name
+				,@Password
+				,@Role_ID)
+
+	END
+
+-- LOGIN PROCEDURE
+
+GO
+CREATE PROCEDURE LOGIN
+@User_Name VARCHAR(100)
+,@Password VARCHAR(100)
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	Select *
+	from TUser
+	where strUserName = @User_Name
+	and userPassword = @Password
+
+END
+
+-- SELECT_USER PROCEDURE
+
+GO
+
+CREATE PROCEDURE SELECT_USER
+@User_ID bigint = null
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	if @User_ID is not null
+	begin
+		select *
+		from TUser u
+		where u.intUserID = @User_ID
+	end
+	else
+	begin
+		select *
+		from TUser u
+		order by strLastName, strFirstName
+	end
+END
+
+-- SELECT_USER PROCEDURE
+
+GO
+
+CREATE PROCEDURE UPDATE_USER
+@User_ID bigint = null output
+,@First_Name VARCHAR(50)
+,@Last_Name VARCHAR(50)
+,@Phone_Number VARCHAR(50)
+,@Email VARCHAR(255)
+,@User_Name VARCHAR(50)
+,@Password VARCHAR(50)
+,@Role_ID INTEGER
+AS
+BEGIN
+	
+	SET NOCOUNT ON;
+
+	UPDATE TUser
+	   SET strFirstName = @First_Name
+		  ,strLastName = @Last_Name
+		  ,strPhoneNumber = @Phone_Number
+		  ,strEmail = @Email
+		  ,strUserName = @User_Name
+		  ,userPassword = @Password
+		  ,intRoleID = @Role_ID
+	 WHERE intUserID = @User_ID
+	 return 1
+END
+
+-- --------------------------------------------------------------------------------
+-- PROCEDURES SUPPLIER
+-- --------------------------------------------------------------------------------
+
+-- INSERT_SUPPLIER PROCEDURE
+
+GO
+CREATE PROCEDURE INSERT_SUPPLIER
+@Supplier_ID bigint = null output
+,@Company_Name VARCHAR(255)
+,@Contact_FirstName VARCHAR(50)
+,@Contact_LastName VARCHAR(50)
+,@Contact_PhoneNumber VARCHAR(50)
+,@Contact_Email VARCHAR(255)
+,@Contact_Address1 VARCHAR(50)
+,@Contact_Zip VARCHAR(50)
+,@URL VARCHAR(50)
+,@Notes VARCHAR(255)
+,@Contact_State VARCHAR(50)
+
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	declare @count tinyint
+
+	select @count=count(*) from TSupplier where strEmail=@Contact_Email
+	if @count >0 return -1
+
+	select @count=count(*) from TSupplier where intSupplierID=@Supplier_ID
+	if @count >0 return -2
+
+	INSERT INTO TSupplier
+				(intSupplierID
+				,strCompanyName
+				,strContactFirstName
+				,strContactLastName
+				,strEmail
+				,strAddress1
+				,strZip
+				,strPhoneNumber
+				,strURL
+				,strNotes
+				,strContactState)
+			VALUES
+				(@Supplier_ID
+				,@Company_Name
+				,@Contact_FirstName
+				,@Contact_LastName
+				,@Contact_PhoneNumber
+				,@Contact_Email
+				,@Contact_Address1
+				,@Contact_Zip
+				,@URL
+				,@Notes
+				,@Contact_State)
+
+	END
+
+
+-- SELECT_SUPPLIER PROCEDURE
+
+GO
+
+CREATE PROCEDURE SELECT_SUPPLIER
+@Supplier_ID bigint = null
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	if @Supplier_ID is not null
+	begin
+		select *
+		from TSupplier s
+		where s.intSupplierID = @Supplier_ID
+	end
+	else
+	begin
+		select *
+		from TSupplier s
+		order by strCompanyName
+	end
+END
+
+-- UPDATE_SUPPLIER PROCEDURE
+
+GO
+
+CREATE PROCEDURE UPDATE_SUPPLIER
+@Supplier_ID bigint = null output
+,@Company_Name VARCHAR(255)
+,@Contact_FirstName VARCHAR(50)
+,@Contact_LastName VARCHAR(50)
+,@Contact_PhoneNumber VARCHAR(50)
+,@Contact_Email VARCHAR(255)
+,@Contact_Address1 VARCHAR(50)
+,@Contact_Zip VARCHAR(50)
+,@URL VARCHAR(50)
+,@Notes VARCHAR(255)
+,@Contact_State VARCHAR(50)
+AS
+BEGIN
+	
+	SET NOCOUNT ON;
+
+	UPDATE TSupplier
+	   SET strCompanyName = @Company_Name
+		  ,strContactFirstName = @Contact_FirstName
+		  ,strContactLastName = @Contact_LastName
+		  ,strEmail = @Contact_Email
+		  ,strAddress1 = @Contact_Address1
+		  ,strZip = @Contact_Zip
+		  ,strPhoneNumber = @Contact_PhoneNumber
+		  ,strURL = @URL
+		  ,strNotes = @Notes
+		  ,strContactState = @Contact_State
+	 WHERE intSupplierID = @Supplier_ID
+	 return 1
+END
+
+
+-- --------------------------------------------------------------------------------
+-- PROCEDURES PRODUCT
+-- --------------------------------------------------------------------------------
+
+-- INSERT_PRODUCT PROCEDURE
+
+GO
+CREATE PROCEDURE INSERT_PRODUCT
+@Product_ID bigint = null output
+,@Product_Name VARCHAR(50)
+,@Product_Desc VARCHAR(255)
+,@Category_ID INTEGER
+
+
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	INSERT INTO TProduct
+				(intProductID
+				,strProductName
+				,strProductDesc
+				,intCategoryID)
+			VALUES
+				(@Product_ID
+				,@Product_Name
+				,@Product_Desc
+				,@Category_ID)
+
+	END
+
+
+-- SELECT_PRODUCT PROCEDURE
+
+GO
+
+CREATE PROCEDURE SELECT_PRODUCT
+@Product_ID bigint = null
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	if @Product_ID is not null
+	begin
+		select *
+		from TProduct p
+		where p.intProductID = @Product_ID
+	end
+	else
+	begin
+		select *
+		from TProduct p
+		order by strProductName
+	end
+END
+
+-- UPDATE_PRODUCT PROCEDURE
+
+GO
+
+CREATE PROCEDURE UPDATE_PRODUCT
+@Product_ID bigint = null output
+,@Product_Name VARCHAR(50)
+,@Product_Desc VARCHAR(255)
+,@Category_ID INTEGER
+AS
+BEGIN
+	
+	SET NOCOUNT ON;
+
+	UPDATE TProduct
+	   SET strProductName = @Product_Name
+		  ,strProductDesc = @Product_Desc
+		  ,intCategoryID = @Category_ID
+	 WHERE intProductID = @Product_ID
+	 return 1
+END

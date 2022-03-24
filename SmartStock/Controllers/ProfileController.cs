@@ -34,7 +34,7 @@ namespace SmartStock.Controllers
 				u.State_ID = col["State_ID"];
 				u.Role_ID = col["Role_ID"];
 
-				if (u.First_Name.Length == 0 || u.Last_Name.Length == 0 || u.Phone_Number.Length == 0 || u.Email.Length == 0 || u.Address_1.Length == 0 || u.Zip.Length == 0 || u.User_Name.Length == 0 || u.Password.Length == 0 || u.State_ID.Length == 0 || u.Role_ID.Length == 0)
+				if (u.First_Name.Length == 0 || u.Last_Name.Length == 0 || u.Phone_Number.Length == 0 || u.Email.Length == 0 || u.User_Name.Length == 0 || u.Password.Length == 0 || u.Role_ID.Length == 0)
 				{
 					u.ActionType = Models.User.ActionTypes.RequiredFieldsMissing;
 					return View(u);
