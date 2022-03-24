@@ -23,7 +23,7 @@ namespace SmartStock.Controllers
 				Models.User u = new Models.User();
 
 				u.First_Name = col["First_Name"];
-				u.Last_Name = col["First_Name"];
+				u.Last_Name = col["Last_Name"];
 				u.Phone_Number = col["Phone_Number"];
 				u.Email = col["Email"];
 				u.Address_1 = col["Address_1"];
@@ -65,7 +65,7 @@ namespace SmartStock.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Index(HttpPostedFileBase UserImage, FormCollection col)
+		public ActionResult Index(FormCollection col)
 		{
 			Models.User u = new Models.User();
 			u = u.GetUserSession();
@@ -75,7 +75,7 @@ namespace SmartStock.Controllers
 				u = u.GetUserSession();
 
 				u.First_Name = col["First_Name"];
-				u.Last_Name = col["First_Name"];
+				u.Last_Name = col["Last_Name"];
 				u.Phone_Number = col["Phone_Number"];
 				u.Email = col["Email"];
 				u.Address_1 = col["Address_1"];
@@ -150,39 +150,39 @@ namespace SmartStock.Controllers
 		}
 
 		public ActionResult Inventory()
-        {
+		{
 			ViewBag.Message = "Inventory";
 
 			return View();
-        }
+		}
 
 		public ActionResult SingleItem()
-        {
+		{
 			ViewBag.Message = "SingleItem";
 
 			return View();
-        }
+		}
 
 		public ActionResult EditItem()
-        {
+		{
 			ViewBag.Message = "EditItem";
 
 			return View();
-        }
+		}
 
 		public ActionResult CreateItem()
-        {
+		{
 			ViewBag.Message = "CreateItem";
 
 			return View();
-        }
+		}
 
 		public ActionResult InventoryAdjustment()
-        {
+		{
 			ViewBag.Message = "InventoryAdjustment";
 
 			return View();
-        }
+		}
 
 		public ActionResult Users()
 		{
@@ -192,11 +192,11 @@ namespace SmartStock.Controllers
 		}
 
 		public ActionResult CreateUser()
-        {
+		{
 			ViewBag.Message = "CreateUser";
 
 			return View();
-        }
+		}
 
 		public ActionResult EditUser()
 		{
@@ -207,11 +207,11 @@ namespace SmartStock.Controllers
 
 
 		public ActionResult Suppliers()
-        {
+		{
 			ViewBag.Message = "Suppliers";
 
 			return View();
-        }
+		}
 
 		public ActionResult EditSupplier()
 		{
