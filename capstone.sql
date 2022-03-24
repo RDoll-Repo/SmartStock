@@ -63,7 +63,7 @@ CREATE TABLE TRole
 
 CREATE TABLE TUser
 (
-	 intUserID					INTEGER			NOT NULL
+	 intUserID					INTEGER	IDENTITY(1,1)NOT NULL
 	,strFirstName				VARCHAR(50)		NOT NULL
 	,strLastName				VARCHAR(50)		NOT NULL
 	,strPhoneNumber				VARCHAR(50)		NOT NULL
@@ -124,7 +124,7 @@ CREATE TABLE TProductLocation
 
 CREATE TABLE TProduct
 (
-	 intProductID				INTEGER			NOT NULL
+	 intProductID				INTEGER	IDENTITY(1,1)NOT NULL
 	,strProductName				VARCHAR(50)		NOT NULL
 	,strProductDesc				VARCHAR(255)	NOT NULL
 	,intCategoryID				INTEGER			NOT NULL
@@ -162,7 +162,7 @@ CREATE TABLE TOrder
 
 CREATE TABLE TSupplier
 (
-	 intSupplierID 				INTEGER		NOT NULL
+	 intSupplierID 				INTEGER	IDENTITY(1,1)NOT NULL
 	,strCompanyName				VARCHAR(255)	NOT NULL
 	,strContactFirstName		VARCHAR(50)		NOT NULL
 	,strContactLastName			VARCHAR(50)		NOT NULL
@@ -268,7 +268,7 @@ FOREIGN KEY (intUserID) REFERENCES TUser (intUserID)
 /*INSERT INTO TState (intStateID, strStateName)
 VALUES	 (1, 'Ohio')
 		,(2, 'Kentucky')
-		,(3, 'Indiana')
+		,(3, 'Indiana')*/
 
 INSERT INTO TRole(intRoleID, strRoleName, strRoleDesc)
 VALUES	 (1, 'Owner', 'owns the buisness and has access to everything')
@@ -276,7 +276,7 @@ VALUES	 (1, 'Owner', 'owns the buisness and has access to everything')
 		,(3, 'Server', 'is a server')
 
 
-INSERT INTO TUser(intUserID, intRoleID, strFirstName, strLastName, strPhoneNumber, strEmail, strAddress1, strAddress2, intStateID, strZip, strUserName, userPassword)
+/*INSERT INTO TUser(intUserID, intRoleID, strFirstName, strLastName, strPhoneNumber, strEmail, strAddress1, strAddress2, intStateID, strZip, strUserName, userPassword)
 VALUES	 (1, 1, 'John', 'Dohn', '1234234234', 'johndohn@something.com', '3rd st', '', 1, '34567', 'john', '******')
 		,(2, 2, 'Sarah', 'Miller', '3453453455', 'sarahsomething@something.com', '4th st', '', 2, '56787', 'sarah', '*****')
 		,(3, 3, 'Jane', 'Frankfort', '1231233245', 'janejane@something.com', '5th st', '', 3, '45647', 'jane', '*******')
@@ -382,7 +382,7 @@ FROM TSupplier as TSP
 -- INSERT_USER PROCEDURE
 
 GO
-CREATE PROCEDURE INSERT_USER
+CREATE PROCEDURE [db_owner].[INSERT_USER]
 @User_ID bigint = null output
 ,@First_Name VARCHAR(50)
 ,@Last_Name VARCHAR(50)
@@ -404,32 +404,31 @@ BEGIN
 	select @count=count(*) from TUser where intUserID=@User_ID
 	if @count >0 return -2
 
-	INSERT INTO TUser
-				(intUserID
-				,strFirstName
-				,strLastName
-				,strPhoneNumber
-				,strEmail
-				,strUserName
-				,userPassword
-				,intRoleID)
+	INSERT INTO [db_owner].[TUser]
+				([strFirstName]
+				,[strLastName]
+				,[strPhoneNumber]
+				,[strEmail]
+				,[strUserName]
+				,[userPassword]
+				,[intRoleID])
 			VALUES
-				(@User_ID
-				,@First_Name
+				(@First_Name
 				,@Last_Name
 				,@Phone_Number
 				,@Email
 				,@User_Name
 				,@Password
 				,@Role_ID)
-
+				select @User_ID=@@IDENTITY
+				return 1
 	END
 
--- LOGIN PROCEDURE
 
 GO
-CREATE PROCEDURE LOGIN
-@User_Name VARCHAR(100)
+-- LOGIN PROCEDURE
+CREATE PROCEDURE [db_owner].[LOGIN]
+@User_Name VARCHAR(50)
 ,@Password VARCHAR(100)
 AS
 BEGIN
@@ -438,15 +437,14 @@ BEGIN
 	Select *
 	from TUser
 	where strUserName = @User_Name
-	and userPassword = @Password
+	and [userPassword] = @Password
 
 END
 
--- SELECT_USER PROCEDURE
 
 GO
-
-CREATE PROCEDURE SELECT_USER
+-- SELECT_USER PROCEDURE
+CREATE PROCEDURE [db_owner].[SELECT_USER]
 @User_ID bigint = null
 AS
 BEGIN
@@ -456,7 +454,7 @@ BEGIN
 	begin
 		select *
 		from TUser u
-		where u.intUserID = @User_ID
+		where u.[intUserID] = @User_ID
 	end
 	else
 	begin
@@ -470,8 +468,8 @@ END
 
 GO
 
-CREATE PROCEDURE UPDATE_USER
-@User_ID bigint = null output
+CREATE PROCEDURE [db_owner].[UPDATE_USER]
+@User_ID bigint
 ,@First_Name VARCHAR(50)
 ,@Last_Name VARCHAR(50)
 ,@Phone_Number VARCHAR(50)
@@ -484,15 +482,15 @@ BEGIN
 	
 	SET NOCOUNT ON;
 
-	UPDATE TUser
-	   SET strFirstName = @First_Name
-		  ,strLastName = @Last_Name
-		  ,strPhoneNumber = @Phone_Number
-		  ,strEmail = @Email
-		  ,strUserName = @User_Name
-		  ,userPassword = @Password
-		  ,intRoleID = @Role_ID
-	 WHERE intUserID = @User_ID
+	UPDATE [db_owner].[TUser]
+	   SET [strFirstName] = @First_Name
+		  ,[strLastName] = @Last_Name
+		  ,[strPhoneNumber] = @Phone_Number
+		  ,[strEmail] = @Email
+		  ,[strUserName] = @User_Name
+		  ,[userPassword] = @Password
+		  ,[intRoleID] = @Role_ID
+	 WHERE [intUserID] = @User_ID
 	 return 1
 END
 
@@ -503,7 +501,7 @@ END
 -- INSERT_SUPPLIER PROCEDURE
 
 GO
-CREATE PROCEDURE INSERT_SUPPLIER
+CREATE PROCEDURE [db_owner].[INSERT_SUPPLIER]
 @Supplier_ID bigint = null output
 ,@Company_Name VARCHAR(255)
 ,@Contact_FirstName VARCHAR(50)
@@ -528,7 +526,7 @@ BEGIN
 	select @count=count(*) from TSupplier where intSupplierID=@Supplier_ID
 	if @count >0 return -2
 
-	INSERT INTO TSupplier
+	INSERT INTO [db_owner].[TSupplier]
 				(intSupplierID
 				,strCompanyName
 				,strContactFirstName
@@ -560,7 +558,7 @@ BEGIN
 
 GO
 
-CREATE PROCEDURE SELECT_SUPPLIER
+CREATE PROCEDURE [db_owner].[SELECT_SUPPLIER]
 @Supplier_ID bigint = null
 AS
 BEGIN
@@ -584,7 +582,7 @@ END
 
 GO
 
-CREATE PROCEDURE UPDATE_SUPPLIER
+CREATE PROCEDURE [db_owner].[UPDATE_SUPPLIER]
 @Supplier_ID bigint = null output
 ,@Company_Name VARCHAR(255)
 ,@Contact_FirstName VARCHAR(50)
@@ -601,7 +599,7 @@ BEGIN
 	
 	SET NOCOUNT ON;
 
-	UPDATE TSupplier
+	UPDATE [db_owner].[TSupplier]
 	   SET strCompanyName = @Company_Name
 		  ,strContactFirstName = @Contact_FirstName
 		  ,strContactLastName = @Contact_LastName
@@ -624,7 +622,7 @@ END
 -- INSERT_PRODUCT PROCEDURE
 
 GO
-CREATE PROCEDURE INSERT_PRODUCT
+CREATE PROCEDURE [db_owner].[INSERT_PRODUCT]
 @Product_ID bigint = null output
 ,@Product_Name VARCHAR(50)
 ,@Product_Desc VARCHAR(255)
@@ -635,7 +633,7 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-	INSERT INTO TProduct
+	INSERT INTO [db_owner].[TProduct]
 				(intProductID
 				,strProductName
 				,strProductDesc
@@ -653,7 +651,7 @@ BEGIN
 
 GO
 
-CREATE PROCEDURE SELECT_PRODUCT
+CREATE PROCEDURE [db_owner].[SELECT_PRODUCT]
 @Product_ID bigint = null
 AS
 BEGIN
@@ -677,7 +675,7 @@ END
 
 GO
 
-CREATE PROCEDURE UPDATE_PRODUCT
+CREATE PROCEDURE [db_owner].[UPDATE_PRODUCT]
 @Product_ID bigint = null output
 ,@Product_Name VARCHAR(50)
 ,@Product_Desc VARCHAR(255)
@@ -687,7 +685,7 @@ BEGIN
 	
 	SET NOCOUNT ON;
 
-	UPDATE TProduct
+	UPDATE [db_owner].[TProduct]
 	   SET strProductName = @Product_Name
 		  ,strProductDesc = @Product_Desc
 		  ,intCategoryID = @Category_ID

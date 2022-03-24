@@ -23,7 +23,7 @@ namespace SmartStock.Controllers
 				Models.User u = new Models.User();
 
 				u.First_Name = col["First_Name"];
-				u.Last_Name = col["First_Name"];
+				u.Last_Name = col["Last_Name"];
 				u.Phone_Number = col["Phone_Number"];
 				u.Email = col["Email"];
 				u.User_Name = col["User_Name"];
@@ -61,7 +61,7 @@ namespace SmartStock.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Index(HttpPostedFileBase UserImage, FormCollection col)
+		public ActionResult Index(FormCollection col)
 		{
 			Models.User u = new Models.User();
 			u = u.GetUserSession();
@@ -71,7 +71,7 @@ namespace SmartStock.Controllers
 				u = u.GetUserSession();
 
 				u.First_Name = col["First_Name"];
-				u.Last_Name = col["First_Name"];
+				u.Last_Name = col["Last_Name"];
 				u.Phone_Number = col["Phone_Number"];
 				u.Email = col["Email"];
 				u.User_Name = col["User_Name"];
@@ -132,6 +132,91 @@ namespace SmartStock.Controllers
 			Models.User u = new Models.User();
 			u.RemoveUserSession();
 			return RedirectToAction("Index", "Home");
+		}
+
+		public ActionResult Dashboard()
+		{
+			ViewBag.Message = "Dashboard";
+
+			return View();
+		}
+
+		public ActionResult Inventory()
+		{
+			ViewBag.Message = "Inventory";
+
+			return View();
+		}
+
+		public ActionResult SingleItem()
+		{
+			ViewBag.Message = "SingleItem";
+
+			return View();
+		}
+
+		public ActionResult EditItem()
+		{
+			ViewBag.Message = "EditItem";
+
+			return View();
+		}
+
+		public ActionResult CreateItem()
+		{
+			ViewBag.Message = "CreateItem";
+
+			return View();
+		}
+
+		public ActionResult InventoryAdjustment()
+		{
+			ViewBag.Message = "InventoryAdjustment";
+
+			return View();
+		}
+
+		public ActionResult Users()
+		{
+			ViewBag.Message = "Users";
+
+			return View();
+		}
+
+		public ActionResult CreateUser()
+		{
+			ViewBag.Message = "CreateUser";
+
+			return View();
+		}
+
+		public ActionResult EditUser()
+		{
+			ViewBag.Message = "EditUser";
+
+			return View();
+		}
+
+
+		public ActionResult Suppliers()
+		{
+			ViewBag.Message = "Suppliers";
+
+			return View();
+		}
+
+		public ActionResult EditSupplier()
+		{
+			ViewBag.Message = "Edit Supplier";
+
+			return View();
+		}
+
+		public ActionResult CreateSupplier()
+		{
+			ViewBag.Message = "Create Supplier";
+
+			return View();
 		}
 	}
 }
