@@ -1,90 +1,91 @@
 ﻿@{
-    ViewBag.Title = "SignUp";
+	ViewBag.Title = "SignUp";
 }
 @model SmartStock.Models.User
-<div class="login">
-    <!--A class for the signup page.-->
+<div class="center-up">
+	<form action="InitializeInventory">
+		<table>
+			<tr>
+				<td colspan="2" style="text-align: center;">
+					<h1>Sign Up</h1>
+				</td>
+			</tr>
+			<tr>
+				<td class="table-label">
+					@Html.LabelFor(Model => Model.First_Name, "First Name:")
+				</td>
+				<td colspan="2">
+					@Html.TextBoxFor(Model => Model.First_Name)
+				</td>
+			</tr>
+			<tr>
+				<td class="table-label">
+					@Html.LabelFor(Model => Model.Last_Name, "Last Name:")
+				</td>
+				<td colspan="2">
+					@Html.TextBoxFor(Model => Model.Last_Name)
+				</td>
+			</tr>
 
-    <h1>Sign Up</h1>
+			@*This will need to be properly implemented once we figure out how we want to do Company Name
+		<div class="item">
+			<div>
+				@Html.LabelFor(Model => Model.Last_Name)
+				@Html.TextBoxFor(Model => Model.Last_Name)
+			</div>
+		</div>
+			*@
 
-    <div class="item">
-        <div>
-            @Html.LabelFor(Model => Model.First_Name)
-            @Html.TextBoxFor(Model => Model.First_Name)
-        </div>
-    </div>
-
-    <div class="item">
-        <div>
-            @Html.LabelFor(Model => Model.Last_Name)
-            @Html.TextBoxFor(Model => Model.Last_Name)
-        </div>
-    </div>
-
-    @*This will need to be properly implemented once we figure out how we want to do Company Name
-        <div class="item">
-            <div>
-                @Html.LabelFor(Model => Model.Last_Name)
-                @Html.TextBoxFor(Model => Model.Last_Name)
-            </div>
-        </div>
-    *@
-
-    <div class="item">
-        <div>
-            @Html.LabelFor(Model => Model.Email)
-            @Html.TextBoxFor(Model => Model.Email)
-        </div>
-    </div>
-    <br />
-    <div class="item">
-        <div>
-            @Html.LabelFor(Model => Model.Phone_Number)
-            @Html.TextBoxFor(Model => Model.Phone_Number)
-        </div>
-    </div>
-
-    <div class="item">
-        <div>
-            @Html.LabelFor(Model => Model.Address_1)
-            @Html.TextBoxFor(Model => Model.Address_1)
-        </div>
-    </div>
-
-    <div class="item">
-        <div>
-            @Html.LabelFor(Model => Model.Zip)
-            @Html.TextBoxFor(Model => Model.Zip)
-        </div>
-    </div>
-
-    <div class="item">
-        <div>
-            @Html.LabelFor(Model => Model.User_Name)
-            @Html.TextBoxFor(Model => Model.User_Name)
-        </div>
-    </div>
-
-    <div class="item">
-        <div>
-            @Html.LabelFor(Model => Model.Password)
-            @Html.TextBoxFor(Model => Model.Password)
-        </div>
-    </div>
-
-    <!--Confirm Password-->
-    <div class="item">
-        <div>
-            @Html.LabelFor(Model => Model.Password)
-            @Html.TextBoxFor(Model => Model.Password)
-        </div>
-    </div>
-
-    <form action="InitializeInventory">
-        <input type="submit" value="Next" />
-    </form>
-
-    <a href="HomePage">Back to Login</a>
-
-
+			<tr>
+				<td class="table-label">
+					@Html.LabelFor(Model => Model.Email, "Email:")
+				</td>
+				<td colspan="2">
+					@Html.TextBoxFor(Model => Model.Email)
+				</td>
+			</tr>
+			<tr>
+				<td class="table-label">
+					@Html.LabelFor(Model => Model.Phone_Number, "Phone Number")
+				</td>
+				<td colspan="2">
+					@Html.TextBoxFor(Model => Model.Phone_Number)
+				</td>
+			</tr>
+			<tr>
+				<td class="table-label">
+					@Html.LabelFor(Model => Model.User_Name, "Username: ")
+				</td>
+				<td colspan="2">
+					@Html.TextBoxFor(Model => Model.User_Name)
+				</td>
+			</tr>
+			<tr>
+				<td class="table-label">
+					@Html.LabelFor(Model => Model.Password, "Password: ")
+				</td>
+				<td colspan="2">
+					@Html.TextBoxFor(Model => Model.Password)
+				</td>
+			</tr>
+			<tr>
+				<td class="table-label">
+					@Html.LabelFor(Model => Model.Password, "Confirm Password: ")
+				</td>
+				<td colspan="2">
+					@Html.TextBoxFor(Model => Model.Password)
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" style="text-align: center;">
+					<input type="submit" value="Next" />
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" style="text-align: center;">
+					<a href="HomePage">Back to Login</a>
+				</td>
+			</tr>
+		</table>
+	</form>
 </div>
