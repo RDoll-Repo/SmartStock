@@ -23,7 +23,7 @@ namespace SmartStock.Controllers
 				Models.User u = new Models.User();
 
 				u.First_Name = col["First_Name"];
-				u.Last_Name = col["First_Name"];
+				u.Last_Name = col["Last_Name"];
 				u.Phone_Number = col["Phone_Number"];
 				u.Email = col["Email"];
 				u.Address_1 = col["Address_1"];
@@ -34,7 +34,7 @@ namespace SmartStock.Controllers
 				u.State_ID = col["State_ID"];
 				u.Role_ID = col["Role_ID"];
 
-				if (u.First_Name.Length == 0 || u.Last_Name.Length == 0 || u.Phone_Number.Length == 0 || u.Email.Length == 0 || u.Address_1.Length == 0 || u.Zip.Length == 0 || u.User_Name.Length == 0 || u.Password.Length == 0 || u.State_ID.Length == 0 || u.Role_ID.Length == 0)
+				if (u.First_Name.Length == 0 || u.Last_Name.Length == 0 || u.Phone_Number.Length == 0 || u.Email.Length == 0 || u.User_Name.Length == 0 || u.Password.Length == 0 || u.Role_ID.Length == 0)
 				{
 					u.ActionType = Models.User.ActionTypes.RequiredFieldsMissing;
 					return View(u);
@@ -65,7 +65,7 @@ namespace SmartStock.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Index(HttpPostedFileBase UserImage, FormCollection col)
+		public ActionResult Index(FormCollection col)
 		{
 			Models.User u = new Models.User();
 			u = u.GetUserSession();
@@ -75,7 +75,7 @@ namespace SmartStock.Controllers
 				u = u.GetUserSession();
 
 				u.First_Name = col["First_Name"];
-				u.Last_Name = col["First_Name"];
+				u.Last_Name = col["Last_Name"];
 				u.Phone_Number = col["Phone_Number"];
 				u.Email = col["Email"];
 				u.Address_1 = col["Address_1"];
@@ -150,39 +150,39 @@ namespace SmartStock.Controllers
 		}
 
 		public ActionResult Inventory()
-        {
+		{
 			ViewBag.Message = "Inventory";
 
 			return View();
-        }
+		}
 
 		public ActionResult SingleItem()
-        {
+		{
 			ViewBag.Message = "SingleItem";
 
 			return View();
-        }
+		}
 
 		public ActionResult EditItem()
-        {
+		{
 			ViewBag.Message = "EditItem";
 
 			return View();
-        }
+		}
 
 		public ActionResult CreateItem()
-        {
+		{
 			ViewBag.Message = "CreateItem";
 
 			return View();
-        }
+		}
 
 		public ActionResult InventoryAdjustment()
-        {
+		{
 			ViewBag.Message = "InventoryAdjustment";
 
 			return View();
-        }
+		}
 
 		public ActionResult Users()
 		{
@@ -192,11 +192,11 @@ namespace SmartStock.Controllers
 		}
 
 		public ActionResult CreateUser()
-        {
+		{
 			ViewBag.Message = "CreateUser";
 
 			return View();
-        }
+		}
 
 		public ActionResult EditUser()
 		{
@@ -207,11 +207,11 @@ namespace SmartStock.Controllers
 
 
 		public ActionResult Suppliers()
-        {
+		{
 			ViewBag.Message = "Suppliers";
 
 			return View();
-        }
+		}
 
 		public ActionResult EditSupplier()
 		{

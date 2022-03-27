@@ -143,27 +143,26 @@ namespace SmartStock.Models
 			catch (Exception ex) { throw new Exception(ex.Message); }
 		}
 
-		public Supplier.ActionTypes InsertSupplier(User u)
+		public Supplier.ActionTypes InsertSupplier(Supplier s)
 		{
 			try
 			{
-				SqlConnection cn = null;
-				if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
-				SqlCommand cm = new SqlCommand("INSERT_SUPPLIER", cn);
-				int intReturnValue = -1;
+                SqlConnection cn = null;
+                if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
+                SqlCommand cm = new SqlCommand("INSERT_SUPPLIER", cn);
+                int intReturnValue = -1;
 
-				SetParameter(ref cm, "@User_ID", u.User_ID, SqlDbType.Int, Direction: ParameterDirection.Output);
-				SetParameter(ref cm, "@First_Name", u.First_Name, SqlDbType.VarChar);
-				SetParameter(ref cm, "@Last_Name", u.Last_Name, SqlDbType.VarChar);
-				SetParameter(ref cm, "@Phone_Number", u.Phone_Number, SqlDbType.VarChar);
-				SetParameter(ref cm, "@Email", u.Email, SqlDbType.VarChar);
-				SetParameter(ref cm, "@Address_1", u.Address_1, SqlDbType.VarChar);
-				SetParameter(ref cm, "@Address_2", u.Address_2, SqlDbType.VarChar);
-				SetParameter(ref cm, "@Zip", u.Zip, SqlDbType.VarChar);
-				SetParameter(ref cm, "@User_Name", u.User_Name, SqlDbType.VarChar);
-				SetParameter(ref cm, "@Password", u.Password, SqlDbType.VarChar);
-				SetParameter(ref cm, "@State_ID", u.State_ID, SqlDbType.Int);
-				SetParameter(ref cm, "@Role_ID", u.Role_ID, SqlDbType.Int);
+                SetParameter(ref cm, "@Supplier_ID", s.Supplier_ID, SqlDbType.Int, Direction: ParameterDirection.Output);
+				SetParameter(ref cm, "@Company_Name", s.Company_Name, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Contact_FirstName", s.Contact_FirstName, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Contact_LastName", s.Contact_LastName, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Contact_PhoneNumber", s.Contact_PhoneNumber, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Contact_Email", s.Contact_Email, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Contact_Address1", s.Contact_Address1, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Contact_Zip", s.Contact_Zip, SqlDbType.VarChar);
+				SetParameter(ref cm, "@URL", s.URL, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Notes", s.Notes, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Contact_State", s.Contact_State, SqlDbType.VarChar);
 
 
 				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.TinyInt, Direction: ParameterDirection.ReturnValue);
@@ -175,8 +174,8 @@ namespace SmartStock.Models
 
 				switch (intReturnValue)
 				{
-					case 1: // new user created
-						u.User_ID = (long)cm.Parameters["@User_ID"].Value;
+					case 1: // new Supplier created
+						s.Supplier_ID = (long)cm.Parameters["@Supplier"].Value;
 						return Supplier.ActionTypes.InsertSuccessful;
 					case -1:
 						return Supplier.ActionTypes.DuplicateEmail;
@@ -191,7 +190,7 @@ namespace SmartStock.Models
 
 		
 
-		public Supplier.ActionTypes UpdateSupplier(User u)
+		public Supplier.ActionTypes UpdateSupplier(Supplier s)
 		{
 			try
 			{
@@ -200,18 +199,17 @@ namespace SmartStock.Models
 				SqlCommand cm = new SqlCommand("UPDATE_SUPPLIER", cn);
 				int intReturnValue = -1;
 
-				SetParameter(ref cm, "@User_ID", u.User_ID, SqlDbType.Int, Direction: ParameterDirection.Output);
-				SetParameter(ref cm, "@First_Name", u.First_Name, SqlDbType.VarChar);
-				SetParameter(ref cm, "@Last_Name", u.Last_Name, SqlDbType.VarChar);
-				SetParameter(ref cm, "@Phone_Number", u.Phone_Number, SqlDbType.VarChar);
-				SetParameter(ref cm, "@Email", u.Email, SqlDbType.VarChar);
-				SetParameter(ref cm, "@Address_1", u.Address_1, SqlDbType.VarChar);
-				SetParameter(ref cm, "@Address_2", u.Address_2, SqlDbType.VarChar);
-				SetParameter(ref cm, "@Zip", u.Zip, SqlDbType.VarChar);
-				SetParameter(ref cm, "@User_Name", u.User_Name, SqlDbType.VarChar);
-				SetParameter(ref cm, "@Password", u.Password, SqlDbType.VarChar);
-				SetParameter(ref cm, "@State_ID", u.State_ID, SqlDbType.Int);
-				SetParameter(ref cm, "@Role_ID", u.Role_ID, SqlDbType.Int);
+				SetParameter(ref cm, "@Supplier_ID", s.Supplier_ID, SqlDbType.Int, Direction: ParameterDirection.Output);
+				SetParameter(ref cm, "@Company_Name", s.Company_Name, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Contact_FirstName", s.Contact_FirstName, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Contact_LastName", s.Contact_LastName, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Contact_PhoneNumber", s.Contact_PhoneNumber, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Contact_Email", s.Contact_Email, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Contact_Address1", s.Contact_Address1, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Contact_Zip", s.Contact_Zip, SqlDbType.VarChar);
+				SetParameter(ref cm, "@URL", s.URL, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Notes", s.Notes, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Contact_State", s.Contact_State, SqlDbType.VarChar);
 
 				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.Int, Direction: ParameterDirection.ReturnValue);
 
