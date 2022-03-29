@@ -13,14 +13,11 @@ namespace SmartStock.Models
 		public string Last_Name = string.Empty;
 		public string Phone_Number = string.Empty;
 		public string Email = string.Empty;
-		public string Address_1 = string.Empty;
-		public string Address_2 = string.Empty;
-		public string Zip = string.Empty;
 		public string User_Name = string.Empty;
 		public string Password = string.Empty;
-		public string State_ID = string.Empty;
-		public string Role_ID = string.Empty;
+		public int Role_ID = 0;
 		public ActionTypes ActionType = ActionTypes.NoType;
+		//public List<User> users = new List<User>();
 
 		public bool IsAuthenticated
 		{
@@ -40,6 +37,16 @@ namespace SmartStock.Models
 			}
 			catch (Exception ex) { throw new Exception(ex.Message); }
 		}
+
+		//public User GetUser(long User_ID = 0)
+		//{
+		//	try
+		//	{
+		//              Database db = new Database();
+		//              return db.GetUser(User_ID);
+		//          }
+		//	catch (Exception ex) { throw new Exception(ex.Message); }
+		//}
 
 		public User.ActionTypes Save()
 		{

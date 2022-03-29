@@ -18,17 +18,13 @@ namespace SmartStock.Models
 				SqlCommand cm = new SqlCommand("INSERT_USER", cn);
 				int intReturnValue = -1;
 
-				SetParameter(ref cm, "@User_ID", u.User_ID, SqlDbType.Int, Direction: ParameterDirection.Output);
+				SetParameter(ref cm, "@User_ID", u.User_ID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
 				SetParameter(ref cm, "@First_Name", u.First_Name, SqlDbType.VarChar);
 				SetParameter(ref cm, "@Last_Name", u.Last_Name, SqlDbType.VarChar);
 				SetParameter(ref cm, "@Phone_Number", u.Phone_Number, SqlDbType.VarChar);
 				SetParameter(ref cm, "@Email", u.Email, SqlDbType.VarChar);
-				SetParameter(ref cm, "@Address_1", u.Address_1, SqlDbType.VarChar);
-				SetParameter(ref cm, "@Address_2", u.Address_2, SqlDbType.VarChar);
-				SetParameter(ref cm, "@Zip", u.Zip, SqlDbType.VarChar);
 				SetParameter(ref cm, "@User_Name", u.User_Name, SqlDbType.VarChar);
 				SetParameter(ref cm, "@Password", u.Password, SqlDbType.VarChar);
-				SetParameter(ref cm, "@State_ID", u.State_ID, SqlDbType.Int);
 				SetParameter(ref cm, "@Role_ID", u.Role_ID, SqlDbType.Int);
 
 
@@ -78,17 +74,13 @@ namespace SmartStock.Models
 					{
 						newUser = new User();
 						DataRow dr = ds.Tables[0].Rows[0];
-						newUser.User_ID = (long)dr["User_ID"];
+						newUser.User_ID = (int)dr["intUserID"];
 						newUser.User_Name = u.User_Name;
 						newUser.Password = u.Password;
-						newUser.First_Name = (string)dr["First_Name"];
-						newUser.Last_Name = (string)dr["Last_Name"];
-						newUser.Phone_Number = (string)dr["Phone_Number"];
-						newUser.Address_1 = (string)dr["Address_1"];
-						newUser.Address_2 = (string)dr["Address_2"];
-						newUser.Zip = (string)dr["Zip"];
-						newUser.State_ID = (string)dr["State_ID"];
-						newUser.Role_ID = (string)dr["Role_ID"];
+						newUser.First_Name = (string)dr["strFirstName"];
+						newUser.Last_Name = (string)dr["strLastName"];
+						newUser.Phone_Number = (string)dr["strPhoneNumber"];
+						newUser.Role_ID = (int)dr["intRoleID"];
 					}
 				}
 
@@ -112,17 +104,13 @@ namespace SmartStock.Models
 				SqlCommand cm = new SqlCommand("UPDATE_USER", cn);
 				int intReturnValue = -1;
 
-				SetParameter(ref cm, "@User_ID", u.User_ID, SqlDbType.Int);
+				SetParameter(ref cm, "@User_ID", u.User_ID, SqlDbType.BigInt);
 				SetParameter(ref cm, "@First_Name", u.First_Name, SqlDbType.VarChar);
 				SetParameter(ref cm, "@Last_Name", u.Last_Name, SqlDbType.VarChar);
 				SetParameter(ref cm, "@Phone_Number", u.Phone_Number, SqlDbType.VarChar);
 				SetParameter(ref cm, "@Email", u.Email, SqlDbType.VarChar);
-				SetParameter(ref cm, "@Address_1", u.Address_1, SqlDbType.VarChar);
-				SetParameter(ref cm, "@Address_2", u.Address_2, SqlDbType.VarChar);
-				SetParameter(ref cm, "@Zip", u.Zip, SqlDbType.VarChar);
 				SetParameter(ref cm, "@User_Name", u.User_Name, SqlDbType.VarChar);
 				SetParameter(ref cm, "@Password", u.Password, SqlDbType.VarChar);
-				SetParameter(ref cm, "@State_ID", u.State_ID, SqlDbType.Int);
 				SetParameter(ref cm, "@Role_ID", u.Role_ID, SqlDbType.Int);
 
 				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.Int, Direction: ParameterDirection.ReturnValue);
@@ -143,16 +131,18 @@ namespace SmartStock.Models
 			catch (Exception ex) { throw new Exception(ex.Message); }
 		}
 
+	
+
 		public Supplier.ActionTypes InsertSupplier(Supplier s)
 		{
 			try
 			{
-                SqlConnection cn = null;
-                if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
-                SqlCommand cm = new SqlCommand("INSERT_SUPPLIER", cn);
-                int intReturnValue = -1;
+				SqlConnection cn = null;
+				if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
+				SqlCommand cm = new SqlCommand("INSERT_SUPPLIER", cn);
+				int intReturnValue = -1;
 
-                SetParameter(ref cm, "@Supplier_ID", s.Supplier_ID, SqlDbType.Int, Direction: ParameterDirection.Output);
+				SetParameter(ref cm, "@Supplier_ID", s.Supplier_ID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
 				SetParameter(ref cm, "@Company_Name", s.Company_Name, SqlDbType.VarChar);
 				SetParameter(ref cm, "@Contact_FirstName", s.Contact_FirstName, SqlDbType.VarChar);
 				SetParameter(ref cm, "@Contact_LastName", s.Contact_LastName, SqlDbType.VarChar);
@@ -188,7 +178,7 @@ namespace SmartStock.Models
 			catch (Exception ex) { throw new Exception(ex.Message); }
 		}
 
-		
+
 
 		public Supplier.ActionTypes UpdateSupplier(Supplier s)
 		{

@@ -26,15 +26,11 @@ namespace SmartStock.Controllers
 				u.Last_Name = col["Last_Name"];
 				u.Phone_Number = col["Phone_Number"];
 				u.Email = col["Email"];
-				u.Address_1 = col["Address_1"];
-				u.Address_2 = col["Address_2"];
-				u.Zip = col["Zip"];
 				u.User_Name = col["User_Name"];
 				u.Password = col["Password"];
-				u.State_ID = col["State_ID"];
-				u.Role_ID = col["Role_ID"];
+				//u.Role_ID = col["Role_ID"];
 
-				if (u.First_Name.Length == 0 || u.Last_Name.Length == 0 || u.Phone_Number.Length == 0 || u.Email.Length == 0 || u.User_Name.Length == 0 || u.Password.Length == 0 || u.Role_ID.Length == 0)
+				if (u.First_Name.Length == 0 || u.Last_Name.Length == 0 || u.Phone_Number.Length == 0 || u.Email.Length == 0 || u.User_Name.Length == 0 || u.Password.Length == 0)
 				{
 					u.ActionType = Models.User.ActionTypes.RequiredFieldsMissing;
 					return View(u);
@@ -78,13 +74,9 @@ namespace SmartStock.Controllers
 				u.Last_Name = col["Last_Name"];
 				u.Phone_Number = col["Phone_Number"];
 				u.Email = col["Email"];
-				u.Address_1 = col["Address_1"];
-				u.Address_2 = col["Address_2"];
-				u.Zip = col["Zip"];
 				u.User_Name = col["User_Name"];
 				u.Password = col["Password"];
-				u.State_ID = col["State_ID"];
-				u.Role_ID = col["Role_ID"];
+				//u.Role_ID = col["Role_ID"];
 
 				u.Save();
 
@@ -186,16 +178,62 @@ namespace SmartStock.Controllers
 
 		public ActionResult Users()
 		{
-			ViewBag.Message = "Users";
+			//Models.User u = new Models.User();
+			//u = u.GetUserSession();
 
+			//if (u.IsAuthenticated)
+			//{
+			//    if (RouteData.Values["User_ID"] != null)
+			//    { //get user
+			//        long User_ID = Convert.ToInt64(RouteData.Values["User_ID"]);
+			//        u = u.GetUser(User_ID);
+			//    }
+			//}
 			return View();
 		}
 
 		public ActionResult CreateUser()
 		{
-			ViewBag.Message = "CreateUser";
+			Models.User u = new Models.User();
+			return View(u);
+		}
 
-			return View();
+		[HttpPost]
+		public ActionResult CreateUser(FormCollection col)
+		{
+			try
+			{
+				Models.User u = new Models.User();
+
+				u.First_Name = col["First_Name"];
+				u.Last_Name = col["Last_Name"];
+				u.Phone_Number = col["Phone_Number"];
+				u.Email = col["Email"];
+				u.User_Name = col["User_Name"];
+				u.Password = col["Password"];
+				//u.Role_ID = col["Role_ID"];
+
+				if (u.First_Name.Length == 0 || u.Last_Name.Length == 0 || u.Phone_Number.Length == 0 || u.Email.Length == 0 || u.User_Name.Length == 0 || u.Password.Length == 0)
+				{
+					u.ActionType = Models.User.ActionTypes.RequiredFieldsMissing;
+					return View(u);
+				}
+				else
+				{
+					if (col["btnSubmit"] == "adduser")
+					{ //sign up button pressed
+						u.Save();
+						u.SaveUserSession();
+						return RedirectToAction("Index");
+					}
+					return View(u);
+				}
+			}
+			catch (Exception)
+			{
+				Models.User u = new Models.User();
+				return View(u);
+			}
 		}
 
 		public ActionResult EditUser()
@@ -222,9 +260,49 @@ namespace SmartStock.Controllers
 
 		public ActionResult CreateSupplier()
 		{
-			ViewBag.Message = "Create Supplier";
+			Models.Supplier s = new Models.Supplier();
+			return View(s);
+		}
 
-			return View();
+		[HttpPost]
+		public ActionResult CreateSupplier(FormCollection col)
+		{
+			try
+			{
+				Models.Supplier s = new Models.Supplier();
+
+				s.Company_Name = col["Company_Name"];
+				s.Contact_FirstName = col["Contact_FirstName"];
+				s.Contact_LastName = col["Contact_LastName"];
+				s.Contact_PhoneNumber = col["Contact_PhoneNumber"];
+				s.Contact_Email = col["Contact_Email"];
+				s.Contact_Address1 = col["Contact_Address1"];
+				s.Contact_State = col["Contact_State"];
+				s.Contact_Zip = col["Contact_Zip"];
+				s.URL = col["URL"];
+				s.Notes = col["Notes"];
+
+				if (s.Company_Name.Length == 0 || s.Contact_FirstName.Length == 0 || s.Contact_LastName.Length == 0 || s.Contact_PhoneNumber.Length == 0 || s.Contact_Email.Length == 0 || s.Contact_Address1.Length == 0 || s.Contact_State.Length == 0 || s.Contact_Zip.Length == 0)
+				{
+					s.ActionType = Models.Supplier.ActionTypes.RequiredFieldsMissing;
+					return View(s);
+				}
+				else
+				{
+					if (col["btnSubmit"] == "addsupplier")
+					{ //sign up button pressed
+						s.Save();
+						s.SaveSupplierSession();
+						return RedirectToAction("Index");
+					}
+					return View(s);
+				}
+			}
+			catch (Exception)
+			{
+				Models.Supplier s = new Models.Supplier();
+				return View(s);
+			}
 		}
 	}
 }
