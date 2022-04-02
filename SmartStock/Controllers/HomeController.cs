@@ -28,11 +28,44 @@ namespace SmartStock.Controllers
         }
 
         public ActionResult HomePage()
+        
         {
-            ViewBag.Message = "Login";
-            //return RedirectToAction("Dashboard");
+            Models.User u = new Models.User();
+            return View(u);
+        }
 
-            return View();
+        [HttpPost]
+        public ActionResult SignIn(FormCollection col)
+        {
+            try
+            {
+                Models.User u = new Models.User();
+
+                if (col["btnSubmit"] == "signin")
+                {
+                    u.User_Name = col["User_Name"];
+                    u.Password = col["Password"];
+
+                    u = u.Login();
+                    if (u != null && u.User_ID > 0)
+                    {
+                        u.SaveUserSession();
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        u = new Models.User();
+                        u.User_Name = col["User_Name"];
+                        u.ActionType = Models.User.ActionTypes.LoginFailed;
+                    }
+                }
+                return View(u);
+            }
+            catch (Exception)
+            {
+                Models.User u = new Models.User();
+                return View(u);
+            }
         }
 
         public ActionResult SignUp()
