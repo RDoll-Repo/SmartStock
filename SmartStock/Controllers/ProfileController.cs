@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using SmartStock.Models;
 
 namespace SmartStock.Controllers
 {
@@ -178,18 +179,16 @@ namespace SmartStock.Controllers
 
 		public ActionResult Users()
 		{
-			//Models.User u = new Models.User();
-			//u = u.GetUserSession();
+			return View(GetAllUsers());
+		}
 
-			//if (u.IsAuthenticated)
-			//{
-			//    if (RouteData.Values["User_ID"] != null)
-			//    { //get user
-			//        long User_ID = Convert.ToInt64(RouteData.Values["User_ID"]);
-			//        u = u.GetUser(User_ID);
-			//    }
-			//}
-			return View();
+		IEnumerable<TUser> GetAllUsers()
+		{
+			using (DBModel db = new DBModel())
+			{
+				return db.TUsers.ToList<TUser>();
+			}
+
 		}
 
 		public ActionResult CreateUser()
@@ -246,9 +245,15 @@ namespace SmartStock.Controllers
 
 		public ActionResult Suppliers()
 		{
-			ViewBag.Message = "Suppliers";
+			return View(GetAllSuppliers());
+		}
+		IEnumerable<TSupplier> GetAllSuppliers()
+		{
+			using (DBModel db = new DBModel())
+			{
+				return db.TSuppliers.ToList<TSupplier>();
+			}
 
-			return View();
 		}
 
 		public ActionResult EditSupplier()
