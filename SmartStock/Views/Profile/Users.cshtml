@@ -1,53 +1,64 @@
 ﻿
+@model IEnumerable<SmartStock.Models.TUser>
 @{
     ViewBag.Title = "Users";
 }
-@model SmartStock.Models.User
-<div class="users">
-    <!--A class for the users.-->
+<h2>@ViewBag.Title</h2>
 
-    <h1>Users</h1>
+<table class="table table-striped table-condensed">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(Model => Model.strFirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(Model => Model.strLastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(Model => Model.strPhoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(Model => Model.strEmail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(Model => Model.strUserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(Model => Model.userPassword)
+        </th>
+        <th>
+            @Html.DisplayNameFor(Model => Model.intRoleID)
+        </th>
+        <th></th>
 
-    <form action="CreateUser">
-        <input type="submit" value="+" />
-    </form>
+    </tr>
 
-    <div class="item">
-        <!--In production, the user will be able to double click a row here and go to "edit user"-->
-        <table>
-            <tr>
-                <th>Role</th>
-                <th>Name</th>
-                <th>Contact Info</th>
-                <th>Address</th>
-                <th>Username</th>
-                <th>Password</th>
-            </tr>
-            <tr>
-                <td>Sample</td>
-                <td>Replace Me</td>
-                <td> 55555555<br />WithActualLogic@gmail.com</td>
-                <td>545 something st.</td>
-                <td>user</td>
-                <td>qwert12</td>
-            </tr>
-        </table>
-    </div>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.strFirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.strLastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.strPhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.strEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.strUserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.userPassword)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.intRoleID)
+            </td>
 
-    <div class="item">
-        <label for="Users">Filter by Role:</label>
-
-        <select name="roles" id="roles">
-            <option value="owner">Owners</option>
-            <option value="manager">Managers</option>
-            <option value="employee">Employees</option>
-        </select>
-    </div>
-
-    <!--In practice, we will be able to double click a user row to achieve this functionality.-->
-    <form action="EditUser">
-        <input type="submit" value="EditUser Placeholder" />
-    </form>
-</div>
+        </tr>
+    }
+</table>
 
 

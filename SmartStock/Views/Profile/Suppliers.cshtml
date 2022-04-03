@@ -1,40 +1,79 @@
-﻿
+﻿@model IEnumerable<SmartStock.Models.TSupplier>
 @{
     ViewBag.Title = "Suppliers";
 }
-@model SmartStock.Models.Supplier
+<h2>@ViewBag.Title</h2>
 
-<h1>Suppliers</h1>
+<table class="table table-striped table-condensed">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(Model => Model.strCompanyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(Model => Model.strContactFirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(Model => Model.strContactLastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(Model => Model.strEmail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(Model => Model.strAddress1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(Model => Model.strZip)
+        </th>
+        <th>
+            @Html.DisplayNameFor(Model => Model.strPhoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(Model => Model.strURL)
+        </th>
+        <th>
+            @Html.DisplayNameFor(Model => Model.strNotes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(Model => Model.strContactState)
+        </th>
+        <th></th>
 
-<div class="suppliers">
-    <form action="CreateSupplier">
-        <input type="submit" value="+" />
-    </form>
+    </tr>
 
-    <div class="item">
-        <!--In production, the user will be able to double click a row here and go to "edit supplier"-->
-        <table>
-            <tr>
-                <th>Company</th>
-                <th>Contact Name</th>
-                <th>Contact Info</th>
-                <th>Address</th>
-                <th>Notes</th>
-            </tr>
-            <tr>
-                <td>Cysco</td>
-                <td>Replace Me</td>
-                <td> 55555555<br />WithActualLogic@gmail.com</td>
-                <td>545 something st.</td>
-                <td>Delivers wings and potatoes</td>
-            </tr>
-        </table>
-    </div>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.strCompanyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.strContactFirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.strContactLastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.strEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.strAddress1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.strZip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.strPhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.strURL)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.strNotes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.strContactState)
+            </td>
 
-    <!--In practice, we will be able to double click a supplier row to achieve this functionality.-->
-    <form action="EditSupplier">
-        <input type="submit" value="EditSupplier Placeholder" />
-    </form>
-
-</div>
-
+        </tr>
+    }
+</table>
