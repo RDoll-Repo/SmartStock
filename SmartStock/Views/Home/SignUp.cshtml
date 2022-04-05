@@ -26,16 +26,6 @@
 					@Html.TextBoxFor(Model => Model.Last_Name)
 				</td>
 			</tr>
-
-			@*This will need to be properly implemented once we figure out how we want to do Company Name
-		<div class="item">
-			<div>
-				@Html.LabelFor(Model => Model.Last_Name)
-				@Html.TextBoxFor(Model => Model.Last_Name)
-			</div>
-		</div>
-			*@
-
 			<tr>
 				<td class="table-label">
 					@Html.LabelFor(Model => Model.Email, "Email:")
@@ -76,6 +66,18 @@
 					@Html.TextBoxFor(Model => Model.Password)
 				</td>
 			</tr>
+
+			@*This will allow the user to select from a role drop down, there will be owner, manager, and employee
+			<tr>
+				<td class="table-label">
+					@Html.LabelFor("JobTitle", "Job Title")
+				</td>
+				<td colspan="2">
+					@Html.DropDownList("JobTitle", "Select a Value")
+				</td>
+			</tr>
+			*@
+
 			<tr>
 				<td colspan="2" style="text-align: center;">
 					<input type="submit" value="Next" />

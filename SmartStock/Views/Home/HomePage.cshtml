@@ -1,33 +1,44 @@
 ﻿
 @{
-    ViewBag.Title = "HomePage";
+	ViewBag.Title = "HomePage";
 }
 @model SmartStock.Models.User
-<div class="login">
-	<h1 style="font-size:60px">SmartStock</h1>
-	<p>Smart Savings Start with SmartStock</p>
-	<p>Log in and Start Saving Today</p>
-	<div class="item">
-		<div>@Html.LabelFor(Model => Model.User_Name, "Username:")</div>
-		<div>@Html.TextBoxFor(Model => Model.User_Name, new { @autofocus = "autofocus" })</div>
+@using (Html.BeginForm(FormMethod.Post)) {
+	if (Model.ActionType == SmartStock.Models.User.ActionTypes.RequiredFieldsMissing) {
+		<div id="content-locked">
+			<i class="fa-solid fa-triangle-exclamation"></i>
+			<span>All fields are required.</span>
+		</div>
+	}
+	if (Model.ActionType == SmartStock.Models.User.ActionTypes.LoginFailed) {
+		<div id="content-locked">
+			<i class="fa-solid fa-triangle-exclamation"></i>
+			<span>Invalid Username or Password.</span>
+		</div>
+	}
+	<div class="login">
+		<h1 style="font-size:60px">SmartStock</h1>
+		<p>Smart Savings Start with SmartStock</p>
+		<p>Log in and Start Saving Today</p>
+		<div class="item">
+			<div>@Html.LabelFor(Model => Model.User_Name, "Username:")</div>
+			<div>@Html.TextBoxFor(Model => Model.User_Name, new { @autofocus = "autofocus" })</div>
+		</div>
+		<div class="item">
+			<div>@Html.LabelFor(Model => Model.Password, "Password:")</div>
+			<div>@Html.TextBoxFor(Model => Model.Password, new { type = "password" })</div>
+		</div>
+		<div style="padding-bottom: 5px;">
+			<button id="btnSignIn" name="btnSubmit" value="signin" class="button-action"><i class="fas fa-sign-in-alt"></i> Sign-In</button>
+		</div>
+		<div class="item">
+			<a href="SignUp">Don't have an account? Sign up today</a>
+		</div>
 	</div>
-	<div class="item">
-		<div>@Html.LabelFor(Model => Model.Password, "Password:")</div>
-		<div>@Html.TextBoxFor(Model => Model.Password, new { type = "password" })</div>
-	</div>
-	<div style="padding-top: 5px;">
-		<form action="../Profile/Dashboard">
-			<input type="submit" value="Login" />
-		</form>
-	</div>
-	<div class="item">
-		<a href="SignUp">Don't have an account? Sign up today</a>
-	</div>
-</div>
-
+}
 @*<script>
-    $(document).ready(function)() {
-        SetActiveMenus('signin');
-    });
-</script>*@
+		$(document).ready(function)() {
+			SetActiveMenus('signin');
+		});
+	</script>*@
 

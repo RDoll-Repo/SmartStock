@@ -34,7 +34,6 @@ h2 {
 
 .icon-bar {
     background-color: #42475d;
-    background-color: #42475d;
     display: table-cell;
     float: left;
 }
@@ -107,7 +106,7 @@ p {
 button, input[type=submit], input[type=button] {
     cursor: pointer;
     padding: 12px 30px 12px 30px;
-    background-color: #E4E4E4;
+    background-color: #33236f;
     color: black;
     border: 1px solid white;
 }
@@ -117,21 +116,21 @@ button i {
 }
 
 .button-action {
-    background-color: #4CAF50;
+    background-color: #42475d;
     color: white;
 }
 
 .button-action:hover {
-    background-color: #2f6a31;
+    background-color: #878da9;
 }
 
 .button-cancel {
-    background-color: #E4E4E4;
+    background-color: #42475d;
     color: black;
 }
 
 .button-cancel:hover {
-    background-color: #555;
+    background-color: #878da9;
     color: white;
 }
 
@@ -147,6 +146,24 @@ button i {
 
 .mobile-content {
     display: none;
+}
+
+#content-locked {
+    border: 1px solid gray;
+    -webkit-border-radius: 0.3em;
+    -moz-border-radius: 0.3em;
+    border-radius: 0.3em;
+    background-color: lightyellow;
+    padding: 1em;
+    margin-bottom: 1em;
+}
+
+#content-locked i {
+    color: red;
+}
+
+#content-locked span {
+    margin-left: 1em;
 }
 
 @media only screen and (max-width : 30em) {
