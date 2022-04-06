@@ -62,7 +62,7 @@ namespace SmartStock.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Index(FormCollection col)
+		public ActionResult Index(FormCollection col) // edit profile in web2
 		{
 			Models.User u = new Models.User();
 			u = u.GetUserSession();
