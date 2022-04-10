@@ -22,10 +22,14 @@ namespace SmartStock.Models
     
         public int intInventoryID { get; set; }
         public int intProductID { get; set; }
+        public int intUnitsPerCase { get; set; }
+        public int intCases { get; set; }
         public int intStatusID { get; set; }
-        public int intCurrentInventory { get; set; }
+        public int intProductLocationID { get; set; }
     
         public virtual TProduct TProduct { get; set; }
+        public virtual TProductLocation TProductLocation { get; set; }
+        public virtual TStatu TStatu { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TInventoryAdjustment> TInventoryAdjustments { get; set; }
     }

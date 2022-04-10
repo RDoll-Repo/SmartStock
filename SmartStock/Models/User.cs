@@ -17,7 +17,6 @@ namespace SmartStock.Models
 		public string Password = string.Empty;
 		public int Role_ID = 0;
 		public ActionTypes ActionType = ActionTypes.NoType;
-		//public List<User> users = new List<User>();
 
 		public bool IsAuthenticated
 		{
@@ -37,16 +36,6 @@ namespace SmartStock.Models
 			}
 			catch (Exception ex) { throw new Exception(ex.Message); }
 		}
-
-		//public User GetUser(long User_ID = 0)
-		//{
-		//	try
-		//	{
-		//              Database db = new Database();
-		//              return db.GetUser(User_ID);
-		//          }
-		//	catch (Exception ex) { throw new Exception(ex.Message); }
-		//}
 
 		public User.ActionTypes Save()
 		{

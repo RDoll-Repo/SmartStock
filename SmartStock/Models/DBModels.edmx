@@ -26,8 +26,10 @@
           </Key>
           <Property Name="intInventoryID" Type="int" Nullable="false" />
           <Property Name="intProductID" Type="int" Nullable="false" />
+          <Property Name="intUnitsPerCase" Type="int" Nullable="false" />
+          <Property Name="intCases" Type="int" Nullable="false" />
           <Property Name="intStatusID" Type="int" Nullable="false" />
-          <Property Name="intCurrentInventory" Type="int" Nullable="false" />
+          <Property Name="intProductLocationID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="TInventoryAdjustment">
           <Key>
@@ -57,7 +59,6 @@
           <Property Name="intUnitSize" Type="int" Nullable="false" />
           <Property Name="intUnitType" Type="int" Nullable="false" />
           <Property Name="monUnitPrice" Type="money" Nullable="false" />
-          <Property Name="intProductLocationID" Type="int" Nullable="false" />
           <Property Name="intOrderID" Type="int" Nullable="false" />
           <Property Name="intProductID" Type="int" Nullable="false" />
         </EntityType>
@@ -91,6 +92,13 @@
           <Property Name="intRoleID" Type="int" Nullable="false" />
           <Property Name="strRoleName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="strRoleDesc" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TStatus">
+          <Key>
+            <PropertyRef Name="intStatusID" />
+          </Key>
+          <Property Name="intStatusID" Type="int" Nullable="false" />
+          <Property Name="strStatusType" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="TSupplier">
           <Key>
@@ -130,6 +138,30 @@
             </Principal>
             <Dependent Role="TInventory">
               <PropertyRef Name="intProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TInventory_TProductLocation_FK">
+          <End Role="TProductLocation" Type="Self.TProductLocation" Multiplicity="1" />
+          <End Role="TInventory" Type="Self.TInventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TProductLocation">
+              <PropertyRef Name="intProductLocationID" />
+            </Principal>
+            <Dependent Role="TInventory">
+              <PropertyRef Name="intProductLocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TInventory_TStatus_FK">
+          <End Role="TStatus" Type="Self.TStatus" Multiplicity="1" />
+          <End Role="TInventory" Type="Self.TInventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TStatus">
+              <PropertyRef Name="intStatusID" />
+            </Principal>
+            <Dependent Role="TInventory">
+              <PropertyRef Name="intStatusID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -241,18 +273,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="TOrderProducts_TProductLocation_FK">
-          <End Role="TProductLocation" Type="Self.TProductLocation" Multiplicity="1" />
-          <End Role="TOrderProducts" Type="Self.TOrderProducts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TProductLocation">
-              <PropertyRef Name="intProductLocationID" />
-            </Principal>
-            <Dependent Role="TOrderProducts">
-              <PropertyRef Name="intProductLocationID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="TProduct_TCategory_FK">
           <End Role="TCategory" Type="Self.TCategory" Multiplicity="1" />
           <End Role="TProduct" Type="Self.TProduct" Multiplicity="*" />
@@ -277,6 +297,85 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="INSERT_INVENTORY" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="InventoryID" Type="bigint" Mode="InOut" />
+          <Parameter Name="ProductID" Type="int" Mode="In" />
+          <Parameter Name="UnitsPerCase" Type="int" Mode="In" />
+          <Parameter Name="Cases" Type="int" Mode="In" />
+          <Parameter Name="StatusID" Type="int" Mode="In" />
+          <Parameter Name="ProductlocationID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="INSERT_PRODUCT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="Product_ID" Type="bigint" Mode="InOut" />
+          <Parameter Name="Product_Name" Type="varchar" Mode="In" />
+          <Parameter Name="Product_Desc" Type="varchar" Mode="In" />
+          <Parameter Name="Category_ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="INSERT_SUPPLIER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="Supplier_ID" Type="bigint" Mode="InOut" />
+          <Parameter Name="Company_Name" Type="varchar" Mode="In" />
+          <Parameter Name="Contact_FirstName" Type="varchar" Mode="In" />
+          <Parameter Name="Contact_LastName" Type="varchar" Mode="In" />
+          <Parameter Name="Contact_PhoneNumber" Type="varchar" Mode="In" />
+          <Parameter Name="Contact_Email" Type="varchar" Mode="In" />
+          <Parameter Name="Contact_Address1" Type="varchar" Mode="In" />
+          <Parameter Name="Contact_Zip" Type="varchar" Mode="In" />
+          <Parameter Name="URL" Type="varchar" Mode="In" />
+          <Parameter Name="Notes" Type="varchar" Mode="In" />
+          <Parameter Name="Contact_State" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="INSERT_USER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="User_ID" Type="bigint" Mode="InOut" />
+          <Parameter Name="First_Name" Type="varchar" Mode="In" />
+          <Parameter Name="Last_Name" Type="varchar" Mode="In" />
+          <Parameter Name="Phone_Number" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="User_Name" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+          <Parameter Name="Role_ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="LOGIN" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="User_Name" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SELECT_PRODUCT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="Product_ID" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="SELECT_SUPPLIER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="Supplier_ID" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="SELECT_USER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="User_ID" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="UPDATE_PRODUCT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="Product_ID" Type="bigint" Mode="InOut" />
+          <Parameter Name="Product_Name" Type="varchar" Mode="In" />
+          <Parameter Name="Product_Desc" Type="varchar" Mode="In" />
+          <Parameter Name="Category_ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UPDATE_SUPPLIER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="Supplier_ID" Type="bigint" Mode="InOut" />
+          <Parameter Name="Company_Name" Type="varchar" Mode="In" />
+          <Parameter Name="Contact_FirstName" Type="varchar" Mode="In" />
+          <Parameter Name="Contact_LastName" Type="varchar" Mode="In" />
+          <Parameter Name="Contact_PhoneNumber" Type="varchar" Mode="In" />
+          <Parameter Name="Contact_Email" Type="varchar" Mode="In" />
+          <Parameter Name="Contact_Address1" Type="varchar" Mode="In" />
+          <Parameter Name="Contact_Zip" Type="varchar" Mode="In" />
+          <Parameter Name="URL" Type="varchar" Mode="In" />
+          <Parameter Name="Notes" Type="varchar" Mode="In" />
+          <Parameter Name="Contact_State" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="UPDATE_USER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="User_ID" Type="bigint" Mode="In" />
+          <Parameter Name="First_Name" Type="varchar" Mode="In" />
+          <Parameter Name="Last_Name" Type="varchar" Mode="In" />
+          <Parameter Name="Phone_Number" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="User_Name" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+          <Parameter Name="Role_ID" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="TAdjustment" EntityType="Self.TAdjustment" Schema="db_owner" store:Type="Tables" />
           <EntitySet Name="TCategory" EntityType="Self.TCategory" Schema="db_owner" store:Type="Tables" />
@@ -288,10 +387,19 @@
           <EntitySet Name="TProduct" EntityType="Self.TProduct" Schema="db_owner" store:Type="Tables" />
           <EntitySet Name="TProductLocation" EntityType="Self.TProductLocation" Schema="db_owner" store:Type="Tables" />
           <EntitySet Name="TRole" EntityType="Self.TRole" Schema="db_owner" store:Type="Tables" />
+          <EntitySet Name="TStatus" EntityType="Self.TStatus" Schema="db_owner" store:Type="Tables" />
           <EntitySet Name="TSupplier" EntityType="Self.TSupplier" Schema="db_owner" store:Type="Tables" />
           <EntitySet Name="TUser" EntityType="Self.TUser" Schema="db_owner" store:Type="Tables" />
           <AssociationSet Name="TInventory_TProduct_FK" Association="Self.TInventory_TProduct_FK">
             <End Role="TProduct" EntitySet="TProduct" />
+            <End Role="TInventory" EntitySet="TInventory" />
+          </AssociationSet>
+          <AssociationSet Name="TInventory_TProductLocation_FK" Association="Self.TInventory_TProductLocation_FK">
+            <End Role="TProductLocation" EntitySet="TProductLocation" />
+            <End Role="TInventory" EntitySet="TInventory" />
+          </AssociationSet>
+          <AssociationSet Name="TInventory_TStatus_FK" Association="Self.TInventory_TStatus_FK">
+            <End Role="TStatus" EntitySet="TStatus" />
             <End Role="TInventory" EntitySet="TInventory" />
           </AssociationSet>
           <AssociationSet Name="TInventoryAdjustment_TAdjustment_FK" Association="Self.TInventoryAdjustment_TAdjustment_FK">
@@ -328,10 +436,6 @@
           </AssociationSet>
           <AssociationSet Name="TOrderProducts_TProduct_FK" Association="Self.TOrderProducts_TProduct_FK">
             <End Role="TProduct" EntitySet="TProduct" />
-            <End Role="TOrderProducts" EntitySet="TOrderProducts" />
-          </AssociationSet>
-          <AssociationSet Name="TOrderProducts_TProductLocation_FK" Association="Self.TOrderProducts_TProductLocation_FK">
-            <End Role="TProductLocation" EntitySet="TProductLocation" />
             <End Role="TOrderProducts" EntitySet="TOrderProducts" />
           </AssociationSet>
           <AssociationSet Name="TProduct_TCategory_FK" Association="Self.TProduct_TCategory_FK">
@@ -371,9 +475,13 @@
           </Key>
           <Property Name="intInventoryID" Type="Int32" Nullable="false" />
           <Property Name="intProductID" Type="Int32" Nullable="false" />
+          <Property Name="intUnitsPerCase" Type="Int32" Nullable="false" />
+          <Property Name="intCases" Type="Int32" Nullable="false" />
           <Property Name="intStatusID" Type="Int32" Nullable="false" />
-          <Property Name="intCurrentInventory" Type="Int32" Nullable="false" />
+          <Property Name="intProductLocationID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="TProduct" Relationship="Self.TInventory_TProduct_FK" FromRole="TInventory" ToRole="TProduct" />
+          <NavigationProperty Name="TProductLocation" Relationship="Self.TInventory_TProductLocation_FK" FromRole="TInventory" ToRole="TProductLocation" />
+          <NavigationProperty Name="TStatu" Relationship="Self.TInventory_TStatus_FK" FromRole="TInventory" ToRole="TStatus" />
           <NavigationProperty Name="TInventoryAdjustments" Relationship="Self.TInventoryAdjustment_TInventory_FK" FromRole="TInventory" ToRole="TInventoryAdjustment" />
         </EntityType>
         <EntityType Name="TInventoryAdjustment">
@@ -412,12 +520,10 @@
           <Property Name="intUnitSize" Type="Int32" Nullable="false" />
           <Property Name="intUnitType" Type="Int32" Nullable="false" />
           <Property Name="monUnitPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="intProductLocationID" Type="Int32" Nullable="false" />
           <Property Name="intOrderID" Type="Int32" Nullable="false" />
           <Property Name="intProductID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="TOrder" Relationship="Self.TOrderProducts_TOrder_FK" FromRole="TOrderProducts" ToRole="TOrder" />
           <NavigationProperty Name="TProduct" Relationship="Self.TOrderProducts_TProduct_FK" FromRole="TOrderProducts" ToRole="TProduct" />
-          <NavigationProperty Name="TProductLocation" Relationship="Self.TOrderProducts_TProductLocation_FK" FromRole="TOrderProducts" ToRole="TProductLocation" />
         </EntityType>
         <EntityType Name="TPayment">
           <Key>
@@ -446,7 +552,7 @@
           </Key>
           <Property Name="intProductLocationID" Type="Int32" Nullable="false" />
           <Property Name="strLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="TOrderProducts" Relationship="Self.TOrderProducts_TProductLocation_FK" FromRole="TProductLocation" ToRole="TOrderProducts" />
+          <NavigationProperty Name="TInventories" Relationship="Self.TInventory_TProductLocation_FK" FromRole="TProductLocation" ToRole="TInventory" />
         </EntityType>
         <EntityType Name="TRole">
           <Key>
@@ -456,6 +562,14 @@
           <Property Name="strRoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="strRoleDesc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="TUsers" Relationship="Self.TUser_TRole_FK" FromRole="TRole" ToRole="TUser" />
+        </EntityType>
+        <EntityType Name="TStatu">
+          <Key>
+            <PropertyRef Name="intStatusID" />
+          </Key>
+          <Property Name="intStatusID" Type="Int32" Nullable="false" />
+          <Property Name="strStatusType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TInventories" Relationship="Self.TInventory_TStatus_FK" FromRole="TStatus" ToRole="TInventory" />
         </EntityType>
         <EntityType Name="TSupplier">
           <Key>
@@ -526,6 +640,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="TInventory_TProductLocation_FK">
+          <End Role="TProductLocation" Type="Self.TProductLocation" Multiplicity="1" />
+          <End Role="TInventory" Type="Self.TInventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TProductLocation">
+              <PropertyRef Name="intProductLocationID" />
+            </Principal>
+            <Dependent Role="TInventory">
+              <PropertyRef Name="intProductLocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TInventory_TStatus_FK">
+          <End Role="TStatus" Type="Self.TStatu" Multiplicity="1" />
+          <End Role="TInventory" Type="Self.TInventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TStatus">
+              <PropertyRef Name="intStatusID" />
+            </Principal>
+            <Dependent Role="TInventory">
+              <PropertyRef Name="intStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="TInventoryAdjustment_TInventory_FK">
           <End Role="TInventory" Type="Self.TInventory" Multiplicity="1" />
           <End Role="TInventoryAdjustment" Type="Self.TInventoryAdjustment" Multiplicity="*" />
@@ -622,18 +760,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="TOrderProducts_TProductLocation_FK">
-          <End Role="TProductLocation" Type="Self.TProductLocation" Multiplicity="1" />
-          <End Role="TOrderProducts" Type="Self.TOrderProduct" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TProductLocation">
-              <PropertyRef Name="intProductLocationID" />
-            </Principal>
-            <Dependent Role="TOrderProducts">
-              <PropertyRef Name="intProductLocationID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="TUser_TRole_FK">
           <End Role="TRole" Type="Self.TRole" Multiplicity="1" />
           <End Role="TUser" Type="Self.TUser" Multiplicity="*" />
@@ -646,7 +772,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="DBModel" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="DBModels" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="TAdjustments" EntityType="Self.TAdjustment" />
           <EntitySet Name="TCategories" EntityType="Self.TCategory" />
           <EntitySet Name="TInventories" EntityType="Self.TInventory" />
@@ -657,6 +783,7 @@
           <EntitySet Name="TProducts" EntityType="Self.TProduct" />
           <EntitySet Name="TProductLocations" EntityType="Self.TProductLocation" />
           <EntitySet Name="TRoles" EntityType="Self.TRole" />
+          <EntitySet Name="TStatus" EntityType="Self.TStatu" />
           <EntitySet Name="TSuppliers" EntityType="Self.TSupplier" />
           <EntitySet Name="TUsers" EntityType="Self.TUser" />
           <AssociationSet Name="TInventoryAdjustment_TAdjustment_FK" Association="Self.TInventoryAdjustment_TAdjustment_FK">
@@ -669,6 +796,14 @@
           </AssociationSet>
           <AssociationSet Name="TInventory_TProduct_FK" Association="Self.TInventory_TProduct_FK">
             <End Role="TProduct" EntitySet="TProducts" />
+            <End Role="TInventory" EntitySet="TInventories" />
+          </AssociationSet>
+          <AssociationSet Name="TInventory_TProductLocation_FK" Association="Self.TInventory_TProductLocation_FK">
+            <End Role="TProductLocation" EntitySet="TProductLocations" />
+            <End Role="TInventory" EntitySet="TInventories" />
+          </AssociationSet>
+          <AssociationSet Name="TInventory_TStatus_FK" Association="Self.TInventory_TStatus_FK">
+            <End Role="TStatus" EntitySet="TStatus" />
             <End Role="TInventory" EntitySet="TInventories" />
           </AssociationSet>
           <AssociationSet Name="TInventoryAdjustment_TInventory_FK" Association="Self.TInventoryAdjustment_TInventory_FK">
@@ -703,21 +838,135 @@
             <End Role="TProduct" EntitySet="TProducts" />
             <End Role="TOrderProducts" EntitySet="TOrderProducts" />
           </AssociationSet>
-          <AssociationSet Name="TOrderProducts_TProductLocation_FK" Association="Self.TOrderProducts_TProductLocation_FK">
-            <End Role="TProductLocation" EntitySet="TProductLocations" />
-            <End Role="TOrderProducts" EntitySet="TOrderProducts" />
-          </AssociationSet>
           <AssociationSet Name="TUser_TRole_FK" Association="Self.TUser_TRole_FK">
             <End Role="TRole" EntitySet="TRoles" />
             <End Role="TUser" EntitySet="TUsers" />
           </AssociationSet>
+          <FunctionImport Name="INSERT_INVENTORY">
+            <Parameter Name="InventoryID" Mode="InOut" Type="Int64" />
+            <Parameter Name="ProductID" Mode="In" Type="Int32" />
+            <Parameter Name="UnitsPerCase" Mode="In" Type="Int32" />
+            <Parameter Name="Cases" Mode="In" Type="Int32" />
+            <Parameter Name="StatusID" Mode="In" Type="Int32" />
+            <Parameter Name="ProductlocationID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="INSERT_PRODUCT">
+            <Parameter Name="Product_ID" Mode="InOut" Type="Int64" />
+            <Parameter Name="Product_Name" Mode="In" Type="String" />
+            <Parameter Name="Product_Desc" Mode="In" Type="String" />
+            <Parameter Name="Category_ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="INSERT_SUPPLIER">
+            <Parameter Name="Supplier_ID" Mode="InOut" Type="Int64" />
+            <Parameter Name="Company_Name" Mode="In" Type="String" />
+            <Parameter Name="Contact_FirstName" Mode="In" Type="String" />
+            <Parameter Name="Contact_LastName" Mode="In" Type="String" />
+            <Parameter Name="Contact_PhoneNumber" Mode="In" Type="String" />
+            <Parameter Name="Contact_Email" Mode="In" Type="String" />
+            <Parameter Name="Contact_Address1" Mode="In" Type="String" />
+            <Parameter Name="Contact_Zip" Mode="In" Type="String" />
+            <Parameter Name="URL" Mode="In" Type="String" />
+            <Parameter Name="Notes" Mode="In" Type="String" />
+            <Parameter Name="Contact_State" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="INSERT_USER">
+            <Parameter Name="User_ID" Mode="InOut" Type="Int64" />
+            <Parameter Name="First_Name" Mode="In" Type="String" />
+            <Parameter Name="Last_Name" Mode="In" Type="String" />
+            <Parameter Name="Phone_Number" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="User_Name" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="Role_ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="LOGIN" ReturnType="Collection(Model.LOGIN_Result)">
+            <Parameter Name="User_Name" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SELECT_PRODUCT" ReturnType="Collection(Model.SELECT_PRODUCT_Result)">
+            <Parameter Name="Product_ID" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="SELECT_SUPPLIER" ReturnType="Collection(Model.SELECT_SUPPLIER_Result)">
+            <Parameter Name="Supplier_ID" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="SELECT_USER" ReturnType="Collection(Model.SELECT_USER_Result)">
+            <Parameter Name="User_ID" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="UPDATE_PRODUCT">
+            <Parameter Name="Product_ID" Mode="InOut" Type="Int64" />
+            <Parameter Name="Product_Name" Mode="In" Type="String" />
+            <Parameter Name="Product_Desc" Mode="In" Type="String" />
+            <Parameter Name="Category_ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UPDATE_SUPPLIER">
+            <Parameter Name="Supplier_ID" Mode="InOut" Type="Int64" />
+            <Parameter Name="Company_Name" Mode="In" Type="String" />
+            <Parameter Name="Contact_FirstName" Mode="In" Type="String" />
+            <Parameter Name="Contact_LastName" Mode="In" Type="String" />
+            <Parameter Name="Contact_PhoneNumber" Mode="In" Type="String" />
+            <Parameter Name="Contact_Email" Mode="In" Type="String" />
+            <Parameter Name="Contact_Address1" Mode="In" Type="String" />
+            <Parameter Name="Contact_Zip" Mode="In" Type="String" />
+            <Parameter Name="URL" Mode="In" Type="String" />
+            <Parameter Name="Notes" Mode="In" Type="String" />
+            <Parameter Name="Contact_State" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UPDATE_USER">
+            <Parameter Name="User_ID" Mode="In" Type="Int64" />
+            <Parameter Name="First_Name" Mode="In" Type="String" />
+            <Parameter Name="Last_Name" Mode="In" Type="String" />
+            <Parameter Name="Phone_Number" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="User_Name" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="Role_ID" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="LOGIN_Result">
+          <Property Type="Int32" Name="intUserID" Nullable="false" />
+          <Property Type="String" Name="strFirstName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="strLastName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="strPhoneNumber" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="strEmail" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="strUserName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="userPassword" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="intRoleID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SELECT_PRODUCT_Result">
+          <Property Type="Int32" Name="intProductID" Nullable="false" />
+          <Property Type="String" Name="strProductName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="strProductDesc" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="intCategoryID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SELECT_SUPPLIER_Result">
+          <Property Type="Int32" Name="intSupplierID" Nullable="false" />
+          <Property Type="String" Name="strCompanyName" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="strContactFirstName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="strContactLastName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="strEmail" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="strAddress1" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="strZip" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="strPhoneNumber" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="strURL" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="strNotes" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="strContactState" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SELECT_USER_Result">
+          <Property Type="Int32" Name="intUserID" Nullable="false" />
+          <Property Type="String" Name="strFirstName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="strLastName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="strPhoneNumber" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="strEmail" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="strUserName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="userPassword" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="intRoleID" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="DBModel">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="DBModels">
           <EntitySetMapping Name="TAdjustments">
             <EntityTypeMapping TypeName="Model.TAdjustment">
               <MappingFragment StoreEntitySet="TAdjustment">
@@ -740,8 +989,10 @@
               <MappingFragment StoreEntitySet="TInventory">
                 <ScalarProperty Name="intInventoryID" ColumnName="intInventoryID" />
                 <ScalarProperty Name="intProductID" ColumnName="intProductID" />
+                <ScalarProperty Name="intUnitsPerCase" ColumnName="intUnitsPerCase" />
+                <ScalarProperty Name="intCases" ColumnName="intCases" />
                 <ScalarProperty Name="intStatusID" ColumnName="intStatusID" />
-                <ScalarProperty Name="intCurrentInventory" ColumnName="intCurrentInventory" />
+                <ScalarProperty Name="intProductLocationID" ColumnName="intProductLocationID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -774,7 +1025,6 @@
                 <ScalarProperty Name="intUnitSize" ColumnName="intUnitSize" />
                 <ScalarProperty Name="intUnitType" ColumnName="intUnitType" />
                 <ScalarProperty Name="monUnitPrice" ColumnName="monUnitPrice" />
-                <ScalarProperty Name="intProductLocationID" ColumnName="intProductLocationID" />
                 <ScalarProperty Name="intOrderID" ColumnName="intOrderID" />
                 <ScalarProperty Name="intProductID" ColumnName="intProductID" />
               </MappingFragment>
@@ -815,6 +1065,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="TStatus">
+            <EntityTypeMapping TypeName="Model.TStatu">
+              <MappingFragment StoreEntitySet="TStatus">
+                <ScalarProperty Name="intStatusID" ColumnName="intStatusID" />
+                <ScalarProperty Name="strStatusType" ColumnName="strStatusType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="TSuppliers">
             <EntityTypeMapping TypeName="Model.TSupplier">
               <MappingFragment StoreEntitySet="TSupplier">
@@ -846,6 +1104,68 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="INSERT_INVENTORY" FunctionName="Model.Store.INSERT_INVENTORY" />
+          <FunctionImportMapping FunctionImportName="INSERT_PRODUCT" FunctionName="Model.Store.INSERT_PRODUCT" />
+          <FunctionImportMapping FunctionImportName="INSERT_SUPPLIER" FunctionName="Model.Store.INSERT_SUPPLIER" />
+          <FunctionImportMapping FunctionImportName="INSERT_USER" FunctionName="Model.Store.INSERT_USER" />
+          <FunctionImportMapping FunctionImportName="LOGIN" FunctionName="Model.Store.LOGIN">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.LOGIN_Result">
+                <ScalarProperty Name="intUserID" ColumnName="intUserID" />
+                <ScalarProperty Name="strFirstName" ColumnName="strFirstName" />
+                <ScalarProperty Name="strLastName" ColumnName="strLastName" />
+                <ScalarProperty Name="strPhoneNumber" ColumnName="strPhoneNumber" />
+                <ScalarProperty Name="strEmail" ColumnName="strEmail" />
+                <ScalarProperty Name="strUserName" ColumnName="strUserName" />
+                <ScalarProperty Name="userPassword" ColumnName="userPassword" />
+                <ScalarProperty Name="intRoleID" ColumnName="intRoleID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SELECT_PRODUCT" FunctionName="Model.Store.SELECT_PRODUCT">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.SELECT_PRODUCT_Result">
+                <ScalarProperty Name="intProductID" ColumnName="intProductID" />
+                <ScalarProperty Name="strProductName" ColumnName="strProductName" />
+                <ScalarProperty Name="strProductDesc" ColumnName="strProductDesc" />
+                <ScalarProperty Name="intCategoryID" ColumnName="intCategoryID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SELECT_SUPPLIER" FunctionName="Model.Store.SELECT_SUPPLIER">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.SELECT_SUPPLIER_Result">
+                <ScalarProperty Name="intSupplierID" ColumnName="intSupplierID" />
+                <ScalarProperty Name="strCompanyName" ColumnName="strCompanyName" />
+                <ScalarProperty Name="strContactFirstName" ColumnName="strContactFirstName" />
+                <ScalarProperty Name="strContactLastName" ColumnName="strContactLastName" />
+                <ScalarProperty Name="strEmail" ColumnName="strEmail" />
+                <ScalarProperty Name="strAddress1" ColumnName="strAddress1" />
+                <ScalarProperty Name="strZip" ColumnName="strZip" />
+                <ScalarProperty Name="strPhoneNumber" ColumnName="strPhoneNumber" />
+                <ScalarProperty Name="strURL" ColumnName="strURL" />
+                <ScalarProperty Name="strNotes" ColumnName="strNotes" />
+                <ScalarProperty Name="strContactState" ColumnName="strContactState" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SELECT_USER" FunctionName="Model.Store.SELECT_USER">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.SELECT_USER_Result">
+                <ScalarProperty Name="intUserID" ColumnName="intUserID" />
+                <ScalarProperty Name="strFirstName" ColumnName="strFirstName" />
+                <ScalarProperty Name="strLastName" ColumnName="strLastName" />
+                <ScalarProperty Name="strPhoneNumber" ColumnName="strPhoneNumber" />
+                <ScalarProperty Name="strEmail" ColumnName="strEmail" />
+                <ScalarProperty Name="strUserName" ColumnName="strUserName" />
+                <ScalarProperty Name="userPassword" ColumnName="userPassword" />
+                <ScalarProperty Name="intRoleID" ColumnName="intRoleID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UPDATE_PRODUCT" FunctionName="Model.Store.UPDATE_PRODUCT" />
+          <FunctionImportMapping FunctionImportName="UPDATE_SUPPLIER" FunctionName="Model.Store.UPDATE_SUPPLIER" />
+          <FunctionImportMapping FunctionImportName="UPDATE_USER" FunctionName="Model.Store.UPDATE_USER" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
