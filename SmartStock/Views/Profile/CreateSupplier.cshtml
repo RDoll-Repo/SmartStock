@@ -1,77 +1,82 @@
-﻿@{
-    ViewBag.Title = "CreateSupplier";
+﻿@model SmartStock.Models.Supplier
+@{
+    ViewBag.Title = "Create Supplier";
 }
-@model SmartStock.Models.Supplier
+<h2>@ViewBag.Title</h2>
+@using (Html.BeginForm(FormMethod.Post))
+{
+    <div class="section">
 
-<h1>Create Supplier</h1>
+        <div class="item">
+            <div>
+                @Html.LabelFor(Model => Model.Company_Name)
+                @Html.TextBoxFor(Model => Model.Company_Name)
+            </div>
+        </div>
+        <div class="item">
+            <div>
+                @Html.LabelFor(Model => Model.Contact_FirstName)
+                @Html.TextBoxFor(Model => Model.Contact_FirstName)
+            </div>
+        </div>
 
-<div class="item">
-    <div>
-        @Html.LabelFor(Model => Model.Contact_FirstName)
-        @Html.TextBoxFor(Model => Model.Contact_FirstName)
+        <div class="item">
+            <div>
+                @Html.LabelFor(Model => Model.Contact_LastName)
+                @Html.TextBoxFor(Model => Model.Contact_LastName)
+            </div>
+        </div>
+
+        <div class="item">
+            <div>
+                @Html.LabelFor(Model => Model.Contact_Address1)
+                @Html.TextBoxFor(Model => Model.Contact_Address1)
+            </div>
+        </div>
+
+        <div class="item">
+            <div>
+                @Html.LabelFor(Model => Model.Contact_State)
+                @Html.TextBoxFor(Model => Model.Contact_State)
+            </div>
+        </div>
+
+        <div class="item">
+            <div>
+                @Html.LabelFor(Model => Model.Contact_Zip)
+                @Html.TextBoxFor(Model => Model.Contact_Zip)
+            </div>
+        </div>
+
+        <div class="item">
+            <div>
+                @Html.LabelFor(Model => Model.Contact_PhoneNumber)
+                @Html.TextBoxFor(Model => Model.Contact_PhoneNumber)
+            </div>
+        </div>
+
+        <div class="item">
+            <div>
+                @Html.LabelFor(Model => Model.Contact_Email)
+                @Html.TextBoxFor(Model => Model.Contact_Email)
+            </div>
+        </div>
+
+        <div class="item">
+            <div>
+                @Html.LabelFor(Model => Model.URL)
+                @Html.TextBoxFor(Model => Model.URL)
+            </div>
+        </div>
+
+        <div class="item">
+            <div>
+                @Html.LabelFor(Model => Model.Notes)
+                @Html.TextAreaFor(Model => Model.Notes)
+            </div>
+        </div>
     </div>
-</div>
-
-<div class="item">
     <div>
-        @Html.LabelFor(Model => Model.Contact_LastName)
-        @Html.TextBoxFor(Model => Model.Contact_LastName)
+        <button id="btnSignUp" name="btnSubmit" value="addsupplier" class="button-action"><i class="fas fa-user-plus"></i> Add-Supplier</button>
     </div>
-</div>
-
-<div class="item">
-    <div>
-        @Html.LabelFor(Model => Model.Contact_Address1)
-        @Html.TextBoxFor(Model => Model.Contact_Address1)
-    </div>
-</div>
-
-<div class="item">
-    <div>
-        @Html.LabelFor(Model => Model.Contact_State)
-        @Html.TextBoxFor(Model => Model.Contact_State)
-    </div>
-</div>
-
-<div class="item">
-    <div>
-        @Html.LabelFor(Model => Model.Contact_Zip)
-        @Html.TextBoxFor(Model => Model.Contact_Zip)
-    </div>
-</div>
-
-<div class="item">
-    <div>
-        @Html.LabelFor(Model => Model.Contact_PhoneNumber)
-        @Html.TextBoxFor(Model => Model.Contact_PhoneNumber)
-    </div>
-</div>
-
-<div class="item">
-    <div>
-        @Html.LabelFor(Model => Model.Contact_Email)
-        @Html.TextBoxFor(Model => Model.Contact_Email)
-    </div>
-</div>
-
-<div class="item">
-    <div>
-        @Html.LabelFor(Model => Model.URL)
-        @Html.TextBoxFor(Model => Model.URL)
-    </div>
-</div>
-
-<div class="item">
-    <div>
-        @Html.LabelFor(Model => Model.Notes)
-        @Html.TextAreaFor(Model => Model.Notes)
-    </div>
-</div>
-
-<form action="Suppliers">
-    <input type="submit" value="Submit" />
-</form>
-
-<form action="Suppliers">
-    <input type="submit" value="Cancel" />
-</form>
+}

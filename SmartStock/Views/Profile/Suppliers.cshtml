@@ -36,7 +36,11 @@
         <th>
             @Html.DisplayNameFor(Model => Model.strContactState)
         </th>
-        <th></th>
+        <th>
+            <form action="CreateSupplier">
+                <input type="submit" value="+" />
+            </form>
+        </th>
 
     </tr>
 
@@ -73,7 +77,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.strContactState)
             </td>
-
+            <td>
+                <a href="#"><i class="glyphicon glyphicon-pencil"></i></a>
+                <a href="#"><i class="glyphicon glyphicon-trash"></i></a>
+            </td>
         </tr>
     }
 </table>

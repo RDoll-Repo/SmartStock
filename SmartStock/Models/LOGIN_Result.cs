@@ -10,18 +10,16 @@
 namespace SmartStock.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class TOrderProduct
+    public partial class LOGIN_Result
     {
-        public int intOrderProductsID { get; set; }
-        public int intUnitSize { get; set; }
-        public int intUnitType { get; set; }
-        public decimal monUnitPrice { get; set; }
-        public int intOrderID { get; set; }
-        public int intProductID { get; set; }
-    
-        public virtual TOrder TOrder { get; set; }
-        public virtual TProduct TProduct { get; set; }
+        public int intUserID { get; set; }
+        public string strFirstName { get; set; }
+        public string strLastName { get; set; }
+        public string strPhoneNumber { get; set; }
+        public string strEmail { get; set; }
+        public string strUserName { get; set; }
+        public string userPassword { get; set; }
+        public int intRoleID { get; set; }
     }
 }

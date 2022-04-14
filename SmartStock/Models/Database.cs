@@ -165,7 +165,7 @@ namespace SmartStock.Models
 				switch (intReturnValue)
 				{
 					case 1: // new Supplier created
-						s.Supplier_ID = (long)cm.Parameters["@Supplier"].Value;
+						s.Supplier_ID = (long)cm.Parameters["@Supplier_ID"].Value;
 						return Supplier.ActionTypes.InsertSuccessful;
 					case -1:
 						return Supplier.ActionTypes.DuplicateEmail;
@@ -214,6 +214,153 @@ namespace SmartStock.Models
 						return Supplier.ActionTypes.UpdateSuccessful;
 					default:
 						return Supplier.ActionTypes.Unknown;
+				}
+			}
+			catch (Exception ex) { throw new Exception(ex.Message); }
+		}
+
+
+		public Product.ActionTypes InsertProduct(Product p)
+		{
+			try
+			{
+				SqlConnection cn = null;
+				if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
+				SqlCommand cm = new SqlCommand("INSERT_PRODUCT", cn);
+				int intReturnValue = -1;
+
+				SetParameter(ref cm, "@Product_ID", p.Product_ID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
+				SetParameter(ref cm, "@Product_Name", p.Product_Name, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Product_Desc", p.Product_Desc, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Category_ID", p.intCategoryID, SqlDbType.Int);
+
+				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.TinyInt, Direction: ParameterDirection.ReturnValue);
+
+				cm.ExecuteReader();
+
+				intReturnValue = (int)cm.Parameters["ReturnValue"].Value;
+				CloseDBConnection(ref cn);
+
+				switch (intReturnValue)
+				{
+					case 1: // new Supplier created
+						p.Product_ID = (long)cm.Parameters["@Product_ID"].Value;
+						return Product.ActionTypes.InsertSuccessful;
+					case -1:
+						return Product.ActionTypes.DuplicateEmail;
+					case -2:
+						return Product.ActionTypes.DuplicateUserID;
+					default:
+						return Product.ActionTypes.Unknown;
+				}
+			}
+			catch (Exception ex) { throw new Exception(ex.Message); }
+		}
+
+
+
+		public Product.ActionTypes UpdateProduct(Product p)
+		{
+			try
+			{
+				SqlConnection cn = null;
+				if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
+				SqlCommand cm = new SqlCommand("UPDATE_PRODUCT", cn);
+				int intReturnValue = -1;
+
+				SetParameter(ref cm, "@Product_ID", p.Product_ID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
+				SetParameter(ref cm, "@Product_Name", p.Product_Name, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Product_Desc", p.Product_Desc, SqlDbType.VarChar);
+				SetParameter(ref cm, "@Category_ID", p.intCategoryID, SqlDbType.Int);
+
+				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.Int, Direction: ParameterDirection.ReturnValue);
+
+				cm.ExecuteReader();
+
+				intReturnValue = (int)cm.Parameters["ReturnValue"].Value;
+				CloseDBConnection(ref cn);
+
+				switch (intReturnValue)
+				{
+					case 1: //new updated
+						return Product.ActionTypes.UpdateSuccessful;
+					default:
+						return Product.ActionTypes.Unknown;
+				}
+			}
+			catch (Exception ex) { throw new Exception(ex.Message); }
+		}
+
+		public Inventory.ActionTypes InsertInventory(Inventory i)
+		{
+			try
+			{
+				SqlConnection cn = null;
+				if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
+				SqlCommand cm = new SqlCommand("INSERT_INVENTORY", cn);
+				int intReturnValue = -1;
+
+				SetParameter(ref cm, "@InventoryID", i.InventoryID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
+				SetParameter(ref cm, "@ProductID", i.ProductID, SqlDbType.Int);
+				SetParameter(ref cm, "@UnitsPerCase", i.UnitsPerCase, SqlDbType.Int);
+				SetParameter(ref cm, "@Cases", i.Cases, SqlDbType.Int);
+				SetParameter(ref cm, "@StatusID", i.StatusID, SqlDbType.Int);
+				SetParameter(ref cm, "@ProductlocationID", i.ProductlocationID, SqlDbType.Int);
+
+				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.TinyInt, Direction: ParameterDirection.ReturnValue);
+
+				cm.ExecuteReader();
+
+				intReturnValue = (int)cm.Parameters["ReturnValue"].Value;
+				CloseDBConnection(ref cn);
+
+				switch (intReturnValue)
+				{
+					case 1: // new Supplier created
+						i.InventoryID = (long)cm.Parameters["@InventoryID"].Value;
+						return Inventory.ActionTypes.InsertSuccessful;
+					case -1:
+						return Inventory.ActionTypes.DuplicateEmail;
+					case -2:
+						return Inventory.ActionTypes.DuplicateUserID;
+					default:
+						return Inventory.ActionTypes.Unknown;
+				}
+			}
+			catch (Exception ex) { throw new Exception(ex.Message); }
+		}
+
+
+
+		public Inventory.ActionTypes UpdateInventory(Inventory i)
+		{
+			try
+			{
+				SqlConnection cn = null;
+				if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
+				SqlCommand cm = new SqlCommand("UPDATE_INVENTORY", cn);
+				int intReturnValue = -1;
+
+				SetParameter(ref cm, "@InventoryID", i.InventoryID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
+				SetParameter(ref cm, "@ProductID", i.ProductID, SqlDbType.Int);
+				SetParameter(ref cm, "@UnitsPerCase", i.UnitsPerCase, SqlDbType.Int);
+				SetParameter(ref cm, "@Cases", i.Cases, SqlDbType.Int);
+				SetParameter(ref cm, "@StatusID", i.StatusID, SqlDbType.Int);
+				SetParameter(ref cm, "@ProductlocationID", i.ProductlocationID, SqlDbType.Int);
+
+				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.Int, Direction: ParameterDirection.ReturnValue);
+
+				cm.ExecuteReader();
+
+				intReturnValue = (int)cm.Parameters["ReturnValue"].Value;
+				CloseDBConnection(ref cn);
+
+				switch (intReturnValue)
+				{
+					case 1: //new updated
+						return Inventory.ActionTypes.UpdateSuccessful;
+					default:
+						return Inventory.ActionTypes.Unknown;
 				}
 			}
 			catch (Exception ex) { throw new Exception(ex.Message); }

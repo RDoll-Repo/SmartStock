@@ -12,16 +12,16 @@ namespace SmartStock.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TProductLocation
+    public partial class TStatu
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TProductLocation()
+        public TStatu()
         {
             this.TInventories = new HashSet<TInventory>();
         }
     
-        public int intProductLocationID { get; set; }
-        public string strLocation { get; set; }
+        public int intStatusID { get; set; }
+        public string strStatusType { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TInventory> TInventories { get; set; }
