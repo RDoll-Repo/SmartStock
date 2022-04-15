@@ -4,15 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="TAdjustment">
-          <Key>
-            <PropertyRef Name="intAdjustmentID" />
-          </Key>
-          <Property Name="intAdjustmentID" Type="int" Nullable="false" />
-          <Property Name="strAdjustmentType" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="strAdjustmentDesc" Type="varchar" MaxLength="100" Nullable="false" />
-        </EntityType>
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="TCategory">
           <Key>
             <PropertyRef Name="intCategoryID" />
@@ -24,59 +16,12 @@
           <Key>
             <PropertyRef Name="intInventoryID" />
           </Key>
-          <Property Name="intInventoryID" Type="int" Nullable="false" />
-          <Property Name="intProductID" Type="int" Nullable="false" />
-          <Property Name="intUnitsPerCase" Type="int" Nullable="false" />
-          <Property Name="intCases" Type="int" Nullable="false" />
-          <Property Name="intStatusID" Type="int" Nullable="false" />
-          <Property Name="intProductLocationID" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="TInventoryAdjustment">
-          <Key>
-            <PropertyRef Name="intInventoryAdjustmentID" />
-          </Key>
-          <Property Name="intInventoryAdjustmentID" Type="int" Nullable="false" />
-          <Property Name="intInventoryID" Type="int" Nullable="false" />
-          <Property Name="intAdjustmentID" Type="int" Nullable="false" />
-          <Property Name="intUserID" Type="int" Nullable="false" />
-          <Property Name="intProductID" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="TOrder">
-          <Key>
-            <PropertyRef Name="intOrderID" />
-          </Key>
-          <Property Name="intOrderID" Type="int" Nullable="false" />
-          <Property Name="dtmOrderDate" Type="datetime" Nullable="false" />
-          <Property Name="intUserID" Type="int" Nullable="false" />
-          <Property Name="intPaymentID" Type="int" Nullable="false" />
-          <Property Name="intSupplierID" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="TOrderProducts">
-          <Key>
-            <PropertyRef Name="intOrderProductsID" />
-          </Key>
-          <Property Name="intOrderProductsID" Type="int" Nullable="false" />
-          <Property Name="intUnitSize" Type="int" Nullable="false" />
-          <Property Name="intUnitType" Type="int" Nullable="false" />
-          <Property Name="monUnitPrice" Type="money" Nullable="false" />
-          <Property Name="intOrderID" Type="int" Nullable="false" />
-          <Property Name="intProductID" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="TPayment">
-          <Key>
-            <PropertyRef Name="intPaymentID" />
-          </Key>
-          <Property Name="intPaymentID" Type="int" Nullable="false" />
-          <Property Name="strPaymentType" Type="varchar" MaxLength="50" Nullable="false" />
-        </EntityType>
-        <EntityType Name="TProduct">
-          <Key>
-            <PropertyRef Name="intProductID" />
-          </Key>
-          <Property Name="intProductID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="intInventoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="strProductName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="strProductDesc" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="intInvCount" Type="int" Nullable="false" />
+          <Property Name="strStatus" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="intCategoryID" Type="int" Nullable="false" />
+          <Property Name="intProductLocationID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="TProductLocation">
           <Key>
@@ -85,20 +30,24 @@
           <Property Name="intProductLocationID" Type="int" Nullable="false" />
           <Property Name="strLocation" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="TProductPriceHistory">
+          <Key>
+            <PropertyRef Name="intProductPriceHistoryID" />
+          </Key>
+          <Property Name="intProductPriceHistoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="strProductName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="dtmPurchaseDate" Type="date" Nullable="false" />
+          <Property Name="monCostPerUnit" Type="money" Nullable="false" />
+          <Property Name="intPurchaseAmt" Type="int" Nullable="false" />
+          <Property Name="intUserID" Type="int" Nullable="false" />
+          <Property Name="intSupplierID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="TRole">
           <Key>
             <PropertyRef Name="intRoleID" />
           </Key>
           <Property Name="intRoleID" Type="int" Nullable="false" />
           <Property Name="strRoleName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="strRoleDesc" Type="varchar" MaxLength="50" Nullable="false" />
-        </EntityType>
-        <EntityType Name="TStatus">
-          <Key>
-            <PropertyRef Name="intStatusID" />
-          </Key>
-          <Property Name="intStatusID" Type="int" Nullable="false" />
-          <Property Name="strStatusType" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="TSupplier">
           <Key>
@@ -129,15 +78,15 @@
           <Property Name="userPassword" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="intRoleID" Type="int" Nullable="false" />
         </EntityType>
-        <Association Name="TInventory_TProduct_FK">
-          <End Role="TProduct" Type="Self.TProduct" Multiplicity="1" />
+        <Association Name="TInventory_TCategory_FK">
+          <End Role="TCategory" Type="Self.TCategory" Multiplicity="1" />
           <End Role="TInventory" Type="Self.TInventory" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TProduct">
-              <PropertyRef Name="intProductID" />
+            <Principal Role="TCategory">
+              <PropertyRef Name="intCategoryID" />
             </Principal>
             <Dependent Role="TInventory">
-              <PropertyRef Name="intProductID" />
+              <PropertyRef Name="intCategoryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -153,135 +102,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="TInventory_TStatus_FK">
-          <End Role="TStatus" Type="Self.TStatus" Multiplicity="1" />
-          <End Role="TInventory" Type="Self.TInventory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TStatus">
-              <PropertyRef Name="intStatusID" />
-            </Principal>
-            <Dependent Role="TInventory">
-              <PropertyRef Name="intStatusID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="TInventoryAdjustment_TAdjustment_FK">
-          <End Role="TAdjustment" Type="Self.TAdjustment" Multiplicity="1" />
-          <End Role="TInventoryAdjustment" Type="Self.TInventoryAdjustment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TAdjustment">
-              <PropertyRef Name="intAdjustmentID" />
-            </Principal>
-            <Dependent Role="TInventoryAdjustment">
-              <PropertyRef Name="intAdjustmentID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="TInventoryAdjustment_TInventory_FK">
-          <End Role="TInventory" Type="Self.TInventory" Multiplicity="1" />
-          <End Role="TInventoryAdjustment" Type="Self.TInventoryAdjustment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TInventory">
-              <PropertyRef Name="intInventoryID" />
-            </Principal>
-            <Dependent Role="TInventoryAdjustment">
-              <PropertyRef Name="intInventoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="TInventoryAdjustment_TProduct_FK">
-          <End Role="TProduct" Type="Self.TProduct" Multiplicity="1" />
-          <End Role="TInventoryAdjustment" Type="Self.TInventoryAdjustment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TProduct">
-              <PropertyRef Name="intProductID" />
-            </Principal>
-            <Dependent Role="TInventoryAdjustment">
-              <PropertyRef Name="intProductID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="TInventoryAdjustment_TUser_FK">
-          <End Role="TUser" Type="Self.TUser" Multiplicity="1" />
-          <End Role="TInventoryAdjustment" Type="Self.TInventoryAdjustment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TUser">
-              <PropertyRef Name="intUserID" />
-            </Principal>
-            <Dependent Role="TInventoryAdjustment">
-              <PropertyRef Name="intUserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="TOrder_TPayment_FK">
-          <End Role="TPayment" Type="Self.TPayment" Multiplicity="1" />
-          <End Role="TOrder" Type="Self.TOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TPayment">
-              <PropertyRef Name="intPaymentID" />
-            </Principal>
-            <Dependent Role="TOrder">
-              <PropertyRef Name="intPaymentID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="TOrder_TSupplier_FK">
+        <Association Name="TProductPriceHistory_TSupplier_FK">
           <End Role="TSupplier" Type="Self.TSupplier" Multiplicity="1" />
-          <End Role="TOrder" Type="Self.TOrder" Multiplicity="*" />
+          <End Role="TProductPriceHistory" Type="Self.TProductPriceHistory" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TSupplier">
               <PropertyRef Name="intSupplierID" />
             </Principal>
-            <Dependent Role="TOrder">
+            <Dependent Role="TProductPriceHistory">
               <PropertyRef Name="intSupplierID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="TOrder_TUser_FK">
+        <Association Name="TProductPriceHistory_TUser_FK">
           <End Role="TUser" Type="Self.TUser" Multiplicity="1" />
-          <End Role="TOrder" Type="Self.TOrder" Multiplicity="*" />
+          <End Role="TProductPriceHistory" Type="Self.TProductPriceHistory" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TUser">
               <PropertyRef Name="intUserID" />
             </Principal>
-            <Dependent Role="TOrder">
+            <Dependent Role="TProductPriceHistory">
               <PropertyRef Name="intUserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="TOrderProducts_TOrder_FK">
-          <End Role="TOrder" Type="Self.TOrder" Multiplicity="1" />
-          <End Role="TOrderProducts" Type="Self.TOrderProducts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TOrder">
-              <PropertyRef Name="intOrderID" />
-            </Principal>
-            <Dependent Role="TOrderProducts">
-              <PropertyRef Name="intOrderID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="TOrderProducts_TProduct_FK">
-          <End Role="TProduct" Type="Self.TProduct" Multiplicity="1" />
-          <End Role="TOrderProducts" Type="Self.TOrderProducts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TProduct">
-              <PropertyRef Name="intProductID" />
-            </Principal>
-            <Dependent Role="TOrderProducts">
-              <PropertyRef Name="intProductID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="TProduct_TCategory_FK">
-          <End Role="TCategory" Type="Self.TCategory" Multiplicity="1" />
-          <End Role="TProduct" Type="Self.TProduct" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TCategory">
-              <PropertyRef Name="intCategoryID" />
-            </Principal>
-            <Dependent Role="TProduct">
-              <PropertyRef Name="intCategoryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -297,19 +138,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="DELETE_INVENTORY" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="InventoryID" Type="bigint" Mode="InOut" />
+        </Function>
+        <Function Name="DELETE_PRODUCTPRICEHISTORY" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="PPHID" Type="bigint" Mode="InOut" />
+        </Function>
+        <Function Name="DELETE_SUPPLIER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="Supplier_ID" Type="bigint" Mode="InOut" />
+        </Function>
+        <Function Name="DELETE_USER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="User_ID" Type="bigint" Mode="InOut" />
+        </Function>
         <Function Name="INSERT_INVENTORY" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
           <Parameter Name="InventoryID" Type="bigint" Mode="InOut" />
-          <Parameter Name="ProductID" Type="int" Mode="In" />
-          <Parameter Name="UnitsPerCase" Type="int" Mode="In" />
-          <Parameter Name="Cases" Type="int" Mode="In" />
-          <Parameter Name="StatusID" Type="int" Mode="In" />
+          <Parameter Name="ProductName" Type="varchar" Mode="In" />
+          <Parameter Name="InvCount" Type="int" Mode="In" />
+          <Parameter Name="Status" Type="varchar" Mode="In" />
+          <Parameter Name="CategoryID" Type="int" Mode="In" />
           <Parameter Name="ProductlocationID" Type="int" Mode="In" />
         </Function>
-        <Function Name="INSERT_PRODUCT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
-          <Parameter Name="Product_ID" Type="bigint" Mode="InOut" />
-          <Parameter Name="Product_Name" Type="varchar" Mode="In" />
-          <Parameter Name="Product_Desc" Type="varchar" Mode="In" />
-          <Parameter Name="Category_ID" Type="int" Mode="In" />
+        <Function Name="INSERT_PRODUCTPRICEHISTORY" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="PPHID" Type="bigint" Mode="InOut" />
+          <Parameter Name="ProductName" Type="varchar" Mode="In" />
+          <Parameter Name="PurchaseDate" Type="date" Mode="In" />
+          <Parameter Name="CostPerUnit" Type="money" Mode="In" />
+          <Parameter Name="PurchaseAmt" Type="int" Mode="In" />
+          <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="SupplierID" Type="int" Mode="In" />
         </Function>
         <Function Name="INSERT_SUPPLIER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
           <Parameter Name="Supplier_ID" Type="bigint" Mode="InOut" />
@@ -338,8 +194,11 @@
           <Parameter Name="User_Name" Type="varchar" Mode="In" />
           <Parameter Name="Password" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="SELECT_PRODUCT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
-          <Parameter Name="Product_ID" Type="bigint" Mode="In" />
+        <Function Name="SELECT_INVENTORY" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="InventoryID" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="SELECT_PRODUCTPRICEHISTORY" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="PPHID" Type="bigint" Mode="In" />
         </Function>
         <Function Name="SELECT_SUPPLIER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
           <Parameter Name="Supplier_ID" Type="bigint" Mode="In" />
@@ -347,11 +206,22 @@
         <Function Name="SELECT_USER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
           <Parameter Name="User_ID" Type="bigint" Mode="In" />
         </Function>
-        <Function Name="UPDATE_PRODUCT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
-          <Parameter Name="Product_ID" Type="bigint" Mode="InOut" />
-          <Parameter Name="Product_Name" Type="varchar" Mode="In" />
-          <Parameter Name="Product_Desc" Type="varchar" Mode="In" />
-          <Parameter Name="Category_ID" Type="int" Mode="In" />
+        <Function Name="UPDATE_INVENTORY" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="InventoryID" Type="bigint" Mode="InOut" />
+          <Parameter Name="ProductName" Type="varchar" Mode="In" />
+          <Parameter Name="InvCount" Type="int" Mode="In" />
+          <Parameter Name="Status" Type="varchar" Mode="In" />
+          <Parameter Name="CategoryID" Type="int" Mode="In" />
+          <Parameter Name="ProductlocationID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UPDATE_PRODUCTPRICEHISTORY" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="PPHID" Type="bigint" Mode="InOut" />
+          <Parameter Name="ProductName" Type="varchar" Mode="In" />
+          <Parameter Name="PurchaseDate" Type="date" Mode="In" />
+          <Parameter Name="CostPerUnit" Type="money" Mode="In" />
+          <Parameter Name="PurchaseAmt" Type="int" Mode="In" />
+          <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="SupplierID" Type="int" Mode="In" />
         </Function>
         <Function Name="UPDATE_SUPPLIER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
           <Parameter Name="Supplier_ID" Type="bigint" Mode="InOut" />
@@ -377,174 +247,58 @@
           <Parameter Name="Role_ID" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="ModelStoreContainer">
-          <EntitySet Name="TAdjustment" EntityType="Self.TAdjustment" Schema="db_owner" store:Type="Tables" />
           <EntitySet Name="TCategory" EntityType="Self.TCategory" Schema="db_owner" store:Type="Tables" />
           <EntitySet Name="TInventory" EntityType="Self.TInventory" Schema="db_owner" store:Type="Tables" />
-          <EntitySet Name="TInventoryAdjustment" EntityType="Self.TInventoryAdjustment" Schema="db_owner" store:Type="Tables" />
-          <EntitySet Name="TOrder" EntityType="Self.TOrder" Schema="db_owner" store:Type="Tables" />
-          <EntitySet Name="TOrderProducts" EntityType="Self.TOrderProducts" Schema="db_owner" store:Type="Tables" />
-          <EntitySet Name="TPayment" EntityType="Self.TPayment" Schema="db_owner" store:Type="Tables" />
-          <EntitySet Name="TProduct" EntityType="Self.TProduct" Schema="db_owner" store:Type="Tables" />
           <EntitySet Name="TProductLocation" EntityType="Self.TProductLocation" Schema="db_owner" store:Type="Tables" />
+          <EntitySet Name="TProductPriceHistory" EntityType="Self.TProductPriceHistory" Schema="db_owner" store:Type="Tables" />
           <EntitySet Name="TRole" EntityType="Self.TRole" Schema="db_owner" store:Type="Tables" />
-          <EntitySet Name="TStatus" EntityType="Self.TStatus" Schema="db_owner" store:Type="Tables" />
           <EntitySet Name="TSupplier" EntityType="Self.TSupplier" Schema="db_owner" store:Type="Tables" />
           <EntitySet Name="TUser" EntityType="Self.TUser" Schema="db_owner" store:Type="Tables" />
-          <AssociationSet Name="TInventory_TProduct_FK" Association="Self.TInventory_TProduct_FK">
-            <End Role="TProduct" EntitySet="TProduct" />
+          <AssociationSet Name="TInventory_TCategory_FK" Association="Self.TInventory_TCategory_FK">
+            <End Role="TCategory" EntitySet="TCategory" />
             <End Role="TInventory" EntitySet="TInventory" />
           </AssociationSet>
           <AssociationSet Name="TInventory_TProductLocation_FK" Association="Self.TInventory_TProductLocation_FK">
             <End Role="TProductLocation" EntitySet="TProductLocation" />
             <End Role="TInventory" EntitySet="TInventory" />
           </AssociationSet>
-          <AssociationSet Name="TInventory_TStatus_FK" Association="Self.TInventory_TStatus_FK">
-            <End Role="TStatus" EntitySet="TStatus" />
-            <End Role="TInventory" EntitySet="TInventory" />
-          </AssociationSet>
-          <AssociationSet Name="TInventoryAdjustment_TAdjustment_FK" Association="Self.TInventoryAdjustment_TAdjustment_FK">
-            <End Role="TAdjustment" EntitySet="TAdjustment" />
-            <End Role="TInventoryAdjustment" EntitySet="TInventoryAdjustment" />
-          </AssociationSet>
-          <AssociationSet Name="TInventoryAdjustment_TInventory_FK" Association="Self.TInventoryAdjustment_TInventory_FK">
-            <End Role="TInventory" EntitySet="TInventory" />
-            <End Role="TInventoryAdjustment" EntitySet="TInventoryAdjustment" />
-          </AssociationSet>
-          <AssociationSet Name="TInventoryAdjustment_TProduct_FK" Association="Self.TInventoryAdjustment_TProduct_FK">
-            <End Role="TProduct" EntitySet="TProduct" />
-            <End Role="TInventoryAdjustment" EntitySet="TInventoryAdjustment" />
-          </AssociationSet>
-          <AssociationSet Name="TInventoryAdjustment_TUser_FK" Association="Self.TInventoryAdjustment_TUser_FK">
-            <End Role="TUser" EntitySet="TUser" />
-            <End Role="TInventoryAdjustment" EntitySet="TInventoryAdjustment" />
-          </AssociationSet>
-          <AssociationSet Name="TOrder_TPayment_FK" Association="Self.TOrder_TPayment_FK">
-            <End Role="TPayment" EntitySet="TPayment" />
-            <End Role="TOrder" EntitySet="TOrder" />
-          </AssociationSet>
-          <AssociationSet Name="TOrder_TSupplier_FK" Association="Self.TOrder_TSupplier_FK">
+          <AssociationSet Name="TProductPriceHistory_TSupplier_FK" Association="Self.TProductPriceHistory_TSupplier_FK">
             <End Role="TSupplier" EntitySet="TSupplier" />
-            <End Role="TOrder" EntitySet="TOrder" />
+            <End Role="TProductPriceHistory" EntitySet="TProductPriceHistory" />
           </AssociationSet>
-          <AssociationSet Name="TOrder_TUser_FK" Association="Self.TOrder_TUser_FK">
+          <AssociationSet Name="TProductPriceHistory_TUser_FK" Association="Self.TProductPriceHistory_TUser_FK">
             <End Role="TUser" EntitySet="TUser" />
-            <End Role="TOrder" EntitySet="TOrder" />
-          </AssociationSet>
-          <AssociationSet Name="TOrderProducts_TOrder_FK" Association="Self.TOrderProducts_TOrder_FK">
-            <End Role="TOrder" EntitySet="TOrder" />
-            <End Role="TOrderProducts" EntitySet="TOrderProducts" />
-          </AssociationSet>
-          <AssociationSet Name="TOrderProducts_TProduct_FK" Association="Self.TOrderProducts_TProduct_FK">
-            <End Role="TProduct" EntitySet="TProduct" />
-            <End Role="TOrderProducts" EntitySet="TOrderProducts" />
-          </AssociationSet>
-          <AssociationSet Name="TProduct_TCategory_FK" Association="Self.TProduct_TCategory_FK">
-            <End Role="TCategory" EntitySet="TCategory" />
-            <End Role="TProduct" EntitySet="TProduct" />
+            <End Role="TProductPriceHistory" EntitySet="TProductPriceHistory" />
           </AssociationSet>
           <AssociationSet Name="TUser_TRole_FK" Association="Self.TUser_TRole_FK">
             <End Role="TRole" EntitySet="TRole" />
             <End Role="TUser" EntitySet="TUser" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="TAdjustment">
-          <Key>
-            <PropertyRef Name="intAdjustmentID" />
-          </Key>
-          <Property Name="intAdjustmentID" Type="Int32" Nullable="false" />
-          <Property Name="strAdjustmentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="strAdjustmentDesc" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="TInventoryAdjustments" Relationship="Self.TInventoryAdjustment_TAdjustment_FK" FromRole="TAdjustment" ToRole="TInventoryAdjustment" />
-        </EntityType>
         <EntityType Name="TCategory">
           <Key>
             <PropertyRef Name="intCategoryID" />
           </Key>
           <Property Name="intCategoryID" Type="Int32" Nullable="false" />
           <Property Name="strCategory" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="TProducts" Relationship="Self.TProduct_TCategory_FK" FromRole="TCategory" ToRole="TProduct" />
+          <NavigationProperty Name="TInventories" Relationship="Self.TInventory_TCategory_FK" FromRole="TCategory" ToRole="TInventory" />
         </EntityType>
         <EntityType Name="TInventory">
           <Key>
             <PropertyRef Name="intInventoryID" />
           </Key>
           <Property Name="intInventoryID" Type="Int32" Nullable="false" />
-          <Property Name="intProductID" Type="Int32" Nullable="false" />
-          <Property Name="intUnitsPerCase" Type="Int32" Nullable="false" />
-          <Property Name="intCases" Type="Int32" Nullable="false" />
-          <Property Name="intStatusID" Type="Int32" Nullable="false" />
-          <Property Name="intProductLocationID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="TProduct" Relationship="Self.TInventory_TProduct_FK" FromRole="TInventory" ToRole="TProduct" />
-          <NavigationProperty Name="TProductLocation" Relationship="Self.TInventory_TProductLocation_FK" FromRole="TInventory" ToRole="TProductLocation" />
-          <NavigationProperty Name="TStatu" Relationship="Self.TInventory_TStatus_FK" FromRole="TInventory" ToRole="TStatus" />
-          <NavigationProperty Name="TInventoryAdjustments" Relationship="Self.TInventoryAdjustment_TInventory_FK" FromRole="TInventory" ToRole="TInventoryAdjustment" />
-        </EntityType>
-        <EntityType Name="TInventoryAdjustment">
-          <Key>
-            <PropertyRef Name="intInventoryAdjustmentID" />
-          </Key>
-          <Property Name="intInventoryAdjustmentID" Type="Int32" Nullable="false" />
-          <Property Name="intInventoryID" Type="Int32" Nullable="false" />
-          <Property Name="intAdjustmentID" Type="Int32" Nullable="false" />
-          <Property Name="intUserID" Type="Int32" Nullable="false" />
-          <Property Name="intProductID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="TAdjustment" Relationship="Self.TInventoryAdjustment_TAdjustment_FK" FromRole="TInventoryAdjustment" ToRole="TAdjustment" />
-          <NavigationProperty Name="TInventory" Relationship="Self.TInventoryAdjustment_TInventory_FK" FromRole="TInventoryAdjustment" ToRole="TInventory" />
-          <NavigationProperty Name="TProduct" Relationship="Self.TInventoryAdjustment_TProduct_FK" FromRole="TInventoryAdjustment" ToRole="TProduct" />
-          <NavigationProperty Name="TUser" Relationship="Self.TInventoryAdjustment_TUser_FK" FromRole="TInventoryAdjustment" ToRole="TUser" />
-        </EntityType>
-        <EntityType Name="TOrder">
-          <Key>
-            <PropertyRef Name="intOrderID" />
-          </Key>
-          <Property Name="intOrderID" Type="Int32" Nullable="false" />
-          <Property Name="dtmOrderDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="intUserID" Type="Int32" Nullable="false" />
-          <Property Name="intPaymentID" Type="Int32" Nullable="false" />
-          <Property Name="intSupplierID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="TPayment" Relationship="Self.TOrder_TPayment_FK" FromRole="TOrder" ToRole="TPayment" />
-          <NavigationProperty Name="TSupplier" Relationship="Self.TOrder_TSupplier_FK" FromRole="TOrder" ToRole="TSupplier" />
-          <NavigationProperty Name="TUser" Relationship="Self.TOrder_TUser_FK" FromRole="TOrder" ToRole="TUser" />
-          <NavigationProperty Name="TOrderProducts" Relationship="Self.TOrderProducts_TOrder_FK" FromRole="TOrder" ToRole="TOrderProducts" />
-        </EntityType>
-        <EntityType Name="TOrderProduct">
-          <Key>
-            <PropertyRef Name="intOrderProductsID" />
-          </Key>
-          <Property Name="intOrderProductsID" Type="Int32" Nullable="false" />
-          <Property Name="intUnitSize" Type="Int32" Nullable="false" />
-          <Property Name="intUnitType" Type="Int32" Nullable="false" />
-          <Property Name="monUnitPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="intOrderID" Type="Int32" Nullable="false" />
-          <Property Name="intProductID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="TOrder" Relationship="Self.TOrderProducts_TOrder_FK" FromRole="TOrderProducts" ToRole="TOrder" />
-          <NavigationProperty Name="TProduct" Relationship="Self.TOrderProducts_TProduct_FK" FromRole="TOrderProducts" ToRole="TProduct" />
-        </EntityType>
-        <EntityType Name="TPayment">
-          <Key>
-            <PropertyRef Name="intPaymentID" />
-          </Key>
-          <Property Name="intPaymentID" Type="Int32" Nullable="false" />
-          <Property Name="strPaymentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="TOrders" Relationship="Self.TOrder_TPayment_FK" FromRole="TPayment" ToRole="TOrder" />
-        </EntityType>
-        <EntityType Name="TProduct">
-          <Key>
-            <PropertyRef Name="intProductID" />
-          </Key>
-          <Property Name="intProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="strProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="strProductDesc" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="intInvCount" Type="Int32" Nullable="false" />
+          <Property Name="strStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="intCategoryID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="TCategory" Relationship="Self.TProduct_TCategory_FK" FromRole="TProduct" ToRole="TCategory" />
-          <NavigationProperty Name="TInventories" Relationship="Self.TInventory_TProduct_FK" FromRole="TProduct" ToRole="TInventory" />
-          <NavigationProperty Name="TInventoryAdjustments" Relationship="Self.TInventoryAdjustment_TProduct_FK" FromRole="TProduct" ToRole="TInventoryAdjustment" />
-          <NavigationProperty Name="TOrderProducts" Relationship="Self.TOrderProducts_TProduct_FK" FromRole="TProduct" ToRole="TOrderProducts" />
+          <Property Name="intProductLocationID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TCategory" Relationship="Self.TInventory_TCategory_FK" FromRole="TInventory" ToRole="TCategory" />
+          <NavigationProperty Name="TProductLocation" Relationship="Self.TInventory_TProductLocation_FK" FromRole="TInventory" ToRole="TProductLocation" />
         </EntityType>
         <EntityType Name="TProductLocation">
           <Key>
@@ -554,22 +308,27 @@
           <Property Name="strLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="TInventories" Relationship="Self.TInventory_TProductLocation_FK" FromRole="TProductLocation" ToRole="TInventory" />
         </EntityType>
+        <EntityType Name="TProductPriceHistory">
+          <Key>
+            <PropertyRef Name="intProductPriceHistoryID" />
+          </Key>
+          <Property Name="intProductPriceHistoryID" Type="Int32" Nullable="false" />
+          <Property Name="strProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dtmPurchaseDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="monCostPerUnit" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="intPurchaseAmt" Type="Int32" Nullable="false" />
+          <Property Name="intUserID" Type="Int32" Nullable="false" />
+          <Property Name="intSupplierID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TSupplier" Relationship="Self.TProductPriceHistory_TSupplier_FK" FromRole="TProductPriceHistory" ToRole="TSupplier" />
+          <NavigationProperty Name="TUser" Relationship="Self.TProductPriceHistory_TUser_FK" FromRole="TProductPriceHistory" ToRole="TUser" />
+        </EntityType>
         <EntityType Name="TRole">
           <Key>
             <PropertyRef Name="intRoleID" />
           </Key>
           <Property Name="intRoleID" Type="Int32" Nullable="false" />
           <Property Name="strRoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="strRoleDesc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="TUsers" Relationship="Self.TUser_TRole_FK" FromRole="TRole" ToRole="TUser" />
-        </EntityType>
-        <EntityType Name="TStatu">
-          <Key>
-            <PropertyRef Name="intStatusID" />
-          </Key>
-          <Property Name="intStatusID" Type="Int32" Nullable="false" />
-          <Property Name="strStatusType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="TInventories" Relationship="Self.TInventory_TStatus_FK" FromRole="TStatus" ToRole="TInventory" />
         </EntityType>
         <EntityType Name="TSupplier">
           <Key>
@@ -586,7 +345,7 @@
           <Property Name="strURL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="strNotes" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="strContactState" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="TOrders" Relationship="Self.TOrder_TSupplier_FK" FromRole="TSupplier" ToRole="TOrder" />
+          <NavigationProperty Name="TProductPriceHistories" Relationship="Self.TProductPriceHistory_TSupplier_FK" FromRole="TSupplier" ToRole="TProductPriceHistory" />
         </EntityType>
         <EntityType Name="TUser">
           <Key>
@@ -600,43 +359,18 @@
           <Property Name="strUserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="userPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="intRoleID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="TInventoryAdjustments" Relationship="Self.TInventoryAdjustment_TUser_FK" FromRole="TUser" ToRole="TInventoryAdjustment" />
-          <NavigationProperty Name="TOrders" Relationship="Self.TOrder_TUser_FK" FromRole="TUser" ToRole="TOrder" />
+          <NavigationProperty Name="TProductPriceHistories" Relationship="Self.TProductPriceHistory_TUser_FK" FromRole="TUser" ToRole="TProductPriceHistory" />
           <NavigationProperty Name="TRole" Relationship="Self.TUser_TRole_FK" FromRole="TUser" ToRole="TRole" />
         </EntityType>
-        <Association Name="TInventoryAdjustment_TAdjustment_FK">
-          <End Role="TAdjustment" Type="Self.TAdjustment" Multiplicity="1" />
-          <End Role="TInventoryAdjustment" Type="Self.TInventoryAdjustment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TAdjustment">
-              <PropertyRef Name="intAdjustmentID" />
-            </Principal>
-            <Dependent Role="TInventoryAdjustment">
-              <PropertyRef Name="intAdjustmentID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="TProduct_TCategory_FK">
+        <Association Name="TInventory_TCategory_FK">
           <End Role="TCategory" Type="Self.TCategory" Multiplicity="1" />
-          <End Role="TProduct" Type="Self.TProduct" Multiplicity="*" />
+          <End Role="TInventory" Type="Self.TInventory" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TCategory">
               <PropertyRef Name="intCategoryID" />
             </Principal>
-            <Dependent Role="TProduct">
-              <PropertyRef Name="intCategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="TInventory_TProduct_FK">
-          <End Role="TProduct" Type="Self.TProduct" Multiplicity="1" />
-          <End Role="TInventory" Type="Self.TInventory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TProduct">
-              <PropertyRef Name="intProductID" />
-            </Principal>
             <Dependent Role="TInventory">
-              <PropertyRef Name="intProductID" />
+              <PropertyRef Name="intCategoryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -652,111 +386,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="TInventory_TStatus_FK">
-          <End Role="TStatus" Type="Self.TStatu" Multiplicity="1" />
-          <End Role="TInventory" Type="Self.TInventory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TStatus">
-              <PropertyRef Name="intStatusID" />
-            </Principal>
-            <Dependent Role="TInventory">
-              <PropertyRef Name="intStatusID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="TInventoryAdjustment_TInventory_FK">
-          <End Role="TInventory" Type="Self.TInventory" Multiplicity="1" />
-          <End Role="TInventoryAdjustment" Type="Self.TInventoryAdjustment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TInventory">
-              <PropertyRef Name="intInventoryID" />
-            </Principal>
-            <Dependent Role="TInventoryAdjustment">
-              <PropertyRef Name="intInventoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="TInventoryAdjustment_TProduct_FK">
-          <End Role="TProduct" Type="Self.TProduct" Multiplicity="1" />
-          <End Role="TInventoryAdjustment" Type="Self.TInventoryAdjustment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TProduct">
-              <PropertyRef Name="intProductID" />
-            </Principal>
-            <Dependent Role="TInventoryAdjustment">
-              <PropertyRef Name="intProductID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="TInventoryAdjustment_TUser_FK">
-          <End Role="TUser" Type="Self.TUser" Multiplicity="1" />
-          <End Role="TInventoryAdjustment" Type="Self.TInventoryAdjustment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TUser">
-              <PropertyRef Name="intUserID" />
-            </Principal>
-            <Dependent Role="TInventoryAdjustment">
-              <PropertyRef Name="intUserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="TOrder_TPayment_FK">
-          <End Role="TPayment" Type="Self.TPayment" Multiplicity="1" />
-          <End Role="TOrder" Type="Self.TOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TPayment">
-              <PropertyRef Name="intPaymentID" />
-            </Principal>
-            <Dependent Role="TOrder">
-              <PropertyRef Name="intPaymentID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="TOrder_TSupplier_FK">
+        <Association Name="TProductPriceHistory_TSupplier_FK">
           <End Role="TSupplier" Type="Self.TSupplier" Multiplicity="1" />
-          <End Role="TOrder" Type="Self.TOrder" Multiplicity="*" />
+          <End Role="TProductPriceHistory" Type="Self.TProductPriceHistory" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TSupplier">
               <PropertyRef Name="intSupplierID" />
             </Principal>
-            <Dependent Role="TOrder">
+            <Dependent Role="TProductPriceHistory">
               <PropertyRef Name="intSupplierID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="TOrder_TUser_FK">
+        <Association Name="TProductPriceHistory_TUser_FK">
           <End Role="TUser" Type="Self.TUser" Multiplicity="1" />
-          <End Role="TOrder" Type="Self.TOrder" Multiplicity="*" />
+          <End Role="TProductPriceHistory" Type="Self.TProductPriceHistory" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TUser">
               <PropertyRef Name="intUserID" />
             </Principal>
-            <Dependent Role="TOrder">
+            <Dependent Role="TProductPriceHistory">
               <PropertyRef Name="intUserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="TOrderProducts_TOrder_FK">
-          <End Role="TOrder" Type="Self.TOrder" Multiplicity="1" />
-          <End Role="TOrderProducts" Type="Self.TOrderProduct" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TOrder">
-              <PropertyRef Name="intOrderID" />
-            </Principal>
-            <Dependent Role="TOrderProducts">
-              <PropertyRef Name="intOrderID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="TOrderProducts_TProduct_FK">
-          <End Role="TProduct" Type="Self.TProduct" Multiplicity="1" />
-          <End Role="TOrderProducts" Type="Self.TOrderProduct" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TProduct">
-              <PropertyRef Name="intProductID" />
-            </Principal>
-            <Dependent Role="TOrderProducts">
-              <PropertyRef Name="intProductID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -772,89 +422,62 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="DBModels" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="TAdjustments" EntityType="Self.TAdjustment" />
+        <EntityContainer Name="DBModel" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="TCategories" EntityType="Self.TCategory" />
           <EntitySet Name="TInventories" EntityType="Self.TInventory" />
-          <EntitySet Name="TInventoryAdjustments" EntityType="Self.TInventoryAdjustment" />
-          <EntitySet Name="TOrders" EntityType="Self.TOrder" />
-          <EntitySet Name="TOrderProducts" EntityType="Self.TOrderProduct" />
-          <EntitySet Name="TPayments" EntityType="Self.TPayment" />
-          <EntitySet Name="TProducts" EntityType="Self.TProduct" />
           <EntitySet Name="TProductLocations" EntityType="Self.TProductLocation" />
+          <EntitySet Name="TProductPriceHistories" EntityType="Self.TProductPriceHistory" />
           <EntitySet Name="TRoles" EntityType="Self.TRole" />
-          <EntitySet Name="TStatus" EntityType="Self.TStatu" />
           <EntitySet Name="TSuppliers" EntityType="Self.TSupplier" />
           <EntitySet Name="TUsers" EntityType="Self.TUser" />
-          <AssociationSet Name="TInventoryAdjustment_TAdjustment_FK" Association="Self.TInventoryAdjustment_TAdjustment_FK">
-            <End Role="TAdjustment" EntitySet="TAdjustments" />
-            <End Role="TInventoryAdjustment" EntitySet="TInventoryAdjustments" />
-          </AssociationSet>
-          <AssociationSet Name="TProduct_TCategory_FK" Association="Self.TProduct_TCategory_FK">
+          <AssociationSet Name="TInventory_TCategory_FK" Association="Self.TInventory_TCategory_FK">
             <End Role="TCategory" EntitySet="TCategories" />
-            <End Role="TProduct" EntitySet="TProducts" />
-          </AssociationSet>
-          <AssociationSet Name="TInventory_TProduct_FK" Association="Self.TInventory_TProduct_FK">
-            <End Role="TProduct" EntitySet="TProducts" />
             <End Role="TInventory" EntitySet="TInventories" />
           </AssociationSet>
           <AssociationSet Name="TInventory_TProductLocation_FK" Association="Self.TInventory_TProductLocation_FK">
             <End Role="TProductLocation" EntitySet="TProductLocations" />
             <End Role="TInventory" EntitySet="TInventories" />
           </AssociationSet>
-          <AssociationSet Name="TInventory_TStatus_FK" Association="Self.TInventory_TStatus_FK">
-            <End Role="TStatus" EntitySet="TStatus" />
-            <End Role="TInventory" EntitySet="TInventories" />
-          </AssociationSet>
-          <AssociationSet Name="TInventoryAdjustment_TInventory_FK" Association="Self.TInventoryAdjustment_TInventory_FK">
-            <End Role="TInventory" EntitySet="TInventories" />
-            <End Role="TInventoryAdjustment" EntitySet="TInventoryAdjustments" />
-          </AssociationSet>
-          <AssociationSet Name="TInventoryAdjustment_TProduct_FK" Association="Self.TInventoryAdjustment_TProduct_FK">
-            <End Role="TProduct" EntitySet="TProducts" />
-            <End Role="TInventoryAdjustment" EntitySet="TInventoryAdjustments" />
-          </AssociationSet>
-          <AssociationSet Name="TInventoryAdjustment_TUser_FK" Association="Self.TInventoryAdjustment_TUser_FK">
-            <End Role="TUser" EntitySet="TUsers" />
-            <End Role="TInventoryAdjustment" EntitySet="TInventoryAdjustments" />
-          </AssociationSet>
-          <AssociationSet Name="TOrder_TPayment_FK" Association="Self.TOrder_TPayment_FK">
-            <End Role="TPayment" EntitySet="TPayments" />
-            <End Role="TOrder" EntitySet="TOrders" />
-          </AssociationSet>
-          <AssociationSet Name="TOrder_TSupplier_FK" Association="Self.TOrder_TSupplier_FK">
+          <AssociationSet Name="TProductPriceHistory_TSupplier_FK" Association="Self.TProductPriceHistory_TSupplier_FK">
             <End Role="TSupplier" EntitySet="TSuppliers" />
-            <End Role="TOrder" EntitySet="TOrders" />
+            <End Role="TProductPriceHistory" EntitySet="TProductPriceHistories" />
           </AssociationSet>
-          <AssociationSet Name="TOrder_TUser_FK" Association="Self.TOrder_TUser_FK">
+          <AssociationSet Name="TProductPriceHistory_TUser_FK" Association="Self.TProductPriceHistory_TUser_FK">
             <End Role="TUser" EntitySet="TUsers" />
-            <End Role="TOrder" EntitySet="TOrders" />
-          </AssociationSet>
-          <AssociationSet Name="TOrderProducts_TOrder_FK" Association="Self.TOrderProducts_TOrder_FK">
-            <End Role="TOrder" EntitySet="TOrders" />
-            <End Role="TOrderProducts" EntitySet="TOrderProducts" />
-          </AssociationSet>
-          <AssociationSet Name="TOrderProducts_TProduct_FK" Association="Self.TOrderProducts_TProduct_FK">
-            <End Role="TProduct" EntitySet="TProducts" />
-            <End Role="TOrderProducts" EntitySet="TOrderProducts" />
+            <End Role="TProductPriceHistory" EntitySet="TProductPriceHistories" />
           </AssociationSet>
           <AssociationSet Name="TUser_TRole_FK" Association="Self.TUser_TRole_FK">
             <End Role="TRole" EntitySet="TRoles" />
             <End Role="TUser" EntitySet="TUsers" />
           </AssociationSet>
+          <FunctionImport Name="DELETE_INVENTORY">
+          <Parameter Name="InventoryID" Mode="InOut" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="DELETE_PRODUCTPRICEHISTORY">
+          <Parameter Name="PPHID" Mode="InOut" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="DELETE_SUPPLIER">
+          <Parameter Name="Supplier_ID" Mode="InOut" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="DELETE_USER">
+          <Parameter Name="User_ID" Mode="InOut" Type="Int64" />
+          </FunctionImport>
           <FunctionImport Name="INSERT_INVENTORY">
             <Parameter Name="InventoryID" Mode="InOut" Type="Int64" />
-            <Parameter Name="ProductID" Mode="In" Type="Int32" />
-            <Parameter Name="UnitsPerCase" Mode="In" Type="Int32" />
-            <Parameter Name="Cases" Mode="In" Type="Int32" />
-            <Parameter Name="StatusID" Mode="In" Type="Int32" />
+            <Parameter Name="ProductName" Mode="In" Type="String" />
+            <Parameter Name="InvCount" Mode="In" Type="Int32" />
+            <Parameter Name="Status" Mode="In" Type="String" />
+            <Parameter Name="CategoryID" Mode="In" Type="Int32" />
             <Parameter Name="ProductlocationID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="INSERT_PRODUCT">
-            <Parameter Name="Product_ID" Mode="InOut" Type="Int64" />
-            <Parameter Name="Product_Name" Mode="In" Type="String" />
-            <Parameter Name="Product_Desc" Mode="In" Type="String" />
-            <Parameter Name="Category_ID" Mode="In" Type="Int32" />
+          <FunctionImport Name="INSERT_PRODUCTPRICEHISTORY">
+            <Parameter Name="PPHID" Mode="InOut" Type="Int64" />
+            <Parameter Name="ProductName" Mode="In" Type="String" />
+            <Parameter Name="PurchaseDate" Mode="In" Type="DateTime" />
+            <Parameter Name="CostPerUnit" Mode="In" Type="Decimal" />
+            <Parameter Name="PurchaseAmt" Mode="In" Type="Int32" />
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="SupplierID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="INSERT_SUPPLIER">
             <Parameter Name="Supplier_ID" Mode="InOut" Type="Int64" />
@@ -883,20 +506,34 @@
             <Parameter Name="User_Name" Mode="In" Type="String" />
             <Parameter Name="Password" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="SELECT_PRODUCT" ReturnType="Collection(Model.SELECT_PRODUCT_Result)">
-            <Parameter Name="Product_ID" Mode="In" Type="Int64" />
+          <FunctionImport Name="SELECT_INVENTORY" ReturnType="Collection(Model.SELECT_INVENTORY_Result)">
+          <Parameter Name="InventoryID" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="SELECT_PRODUCTPRICEHISTORY" ReturnType="Collection(Model.SELECT_PRODUCTPRICEHISTORY_Result)">
+          <Parameter Name="PPHID" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="SELECT_SUPPLIER" ReturnType="Collection(Model.SELECT_SUPPLIER_Result)">
-            <Parameter Name="Supplier_ID" Mode="In" Type="Int64" />
+          <Parameter Name="Supplier_ID" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="SELECT_USER" ReturnType="Collection(Model.SELECT_USER_Result)">
-            <Parameter Name="User_ID" Mode="In" Type="Int64" />
+          <Parameter Name="User_ID" Mode="In" Type="Int64" />
           </FunctionImport>
-          <FunctionImport Name="UPDATE_PRODUCT">
-            <Parameter Name="Product_ID" Mode="InOut" Type="Int64" />
-            <Parameter Name="Product_Name" Mode="In" Type="String" />
-            <Parameter Name="Product_Desc" Mode="In" Type="String" />
-            <Parameter Name="Category_ID" Mode="In" Type="Int32" />
+          <FunctionImport Name="UPDATE_INVENTORY">
+            <Parameter Name="InventoryID" Mode="InOut" Type="Int64" />
+            <Parameter Name="ProductName" Mode="In" Type="String" />
+            <Parameter Name="InvCount" Mode="In" Type="Int32" />
+            <Parameter Name="Status" Mode="In" Type="String" />
+            <Parameter Name="CategoryID" Mode="In" Type="Int32" />
+            <Parameter Name="ProductlocationID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UPDATE_PRODUCTPRICEHISTORY">
+            <Parameter Name="PPHID" Mode="InOut" Type="Int64" />
+            <Parameter Name="ProductName" Mode="In" Type="String" />
+            <Parameter Name="PurchaseDate" Mode="In" Type="DateTime" />
+            <Parameter Name="CostPerUnit" Mode="In" Type="Decimal" />
+            <Parameter Name="PurchaseAmt" Mode="In" Type="Int32" />
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="SupplierID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_SUPPLIER">
             <Parameter Name="Supplier_ID" Mode="InOut" Type="Int64" />
@@ -932,11 +569,22 @@
           <Property Type="String" Name="userPassword" Nullable="false" MaxLength="50" />
           <Property Type="Int32" Name="intRoleID" Nullable="false" />
         </ComplexType>
-        <ComplexType Name="SELECT_PRODUCT_Result">
-          <Property Type="Int32" Name="intProductID" Nullable="false" />
+        <ComplexType Name="SELECT_INVENTORY_Result">
+          <Property Type="Int32" Name="intInventoryID" Nullable="false" />
           <Property Type="String" Name="strProductName" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="strProductDesc" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="intInvCount" Nullable="false" />
+          <Property Type="String" Name="strStatus" Nullable="false" MaxLength="50" />
           <Property Type="Int32" Name="intCategoryID" Nullable="false" />
+          <Property Type="Int32" Name="intProductLocationID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SELECT_PRODUCTPRICEHISTORY_Result">
+          <Property Type="Int32" Name="intProductPriceHistoryID" Nullable="false" />
+          <Property Type="String" Name="strProductName" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="dtmPurchaseDate" Nullable="false" />
+          <Property Type="Decimal" Name="monCostPerUnit" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="intPurchaseAmt" Nullable="false" />
+          <Property Type="Int32" Name="intUserID" Nullable="false" />
+          <Property Type="Int32" Name="intSupplierID" Nullable="false" />
         </ComplexType>
         <ComplexType Name="SELECT_SUPPLIER_Result">
           <Property Type="Int32" Name="intSupplierID" Nullable="false" />
@@ -966,16 +614,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="DBModels">
-          <EntitySetMapping Name="TAdjustments">
-            <EntityTypeMapping TypeName="Model.TAdjustment">
-              <MappingFragment StoreEntitySet="TAdjustment">
-                <ScalarProperty Name="intAdjustmentID" ColumnName="intAdjustmentID" />
-                <ScalarProperty Name="strAdjustmentType" ColumnName="strAdjustmentType" />
-                <ScalarProperty Name="strAdjustmentDesc" ColumnName="strAdjustmentDesc" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="DBModel">
           <EntitySetMapping Name="TCategories">
             <EntityTypeMapping TypeName="Model.TCategory">
               <MappingFragment StoreEntitySet="TCategory">
@@ -988,63 +627,11 @@
             <EntityTypeMapping TypeName="Model.TInventory">
               <MappingFragment StoreEntitySet="TInventory">
                 <ScalarProperty Name="intInventoryID" ColumnName="intInventoryID" />
-                <ScalarProperty Name="intProductID" ColumnName="intProductID" />
-                <ScalarProperty Name="intUnitsPerCase" ColumnName="intUnitsPerCase" />
-                <ScalarProperty Name="intCases" ColumnName="intCases" />
-                <ScalarProperty Name="intStatusID" ColumnName="intStatusID" />
-                <ScalarProperty Name="intProductLocationID" ColumnName="intProductLocationID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TInventoryAdjustments">
-            <EntityTypeMapping TypeName="Model.TInventoryAdjustment">
-              <MappingFragment StoreEntitySet="TInventoryAdjustment">
-                <ScalarProperty Name="intInventoryAdjustmentID" ColumnName="intInventoryAdjustmentID" />
-                <ScalarProperty Name="intInventoryID" ColumnName="intInventoryID" />
-                <ScalarProperty Name="intAdjustmentID" ColumnName="intAdjustmentID" />
-                <ScalarProperty Name="intUserID" ColumnName="intUserID" />
-                <ScalarProperty Name="intProductID" ColumnName="intProductID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TOrders">
-            <EntityTypeMapping TypeName="Model.TOrder">
-              <MappingFragment StoreEntitySet="TOrder">
-                <ScalarProperty Name="intOrderID" ColumnName="intOrderID" />
-                <ScalarProperty Name="dtmOrderDate" ColumnName="dtmOrderDate" />
-                <ScalarProperty Name="intUserID" ColumnName="intUserID" />
-                <ScalarProperty Name="intPaymentID" ColumnName="intPaymentID" />
-                <ScalarProperty Name="intSupplierID" ColumnName="intSupplierID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TOrderProducts">
-            <EntityTypeMapping TypeName="Model.TOrderProduct">
-              <MappingFragment StoreEntitySet="TOrderProducts">
-                <ScalarProperty Name="intOrderProductsID" ColumnName="intOrderProductsID" />
-                <ScalarProperty Name="intUnitSize" ColumnName="intUnitSize" />
-                <ScalarProperty Name="intUnitType" ColumnName="intUnitType" />
-                <ScalarProperty Name="monUnitPrice" ColumnName="monUnitPrice" />
-                <ScalarProperty Name="intOrderID" ColumnName="intOrderID" />
-                <ScalarProperty Name="intProductID" ColumnName="intProductID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TPayments">
-            <EntityTypeMapping TypeName="Model.TPayment">
-              <MappingFragment StoreEntitySet="TPayment">
-                <ScalarProperty Name="intPaymentID" ColumnName="intPaymentID" />
-                <ScalarProperty Name="strPaymentType" ColumnName="strPaymentType" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TProducts">
-            <EntityTypeMapping TypeName="Model.TProduct">
-              <MappingFragment StoreEntitySet="TProduct">
-                <ScalarProperty Name="intProductID" ColumnName="intProductID" />
                 <ScalarProperty Name="strProductName" ColumnName="strProductName" />
-                <ScalarProperty Name="strProductDesc" ColumnName="strProductDesc" />
+                <ScalarProperty Name="intInvCount" ColumnName="intInvCount" />
+                <ScalarProperty Name="strStatus" ColumnName="strStatus" />
                 <ScalarProperty Name="intCategoryID" ColumnName="intCategoryID" />
+                <ScalarProperty Name="intProductLocationID" ColumnName="intProductLocationID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1056,20 +643,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="TProductPriceHistories">
+            <EntityTypeMapping TypeName="Model.TProductPriceHistory">
+              <MappingFragment StoreEntitySet="TProductPriceHistory">
+                <ScalarProperty Name="intProductPriceHistoryID" ColumnName="intProductPriceHistoryID" />
+                <ScalarProperty Name="strProductName" ColumnName="strProductName" />
+                <ScalarProperty Name="dtmPurchaseDate" ColumnName="dtmPurchaseDate" />
+                <ScalarProperty Name="monCostPerUnit" ColumnName="monCostPerUnit" />
+                <ScalarProperty Name="intPurchaseAmt" ColumnName="intPurchaseAmt" />
+                <ScalarProperty Name="intUserID" ColumnName="intUserID" />
+                <ScalarProperty Name="intSupplierID" ColumnName="intSupplierID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="TRoles">
             <EntityTypeMapping TypeName="Model.TRole">
               <MappingFragment StoreEntitySet="TRole">
                 <ScalarProperty Name="intRoleID" ColumnName="intRoleID" />
                 <ScalarProperty Name="strRoleName" ColumnName="strRoleName" />
-                <ScalarProperty Name="strRoleDesc" ColumnName="strRoleDesc" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TStatus">
-            <EntityTypeMapping TypeName="Model.TStatu">
-              <MappingFragment StoreEntitySet="TStatus">
-                <ScalarProperty Name="intStatusID" ColumnName="intStatusID" />
-                <ScalarProperty Name="strStatusType" ColumnName="strStatusType" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1104,8 +695,12 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="DELETE_INVENTORY" FunctionName="Model.Store.DELETE_INVENTORY" />
+          <FunctionImportMapping FunctionImportName="DELETE_PRODUCTPRICEHISTORY" FunctionName="Model.Store.DELETE_PRODUCTPRICEHISTORY" />
+          <FunctionImportMapping FunctionImportName="DELETE_SUPPLIER" FunctionName="Model.Store.DELETE_SUPPLIER" />
+          <FunctionImportMapping FunctionImportName="DELETE_USER" FunctionName="Model.Store.DELETE_USER" />
           <FunctionImportMapping FunctionImportName="INSERT_INVENTORY" FunctionName="Model.Store.INSERT_INVENTORY" />
-          <FunctionImportMapping FunctionImportName="INSERT_PRODUCT" FunctionName="Model.Store.INSERT_PRODUCT" />
+          <FunctionImportMapping FunctionImportName="INSERT_PRODUCTPRICEHISTORY" FunctionName="Model.Store.INSERT_PRODUCTPRICEHISTORY" />
           <FunctionImportMapping FunctionImportName="INSERT_SUPPLIER" FunctionName="Model.Store.INSERT_SUPPLIER" />
           <FunctionImportMapping FunctionImportName="INSERT_USER" FunctionName="Model.Store.INSERT_USER" />
           <FunctionImportMapping FunctionImportName="LOGIN" FunctionName="Model.Store.LOGIN">
@@ -1122,13 +717,28 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SELECT_PRODUCT" FunctionName="Model.Store.SELECT_PRODUCT">
+          <FunctionImportMapping FunctionImportName="SELECT_INVENTORY" FunctionName="Model.Store.SELECT_INVENTORY">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="Model.SELECT_PRODUCT_Result">
-                <ScalarProperty Name="intProductID" ColumnName="intProductID" />
+              <ComplexTypeMapping TypeName="Model.SELECT_INVENTORY_Result">
+                <ScalarProperty Name="intInventoryID" ColumnName="intInventoryID" />
                 <ScalarProperty Name="strProductName" ColumnName="strProductName" />
-                <ScalarProperty Name="strProductDesc" ColumnName="strProductDesc" />
+                <ScalarProperty Name="intInvCount" ColumnName="intInvCount" />
+                <ScalarProperty Name="strStatus" ColumnName="strStatus" />
                 <ScalarProperty Name="intCategoryID" ColumnName="intCategoryID" />
+                <ScalarProperty Name="intProductLocationID" ColumnName="intProductLocationID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SELECT_PRODUCTPRICEHISTORY" FunctionName="Model.Store.SELECT_PRODUCTPRICEHISTORY">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.SELECT_PRODUCTPRICEHISTORY_Result">
+                <ScalarProperty Name="intProductPriceHistoryID" ColumnName="intProductPriceHistoryID" />
+                <ScalarProperty Name="strProductName" ColumnName="strProductName" />
+                <ScalarProperty Name="dtmPurchaseDate" ColumnName="dtmPurchaseDate" />
+                <ScalarProperty Name="monCostPerUnit" ColumnName="monCostPerUnit" />
+                <ScalarProperty Name="intPurchaseAmt" ColumnName="intPurchaseAmt" />
+                <ScalarProperty Name="intUserID" ColumnName="intUserID" />
+                <ScalarProperty Name="intSupplierID" ColumnName="intSupplierID" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -1163,7 +773,8 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="UPDATE_PRODUCT" FunctionName="Model.Store.UPDATE_PRODUCT" />
+          <FunctionImportMapping FunctionImportName="UPDATE_INVENTORY" FunctionName="Model.Store.UPDATE_INVENTORY" />
+          <FunctionImportMapping FunctionImportName="UPDATE_PRODUCTPRICEHISTORY" FunctionName="Model.Store.UPDATE_PRODUCTPRICEHISTORY" />
           <FunctionImportMapping FunctionImportName="UPDATE_SUPPLIER" FunctionName="Model.Store.UPDATE_SUPPLIER" />
           <FunctionImportMapping FunctionImportName="UPDATE_USER" FunctionName="Model.Store.UPDATE_USER" />
         </EntityContainerMapping>

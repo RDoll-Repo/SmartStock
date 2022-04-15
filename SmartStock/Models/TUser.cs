@@ -17,8 +17,7 @@ namespace SmartStock.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TUser()
         {
-            this.TInventoryAdjustments = new HashSet<TInventoryAdjustment>();
-            this.TOrders = new HashSet<TOrder>();
+            this.TProductPriceHistories = new HashSet<TProductPriceHistory>();
         }
     
         public int intUserID { get; set; }
@@ -31,9 +30,7 @@ namespace SmartStock.Models
         public int intRoleID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TInventoryAdjustment> TInventoryAdjustments { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TOrder> TOrders { get; set; }
+        public virtual ICollection<TProductPriceHistory> TProductPriceHistories { get; set; }
         public virtual TRole TRole { get; set; }
     }
 }

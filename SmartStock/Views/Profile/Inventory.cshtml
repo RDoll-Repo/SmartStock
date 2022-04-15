@@ -1,46 +1,56 @@
-﻿@{
+﻿@model IEnumerable<SmartStock.Models.TInventory>
+@{
     ViewBag.Title = "Inventory";
 }
+<h2>@ViewBag.Title</h2>
 
-<h1>Inventory</h1>
+<table class="table table-striped table-condensed">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(Model => Model.strProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(Model => Model.intInvCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(Model => Model.strStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(Model => Model.intCategoryID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(Model => Model.intProductLocationID)
+        </th>
+        <th>
+            <form action="CreateItem">
+                <input type="submit" value="+" />
+            </form>
+        </th>
 
-<div class="inventory">
-    <form action="CreateItem">
-        <input type="submit" value="+" />
-    </form>
+    </tr>
 
-    <div class="item">
-        <!--In production, the user will be able to double click a row here and go to "edit item"-->
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Location</th>
-                <th>Price</th>
-                <th>Inventory</th>
-                <th>Supplier</th>
-            </tr>
-            <tr>
-                <td>Budweiser</td>
-                <td>Alcohol</td>
-                <td>Cooler</td>
-                <td>$15</td>
-                <td>20 Cases</td>
-                <td>Budweiser</td>
-            </tr>
-        </table>
-    </div>
-
-    <form action="InventoryAdjustment">
-        <input type="submit" value="Perform Adjustment" />
-    </form>
-
-    <form action="SingleItem">
-        <input type="submit" value="SingleItem Placeholder" />
-    </form>
-
-    <!--TODO: Implement logic to filter by category, location, purveyor, etc.
-        This is part of the bread and butter of the application, and fairly complicated,
-        so a mockup will not do here. -->
-
-</div>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.strProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.intInvCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.strStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.intCategoryID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.intProductLocationID)
+            </td>
+            <td>
+                <a href="#"><i class="glyphicon glyphicon-pencil"></i></a>
+                <a href="#"><i class="glyphicon glyphicon-trash"></i></a>
+            </td>
+        </tr>
+    }
+</table>

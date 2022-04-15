@@ -22,7 +22,6 @@ namespace SmartStock.Models
     
         public int intRoleID { get; set; }
         public string strRoleName { get; set; }
-        public string strRoleDesc { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TUser> TUsers { get; set; }

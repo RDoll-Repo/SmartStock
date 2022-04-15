@@ -6,71 +6,74 @@ using System.Web;
 namespace SmartStock.Models
 {
 
-    public class Product
+    public class ProductPriceHistory
     {
-        public long Product_ID = 0;
-        public string Product_Name = string.Empty;
-        public string Product_Desc = string.Empty;
-        public int intCategoryID = 0;
+        public long ProductPriceHistoryID = 0;
+        public string ProductName = string.Empty;
+        public DateTime PurchaseDate = DateTime.Now;
+        public decimal CostPerUnit = 0;
+        public int PurchaseAmt = 0;
+        public int UserID = 0;
+        public int SupplierID = 0;
         public ActionTypes ActionType = ActionTypes.NoType;
 
         public bool IsAuthenticated
         {
             get
             {
-                if (Product_ID > 0) return true;
+                if (ProductPriceHistoryID > 0) return true;
                 return false;
             }
         }
 
-        public Product.ActionTypes Save()
+        public ProductPriceHistory.ActionTypes Save()
         {
             try
             {
                 Database db = new Database();
-                if (Product_ID == 0)
+                if (ProductPriceHistoryID == 0)
                 { //insert new product
-                    this.ActionType = db.InsertProduct(this);
+                    this.ActionType = db.InsertProductPrice(this);
                 }
                 else
                 {
-                    this.ActionType = db.UpdateProduct(this);
+                    this.ActionType = db.UpdateProductPrice(this);
                 }
                 return this.ActionType;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
         }
 
-        public bool RemoveProductSession()
+        public bool RemoveProductPriceSession()
         {
             try
             {
-                HttpContext.Current.Session["CurrentProduct"] = null;
+                HttpContext.Current.Session["CurrentProductPrice"] = null;
                 return true;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
         }
 
-        public Product GetProductSession()
+        public ProductPriceHistory GetProductPriceSession()
         {
             try
             {
-                Product p = new Product();
-                if (HttpContext.Current.Session["CurrentProduct"] == null)
+                ProductPriceHistory pph = new ProductPriceHistory();
+                if (HttpContext.Current.Session["CurrentProductPrice"] == null)
                 {
-                    return p;
+                    return pph;
                 }
-                p = (Product)HttpContext.Current.Session["CurrentProduct"];
-                return p;
+                pph = (ProductPriceHistory)HttpContext.Current.Session["CurrentProductPrice"];
+                return pph;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
         }
 
-        public bool SaveProductSession()
+        public bool SaveProductPriceSession()
         {
             try
             {
-                HttpContext.Current.Session["CurrentProduct"] = this;
+                HttpContext.Current.Session["CurrentProductPrice"] = this;
                 return true;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }

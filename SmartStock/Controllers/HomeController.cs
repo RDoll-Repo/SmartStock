@@ -81,7 +81,7 @@ namespace SmartStock.Controllers
         {
 
             //Create db context object here 
-            DBModels dbContext = new DBModels();
+            DBModel dbContext = new DBModel();
             //Get the value from database and then set it to ViewBag to pass it View
             IEnumerable<SelectListItem> items2 = dbContext.TRoles.Select(c => new SelectListItem
             {
@@ -123,6 +123,7 @@ namespace SmartStock.Controllers
                             return RedirectToAction("InitializeInventory");
                         }
                         else {
+                            u.Save();
                             return RedirectToAction("Dashboard", "Profile");
                         }
                         
@@ -139,7 +140,7 @@ namespace SmartStock.Controllers
         public ActionResult InitializeInventory()
         {
             //Create db context object here 
-            DBModels dbContext = new DBModels();
+            DBModel dbContext = new DBModel();
             //Get the value from database and then set it to ViewBag to pass it View
             IEnumerable<SelectListItem> items3 = dbContext.TCategories.Select(g => new SelectListItem
             {
@@ -149,13 +150,6 @@ namespace SmartStock.Controllers
             });
             ViewBag.catagoryName = items3;
 
-            IEnumerable<SelectListItem> items4 = dbContext.TStatus.Select(s => new SelectListItem
-            {
-                Value = s.intStatusID.ToString(),
-                Text = s.strStatusType
-
-            });
-            ViewBag.statusName = items4;
             IEnumerable<SelectListItem> items5 = dbContext.TProductLocations.Select(l => new SelectListItem
             {
                 Value = l.intProductLocationID.ToString(),
@@ -165,8 +159,7 @@ namespace SmartStock.Controllers
             ViewBag.location = items5;
             //return View();
             Models.Inventory i = new Models.Inventory();
-            Models.Product p = new Models.Product();
-            return View();
+            return View(i);
         }
 
 
@@ -176,51 +169,48 @@ namespace SmartStock.Controllers
         {
             try
             {
+
                 Models.Inventory i = new Models.Inventory();
-                Models.Product p = new Models.Product();
                 Models.User u = new Models.User();
 
-                p.Product_Name = model.Product_Name;
-                p.Product_Desc = model.Product_Desc;
-                p.intCategoryID = Convert.ToInt32(col["catagoryName"]);
-                i.ProductlocationID = Convert.ToInt32(col["ProductlocationID"]);
-                i.StatusID = Convert.ToInt32(col["StatusID"]);
-                i.UnitsPerCase = model.UnitsPerCase;
-                i.Cases = model.Cases;
-                //i.ProductID = 
-
-
-                if (p.Product_Name.Length == 0 || p.intCategoryID == 0 ||  i.UnitsPerCase == 0 || i.Cases == 0 || i.StatusID == 0 || i.ProductlocationID == 0)
+                if (col["btnFinishInit"] == "finishinit")
                 {
-                    i.ActionType = Models.Inventory.ActionTypes.RequiredFieldsMissing;
-                    p.ActionType = Models.Product.ActionTypes.RequiredFieldsMissing;
-                    return View(i);
+                    u = u.GetUserSession();
+                    u.Save();
+                    return RedirectToAction("Dashboard", "Profile");
                 }
-                else
-                {
+
+                i.ProductName = col["ProductName"];
+                i.InvCount = Convert.ToInt32(col["InvCount"]);
+                i.Status = col["Status"];
+                i.CategoryID = Convert.ToInt32(col["catagoryName"]);
+                i.ProductlocationID = Convert.ToInt32(col["location"]);
+
                     if (col["btnSubmit"] == "addproduct")
                     { //sign up button pressed
                       // create if/else statement to determine if they are a new business signing up or a manager/employee signingup
                       // if owner, prompt to initialize stock
                       // if manager/employee, allow signup via
 
-                        u = u.GetUserSession();
-                        i.Save();
-                        i.SaveInventorySession();
-                        p.Save();
-                        p.SaveProductSession();
-                        u.Save();
-                       
-
-                        return RedirectToAction("Dashboard", "Profile");
+                        if (i.ProductName.Length == 0 || i.InvCount == 0 || i.Status.Length == 0 || i.CategoryID == 0 || i.ProductlocationID == 0)
+                        {
+                            i.ActionType = Models.Inventory.ActionTypes.RequiredFieldsMissing;
+                            return View(i);
+                        }
+                        else
+                        {
+                            i.SaveInventorySession();
+                            i.Save();
+                            InitializeInventory();
+                        }
 
                     }
-                    return View(u);
-                }
+                    
+                    return View();
+                
             }
             catch (Exception)
             {
-                Models.Product p = new Models.Product();
                 Models.Inventory i = new Models.Inventory();
                 return View();
             }

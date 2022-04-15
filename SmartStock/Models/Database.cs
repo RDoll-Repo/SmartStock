@@ -220,19 +220,22 @@ namespace SmartStock.Models
 		}
 
 
-		public Product.ActionTypes InsertProduct(Product p)
+		public ProductPriceHistory.ActionTypes InsertProductPrice(ProductPriceHistory pph)
 		{
 			try
 			{
 				SqlConnection cn = null;
 				if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
-				SqlCommand cm = new SqlCommand("INSERT_PRODUCT", cn);
+				SqlCommand cm = new SqlCommand("INSERT_PRODUCTPRICEHISTORY", cn);
 				int intReturnValue = -1;
 
-				SetParameter(ref cm, "@Product_ID", p.Product_ID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
-				SetParameter(ref cm, "@Product_Name", p.Product_Name, SqlDbType.VarChar);
-				SetParameter(ref cm, "@Product_Desc", p.Product_Desc, SqlDbType.VarChar);
-				SetParameter(ref cm, "@Category_ID", p.intCategoryID, SqlDbType.Int);
+				SetParameter(ref cm, "@PPHID", pph.ProductPriceHistoryID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
+				SetParameter(ref cm, "@Product_Name", pph.ProductName, SqlDbType.VarChar);
+				SetParameter(ref cm, "@PurchaseDate", pph.PurchaseDate, SqlDbType.DateTime);
+				SetParameter(ref cm, "@CostPerUnit", pph.CostPerUnit, SqlDbType.Money);
+				SetParameter(ref cm, "@PurchaseAmt", pph.PurchaseAmt, SqlDbType.Int);
+				SetParameter(ref cm, "@UserID", pph.UserID, SqlDbType.Int);
+				SetParameter(ref cm, "@SupplierID", pph.SupplierID, SqlDbType.Int);
 
 				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.TinyInt, Direction: ParameterDirection.ReturnValue);
 
@@ -244,14 +247,14 @@ namespace SmartStock.Models
 				switch (intReturnValue)
 				{
 					case 1: // new Supplier created
-						p.Product_ID = (long)cm.Parameters["@Product_ID"].Value;
-						return Product.ActionTypes.InsertSuccessful;
+						pph.ProductPriceHistoryID = (long)cm.Parameters["@PPHID"].Value;
+						return ProductPriceHistory.ActionTypes.InsertSuccessful;
 					case -1:
-						return Product.ActionTypes.DuplicateEmail;
+						return ProductPriceHistory.ActionTypes.DuplicateEmail;
 					case -2:
-						return Product.ActionTypes.DuplicateUserID;
+						return ProductPriceHistory.ActionTypes.DuplicateUserID;
 					default:
-						return Product.ActionTypes.Unknown;
+						return ProductPriceHistory.ActionTypes.Unknown;
 				}
 			}
 			catch (Exception ex) { throw new Exception(ex.Message); }
@@ -259,19 +262,22 @@ namespace SmartStock.Models
 
 
 
-		public Product.ActionTypes UpdateProduct(Product p)
+		public ProductPriceHistory.ActionTypes UpdateProductPrice(ProductPriceHistory pph)
 		{
 			try
 			{
 				SqlConnection cn = null;
 				if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
-				SqlCommand cm = new SqlCommand("UPDATE_PRODUCT", cn);
+				SqlCommand cm = new SqlCommand("UPDATE_PRODUCTPRICEHISTORY", cn);
 				int intReturnValue = -1;
 
-				SetParameter(ref cm, "@Product_ID", p.Product_ID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
-				SetParameter(ref cm, "@Product_Name", p.Product_Name, SqlDbType.VarChar);
-				SetParameter(ref cm, "@Product_Desc", p.Product_Desc, SqlDbType.VarChar);
-				SetParameter(ref cm, "@Category_ID", p.intCategoryID, SqlDbType.Int);
+				SetParameter(ref cm, "@PPHID", pph.ProductPriceHistoryID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
+				SetParameter(ref cm, "@Product_Name", pph.ProductName, SqlDbType.VarChar);
+				SetParameter(ref cm, "@PurchaseDate", pph.PurchaseDate, SqlDbType.DateTime);
+				SetParameter(ref cm, "@CostPerUnit", pph.CostPerUnit, SqlDbType.Money);
+				SetParameter(ref cm, "@PurchaseAmt", pph.PurchaseAmt, SqlDbType.Int);
+				SetParameter(ref cm, "@UserID", pph.UserID, SqlDbType.Int);
+				SetParameter(ref cm, "@SupplierID", pph.SupplierID, SqlDbType.Int);
 
 				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.Int, Direction: ParameterDirection.ReturnValue);
 
@@ -283,9 +289,9 @@ namespace SmartStock.Models
 				switch (intReturnValue)
 				{
 					case 1: //new updated
-						return Product.ActionTypes.UpdateSuccessful;
+						return ProductPriceHistory.ActionTypes.UpdateSuccessful;
 					default:
-						return Product.ActionTypes.Unknown;
+						return ProductPriceHistory.ActionTypes.Unknown;
 				}
 			}
 			catch (Exception ex) { throw new Exception(ex.Message); }
@@ -301,10 +307,10 @@ namespace SmartStock.Models
 				int intReturnValue = -1;
 
 				SetParameter(ref cm, "@InventoryID", i.InventoryID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
-				SetParameter(ref cm, "@ProductID", i.ProductID, SqlDbType.Int);
-				SetParameter(ref cm, "@UnitsPerCase", i.UnitsPerCase, SqlDbType.Int);
-				SetParameter(ref cm, "@Cases", i.Cases, SqlDbType.Int);
-				SetParameter(ref cm, "@StatusID", i.StatusID, SqlDbType.Int);
+				SetParameter(ref cm, "@ProductName", i.ProductName, SqlDbType.VarChar);
+				SetParameter(ref cm, "@InvCount", i.InvCount, SqlDbType.Int);
+				SetParameter(ref cm, "@Status", i.Status, SqlDbType.VarChar);
+				SetParameter(ref cm, "@CategoryID", i.CategoryID, SqlDbType.Int);
 				SetParameter(ref cm, "@ProductlocationID", i.ProductlocationID, SqlDbType.Int);
 
 				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.TinyInt, Direction: ParameterDirection.ReturnValue);
@@ -342,10 +348,10 @@ namespace SmartStock.Models
 				int intReturnValue = -1;
 
 				SetParameter(ref cm, "@InventoryID", i.InventoryID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
-				SetParameter(ref cm, "@ProductID", i.ProductID, SqlDbType.Int);
-				SetParameter(ref cm, "@UnitsPerCase", i.UnitsPerCase, SqlDbType.Int);
-				SetParameter(ref cm, "@Cases", i.Cases, SqlDbType.Int);
-				SetParameter(ref cm, "@StatusID", i.StatusID, SqlDbType.Int);
+				SetParameter(ref cm, "@ProductName", i.ProductName, SqlDbType.VarChar);
+				SetParameter(ref cm, "@InvCount", i.InvCount, SqlDbType.Int);
+				SetParameter(ref cm, "@Status", i.Status, SqlDbType.VarChar);
+				SetParameter(ref cm, "@CategoryID", i.CategoryID, SqlDbType.Int);
 				SetParameter(ref cm, "@ProductlocationID", i.ProductlocationID, SqlDbType.Int);
 
 				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.Int, Direction: ParameterDirection.ReturnValue);
