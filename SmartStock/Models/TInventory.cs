@@ -14,23 +14,14 @@ namespace SmartStock.Models
     
     public partial class TInventory
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TInventory()
-        {
-            this.TInventoryAdjustments = new HashSet<TInventoryAdjustment>();
-        }
-    
         public int intInventoryID { get; set; }
-        public int intProductID { get; set; }
-        public int intUnitsPerCase { get; set; }
-        public int intCases { get; set; }
-        public int intStatusID { get; set; }
+        public string strProductName { get; set; }
+        public int intInvCount { get; set; }
+        public string strStatus { get; set; }
+        public int intCategoryID { get; set; }
         public int intProductLocationID { get; set; }
     
-        public virtual TProduct TProduct { get; set; }
+        public virtual TCategory TCategory { get; set; }
         public virtual TProductLocation TProductLocation { get; set; }
-        public virtual TStatu TStatu { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TInventoryAdjustment> TInventoryAdjustments { get; set; }
     }
 }

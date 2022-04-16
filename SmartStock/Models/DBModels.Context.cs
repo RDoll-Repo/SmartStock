@@ -15,10 +15,10 @@ namespace SmartStock.Models
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class DBModels : DbContext
+    public partial class DBModel : DbContext
     {
-        public DBModels()
-            : base("name=DBModels")
+        public DBModel()
+            : base("name=DBModel")
         {
         }
     
@@ -27,60 +27,86 @@ namespace SmartStock.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<TAdjustment> TAdjustments { get; set; }
         public virtual DbSet<TCategory> TCategories { get; set; }
         public virtual DbSet<TInventory> TInventories { get; set; }
-        public virtual DbSet<TInventoryAdjustment> TInventoryAdjustments { get; set; }
-        public virtual DbSet<TOrder> TOrders { get; set; }
-        public virtual DbSet<TOrderProduct> TOrderProducts { get; set; }
-        public virtual DbSet<TPayment> TPayments { get; set; }
-        public virtual DbSet<TProduct> TProducts { get; set; }
         public virtual DbSet<TProductLocation> TProductLocations { get; set; }
+        public virtual DbSet<TProductPriceHistory> TProductPriceHistories { get; set; }
         public virtual DbSet<TRole> TRoles { get; set; }
-        public virtual DbSet<TStatu> TStatus { get; set; }
         public virtual DbSet<TSupplier> TSuppliers { get; set; }
         public virtual DbSet<TUser> TUsers { get; set; }
     
-        public virtual int INSERT_INVENTORY(ObjectParameter inventoryID, Nullable<int> productID, Nullable<int> unitsPerCase, Nullable<int> cases, Nullable<int> statusID, Nullable<int> productlocationID)
+        public virtual int DELETE_INVENTORY(ObjectParameter inventoryID)
         {
-            var productIDParameter = productID.HasValue ?
-                new ObjectParameter("ProductID", productID) :
-                new ObjectParameter("ProductID", typeof(int));
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DELETE_INVENTORY", inventoryID);
+        }
     
-            var unitsPerCaseParameter = unitsPerCase.HasValue ?
-                new ObjectParameter("UnitsPerCase", unitsPerCase) :
-                new ObjectParameter("UnitsPerCase", typeof(int));
+        public virtual int DELETE_PRODUCTPRICEHISTORY(ObjectParameter pPHID)
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DELETE_PRODUCTPRICEHISTORY", pPHID);
+        }
     
-            var casesParameter = cases.HasValue ?
-                new ObjectParameter("Cases", cases) :
-                new ObjectParameter("Cases", typeof(int));
+        public virtual int DELETE_SUPPLIER(ObjectParameter supplier_ID)
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DELETE_SUPPLIER", supplier_ID);
+        }
     
-            var statusIDParameter = statusID.HasValue ?
-                new ObjectParameter("StatusID", statusID) :
-                new ObjectParameter("StatusID", typeof(int));
+        public virtual int DELETE_USER(ObjectParameter user_ID)
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DELETE_USER", user_ID);
+        }
+    
+        public virtual int INSERT_INVENTORY(ObjectParameter inventoryID, string productName, Nullable<int> invCount, string status, Nullable<int> categoryID, Nullable<int> productlocationID)
+        {
+            var productNameParameter = productName != null ?
+                new ObjectParameter("ProductName", productName) :
+                new ObjectParameter("ProductName", typeof(string));
+    
+            var invCountParameter = invCount.HasValue ?
+                new ObjectParameter("InvCount", invCount) :
+                new ObjectParameter("InvCount", typeof(int));
+    
+            var statusParameter = status != null ?
+                new ObjectParameter("Status", status) :
+                new ObjectParameter("Status", typeof(string));
+    
+            var categoryIDParameter = categoryID.HasValue ?
+                new ObjectParameter("CategoryID", categoryID) :
+                new ObjectParameter("CategoryID", typeof(int));
     
             var productlocationIDParameter = productlocationID.HasValue ?
                 new ObjectParameter("ProductlocationID", productlocationID) :
                 new ObjectParameter("ProductlocationID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("INSERT_INVENTORY", inventoryID, productIDParameter, unitsPerCaseParameter, casesParameter, statusIDParameter, productlocationIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("INSERT_INVENTORY", inventoryID, productNameParameter, invCountParameter, statusParameter, categoryIDParameter, productlocationIDParameter);
         }
     
-        public virtual int INSERT_PRODUCT(ObjectParameter product_ID, string product_Name, string product_Desc, Nullable<int> category_ID)
+        public virtual int INSERT_PRODUCTPRICEHISTORY(ObjectParameter pPHID, string productName, Nullable<System.DateTime> purchaseDate, Nullable<decimal> costPerUnit, Nullable<int> purchaseAmt, Nullable<int> userID, Nullable<int> supplierID)
         {
-            var product_NameParameter = product_Name != null ?
-                new ObjectParameter("Product_Name", product_Name) :
-                new ObjectParameter("Product_Name", typeof(string));
+            var productNameParameter = productName != null ?
+                new ObjectParameter("ProductName", productName) :
+                new ObjectParameter("ProductName", typeof(string));
     
-            var product_DescParameter = product_Desc != null ?
-                new ObjectParameter("Product_Desc", product_Desc) :
-                new ObjectParameter("Product_Desc", typeof(string));
+            var purchaseDateParameter = purchaseDate.HasValue ?
+                new ObjectParameter("PurchaseDate", purchaseDate) :
+                new ObjectParameter("PurchaseDate", typeof(System.DateTime));
     
-            var category_IDParameter = category_ID.HasValue ?
-                new ObjectParameter("Category_ID", category_ID) :
-                new ObjectParameter("Category_ID", typeof(int));
+            var costPerUnitParameter = costPerUnit.HasValue ?
+                new ObjectParameter("CostPerUnit", costPerUnit) :
+                new ObjectParameter("CostPerUnit", typeof(decimal));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("INSERT_PRODUCT", product_ID, product_NameParameter, product_DescParameter, category_IDParameter);
+            var purchaseAmtParameter = purchaseAmt.HasValue ?
+                new ObjectParameter("PurchaseAmt", purchaseAmt) :
+                new ObjectParameter("PurchaseAmt", typeof(int));
+    
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var supplierIDParameter = supplierID.HasValue ?
+                new ObjectParameter("SupplierID", supplierID) :
+                new ObjectParameter("SupplierID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("INSERT_PRODUCTPRICEHISTORY", pPHID, productNameParameter, purchaseDateParameter, costPerUnitParameter, purchaseAmtParameter, userIDParameter, supplierIDParameter);
         }
     
         public virtual int INSERT_SUPPLIER(ObjectParameter supplier_ID, string company_Name, string contact_FirstName, string contact_LastName, string contact_PhoneNumber, string contact_Email, string contact_Address1, string contact_Zip, string uRL, string notes, string contact_State)
@@ -174,13 +200,22 @@ namespace SmartStock.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<LOGIN_Result>("LOGIN", user_NameParameter, passwordParameter);
         }
     
-        public virtual ObjectResult<SELECT_PRODUCT_Result> SELECT_PRODUCT(Nullable<long> product_ID)
+        public virtual ObjectResult<SELECT_INVENTORY_Result> SELECT_INVENTORY(Nullable<long> inventoryID)
         {
-            var product_IDParameter = product_ID.HasValue ?
-                new ObjectParameter("Product_ID", product_ID) :
-                new ObjectParameter("Product_ID", typeof(long));
+            var inventoryIDParameter = inventoryID.HasValue ?
+                new ObjectParameter("InventoryID", inventoryID) :
+                new ObjectParameter("InventoryID", typeof(long));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SELECT_PRODUCT_Result>("SELECT_PRODUCT", product_IDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SELECT_INVENTORY_Result>("SELECT_INVENTORY", inventoryIDParameter);
+        }
+    
+        public virtual ObjectResult<SELECT_PRODUCTPRICEHISTORY_Result> SELECT_PRODUCTPRICEHISTORY(Nullable<long> pPHID)
+        {
+            var pPHIDParameter = pPHID.HasValue ?
+                new ObjectParameter("PPHID", pPHID) :
+                new ObjectParameter("PPHID", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SELECT_PRODUCTPRICEHISTORY_Result>("SELECT_PRODUCTPRICEHISTORY", pPHIDParameter);
         }
     
         public virtual ObjectResult<SELECT_SUPPLIER_Result> SELECT_SUPPLIER(Nullable<long> supplier_ID)
@@ -201,21 +236,58 @@ namespace SmartStock.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SELECT_USER_Result>("SELECT_USER", user_IDParameter);
         }
     
-        public virtual int UPDATE_PRODUCT(ObjectParameter product_ID, string product_Name, string product_Desc, Nullable<int> category_ID)
+        public virtual int UPDATE_INVENTORY(ObjectParameter inventoryID, string productName, Nullable<int> invCount, string status, Nullable<int> categoryID, Nullable<int> productlocationID)
         {
-            var product_NameParameter = product_Name != null ?
-                new ObjectParameter("Product_Name", product_Name) :
-                new ObjectParameter("Product_Name", typeof(string));
+            var productNameParameter = productName != null ?
+                new ObjectParameter("ProductName", productName) :
+                new ObjectParameter("ProductName", typeof(string));
     
-            var product_DescParameter = product_Desc != null ?
-                new ObjectParameter("Product_Desc", product_Desc) :
-                new ObjectParameter("Product_Desc", typeof(string));
+            var invCountParameter = invCount.HasValue ?
+                new ObjectParameter("InvCount", invCount) :
+                new ObjectParameter("InvCount", typeof(int));
     
-            var category_IDParameter = category_ID.HasValue ?
-                new ObjectParameter("Category_ID", category_ID) :
-                new ObjectParameter("Category_ID", typeof(int));
+            var statusParameter = status != null ?
+                new ObjectParameter("Status", status) :
+                new ObjectParameter("Status", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UPDATE_PRODUCT", product_ID, product_NameParameter, product_DescParameter, category_IDParameter);
+            var categoryIDParameter = categoryID.HasValue ?
+                new ObjectParameter("CategoryID", categoryID) :
+                new ObjectParameter("CategoryID", typeof(int));
+    
+            var productlocationIDParameter = productlocationID.HasValue ?
+                new ObjectParameter("ProductlocationID", productlocationID) :
+                new ObjectParameter("ProductlocationID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UPDATE_INVENTORY", inventoryID, productNameParameter, invCountParameter, statusParameter, categoryIDParameter, productlocationIDParameter);
+        }
+    
+        public virtual int UPDATE_PRODUCTPRICEHISTORY(ObjectParameter pPHID, string productName, Nullable<System.DateTime> purchaseDate, Nullable<decimal> costPerUnit, Nullable<int> purchaseAmt, Nullable<int> userID, Nullable<int> supplierID)
+        {
+            var productNameParameter = productName != null ?
+                new ObjectParameter("ProductName", productName) :
+                new ObjectParameter("ProductName", typeof(string));
+    
+            var purchaseDateParameter = purchaseDate.HasValue ?
+                new ObjectParameter("PurchaseDate", purchaseDate) :
+                new ObjectParameter("PurchaseDate", typeof(System.DateTime));
+    
+            var costPerUnitParameter = costPerUnit.HasValue ?
+                new ObjectParameter("CostPerUnit", costPerUnit) :
+                new ObjectParameter("CostPerUnit", typeof(decimal));
+    
+            var purchaseAmtParameter = purchaseAmt.HasValue ?
+                new ObjectParameter("PurchaseAmt", purchaseAmt) :
+                new ObjectParameter("PurchaseAmt", typeof(int));
+    
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var supplierIDParameter = supplierID.HasValue ?
+                new ObjectParameter("SupplierID", supplierID) :
+                new ObjectParameter("SupplierID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UPDATE_PRODUCTPRICEHISTORY", pPHID, productNameParameter, purchaseDateParameter, costPerUnitParameter, purchaseAmtParameter, userIDParameter, supplierIDParameter);
         }
     
         public virtual int UPDATE_SUPPLIER(ObjectParameter supplier_ID, string company_Name, string contact_FirstName, string contact_LastName, string contact_PhoneNumber, string contact_Email, string contact_Address1, string contact_Zip, string uRL, string notes, string contact_State)

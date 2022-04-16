@@ -2,7 +2,7 @@
 @using (Html.BeginForm(FormMethod.Post))
 {
 <div class="center-up">
-	<form action="InitializeInventory">
+	<form action="signup">
         <table>
             <tr>
                 <td colspan="2" style="text-align: center;">
@@ -57,28 +57,7 @@
                     @Html.TextBoxFor(Model => Model.Password)
                 </td>
             </tr>
-            @*<tr>
-            <td class="table-label">
-                @Html.LabelFor(Model => Model.Password, "Confirm Password: ")
-            </td>
-            <td colspan="2">
-                @Html.TextBoxFor(Model => Model.Password)
-            </td>
-        </tr>*@
-
-            @*This will allow the user to select from a role drop down, there will be owner, manager, and employee*@
-            @*<tr>
-                <td class="table-label">
-                    @Html.LabelFor(Model => Model.Role_ID, "Role: ")
-                </td>
-                <td colspan="2">
-                    @Html.TextBoxFor(Model => ((int)Model.Role_ID))
-                </td>
-            </tr>*@
             <tr>
-            @*<td class="table-label">
-            @Html.LabelFor("rolename", "Role: ")*@
-            @*</td>*@
                 <td colspan="2">
                     @Html.DropDownList("rolename", "Select a Role")
                 </td>

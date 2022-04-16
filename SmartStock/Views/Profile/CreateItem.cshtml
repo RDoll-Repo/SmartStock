@@ -1,44 +1,64 @@
-﻿
-@{
-    ViewBag.Title = "CreateItem";
-}
-
-<div class="CreateItem">
-
-    <h1>Add Item</h1>
-
-    <div class="item">
-        <form action="AddItem">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name"><br><br>
-
-            <label for="category">Category:</label>
-            <input type="text" id="category" name="category"><br><br>
-
-            <label for="location">Location:</label>
-            <input type="text" id="location" name="location"><br><br>
-
-            <label for="price">Price:</label>
-            <input type="text" id="price" name="price"><br><br>
-
-            <label for="inventory">Inventory:</label>
-            <input type="text" id="inventory" name="inventory"><br><br>
-
-            <label for="unitMeasurement">Unit/Measurement:</label>
-            <input type="text" id="unitMesaurement" name="unitMeasurement"><br><br>
-
-            <label for="supplier">Supplier:</label>
-            <input type="text" id="supplier" name="supplier"><br><br>
-
+﻿@model SmartStock.Models.Inventory
+@*@model IEnumerable<SmartStock.Models.TInventory>*@
+@using (Html.BeginForm(FormMethod.Post))
+{
+    <div class="center-up">
+        <form action="initInventory">
+            <table>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <h1>Initialize Inventory</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.TextBoxFor(model => model.ProductName, new { @placeholder = "Item Name" })
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        @Html.DropDownList("catagoryName", "Select a Catagory")
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        @Html.DropDownList("location", "Select a Location")
+                    </td>
+                    <td colspan="2">
+                        @Html.TextBoxFor(model => model.InvCount, new { @placeholder = "Added Amount" })
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.TextBoxFor(model => model.Status, new { @placeholder = "Status" })
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.TextBoxFor(model => model.CostPerUnit, new { @placeholder = "Cost" })
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.TextBoxFor(model => model.PurchaseAmt, new { @placeholder = "Amount" })
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        @Html.DropDownList("user", "Current User")
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        @Html.DropDownList("supplier", "Select a Supplier")
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <button id="btnAddProduct" name="btnSubmit" value="addproduct" class="button-action"><i class="fas fa-user-plus"></i> Add-Item</button>
+                    </td>
+                </tr>
+            </table>
         </form>
-
-        <form action="Inventory">
-        <input type="submit" value="Cancel" />
-        </form>
-
-        <form action="Inventory">
-            <input type="submit" value="Submit" />
-        </form>
-
     </div>
-</div>
+}

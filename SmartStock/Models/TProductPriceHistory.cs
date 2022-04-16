@@ -10,12 +10,19 @@
 namespace SmartStock.Models
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class SELECT_PRODUCT_Result
+    public partial class TProductPriceHistory
     {
-        public int intProductID { get; set; }
+        public int intProductPriceHistoryID { get; set; }
         public string strProductName { get; set; }
-        public string strProductDesc { get; set; }
-        public int intCategoryID { get; set; }
+        public System.DateTime dtmPurchaseDate { get; set; }
+        public decimal monCostPerUnit { get; set; }
+        public int intPurchaseAmt { get; set; }
+        public int intUserID { get; set; }
+        public int intSupplierID { get; set; }
+    
+        public virtual TSupplier TSupplier { get; set; }
+        public virtual TUser TUser { get; set; }
     }
 }

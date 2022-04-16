@@ -10,19 +10,14 @@
 namespace SmartStock.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class TInventoryAdjustment
+    public partial class SELECT_INVENTORY_Result
     {
-        public int intInventoryAdjustmentID { get; set; }
         public int intInventoryID { get; set; }
-        public int intAdjustmentID { get; set; }
-        public int intUserID { get; set; }
-        public int intProductID { get; set; }
-    
-        public virtual TAdjustment TAdjustment { get; set; }
-        public virtual TInventory TInventory { get; set; }
-        public virtual TProduct TProduct { get; set; }
-        public virtual TUser TUser { get; set; }
+        public string strProductName { get; set; }
+        public int intInvCount { get; set; }
+        public string strStatus { get; set; }
+        public int intCategoryID { get; set; }
+        public int intProductLocationID { get; set; }
     }
 }

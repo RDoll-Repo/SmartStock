@@ -9,19 +9,19 @@ namespace SmartStock.Models
     public class Inventory
     {
         public string Product_Name { get; set; }
-        public string Product_Desc { get; set; }
+        public string PurchaseDate { get; set; }
 
-        //public int catagoryName { get; set; }
-        public int UnitsPerCase { get; set; }
-        public int Cases { get; set; }
-        public int StatusID { get; set; }
+        public decimal CostPerUnit { get; set; }
+        public int PurchaseAmt { get; set; }
+        public int UserID { get; set; }
+        public int SupplierID { get; set; }
+
 
         public long InventoryID = 0;
-        public int ProductID = 0;
-       // public int UnitsPerCase = 0;
-        public int intCategoryID = 0;
-      //  public int Cases = 0;
-       // public int StatusID = 0;
+        public string ProductName = string.Empty;
+        public int InvCount = 0;
+        public string Status = string.Empty;
+        public int CategoryID = 0;
         public int ProductlocationID = 0;
         public ActionTypes ActionType = ActionTypes.NoType;
 
@@ -62,17 +62,17 @@ namespace SmartStock.Models
             catch (Exception ex) { throw new Exception(ex.Message); }
         }
 
-        public Product GetInventorySession()
+        public Inventory GetInventorySession()
         {
             try
             {
-                Product p = new Product();
+                Inventory i = new Inventory();
                 if (HttpContext.Current.Session["CurrentInventory"] == null)
                 {
-                    return p;
+                    return i;
                 }
-                p = (Product)HttpContext.Current.Session["CurrentInventory"];
-                return p;
+                i = (Inventory)HttpContext.Current.Session["CurrentInventory"];
+                return i;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
         }

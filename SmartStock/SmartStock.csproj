@@ -156,8 +156,11 @@
     <Compile Include="Models\LOGIN_Result.cs">
       <DependentUpon>DBModels.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Product.cs" />
-    <Compile Include="Models\SELECT_PRODUCT_Result.cs">
+    <Compile Include="Models\ProductPriceHistory.cs" />
+    <Compile Include="Models\SELECT_INVENTORY_Result.cs">
+      <DependentUpon>DBModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SELECT_PRODUCTPRICEHISTORY_Result.cs">
       <DependentUpon>DBModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SELECT_SUPPLIER_Result.cs">
@@ -167,37 +170,19 @@
       <DependentUpon>DBModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Supplier.cs" />
-    <Compile Include="Models\TAdjustment.cs">
-      <DependentUpon>DBModels.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TCategory.cs">
       <DependentUpon>DBModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TInventory.cs">
       <DependentUpon>DBModels.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\TInventoryAdjustment.cs">
-      <DependentUpon>DBModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TOrder.cs">
-      <DependentUpon>DBModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TOrderProduct.cs">
-      <DependentUpon>DBModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TPayment.cs">
-      <DependentUpon>DBModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TProduct.cs">
-      <DependentUpon>DBModels.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TProductLocation.cs">
       <DependentUpon>DBModels.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\TRole.cs">
+    <Compile Include="Models\TProductPriceHistory.cs">
       <DependentUpon>DBModels.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\TStatu.cs">
+    <Compile Include="Models\TRole.cs">
       <DependentUpon>DBModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TSupplier.cs">
@@ -279,7 +264,7 @@
     <Content Include="Views\Profile\CreateSupplier.cshtml" />
     <Content Include="Views\Profile\EditUser.cshtml" />
     <Content Include="Views\Profile\Dashboard.cshtml" />
-    <Content Include="Views\Profile\InventoryAdjustment.cshtml" />
+    <Content Include="Views\Profile\PurchaseLog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
