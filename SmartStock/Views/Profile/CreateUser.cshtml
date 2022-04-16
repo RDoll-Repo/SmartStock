@@ -1,79 +1,74 @@
-﻿
-@{
-    ViewBag.Title = "CreateUser";
+﻿@model SmartStock.Models.User
+@using (Html.BeginForm(FormMethod.Post))
+{
+    <div class="center-up">
+        <form action="addUser">
+            <table>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <h1>Add User</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(Model => Model.First_Name, "First Name:")
+                    </td>
+                    <td colspan="2">
+                        @Html.TextBoxFor(Model => Model.First_Name, new { @autofocus = "autofocus" })
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(Model => Model.Last_Name, "Last Name:")
+                    </td>
+                    <td colspan="2">
+                        @Html.TextBoxFor(Model => Model.Last_Name)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(Model => Model.Email, "Email:")
+                    </td>
+                    <td colspan="2">
+                        @Html.TextBoxFor(Model => Model.Email)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(Model => Model.Phone_Number, "Phone Number")
+                    </td>
+                    <td colspan="2">
+                        @Html.TextBoxFor(Model => Model.Phone_Number)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(Model => Model.User_Name, "Username: ")
+                    </td>
+                    <td colspan="2">
+                        @Html.TextBoxFor(Model => Model.User_Name)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(Model => Model.Password, "Password: ")
+                    </td>
+                    <td colspan="2">
+                        @Html.TextBoxFor(Model => Model.Password)
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        @Html.DropDownList("rolename", "Select a Role")
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <button id="btnAddUser" name="btnSubmit" value="adduser" class="button-action"><i class="fas fa-user-plus"></i> Add-Item</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
 }
-@model SmartStock.Models.User
-
-<h1>Create User</h1>
-
-<div class="item">
-    <div>
-        @Html.LabelFor(Model => Model.First_Name)
-        @Html.TextBoxFor(Model => Model.First_Name)
-    </div>
-</div>
-
-<div class="item">
-    <div>
-        @Html.LabelFor(Model => Model.Last_Name)
-        @Html.TextBoxFor(Model => Model.Last_Name)
-    </div>
-</div>
-
-<div class="item">
-    <div>
-        @Html.LabelFor(Model => Model.Role_ID)
-        @Html.TextBoxFor(Model => Model.Role_ID)
-    </div>
-</div>
-
-<div class="item">
-    <div>
-        @Html.LabelFor(Model => Model.Phone_Number)
-        @Html.TextBoxFor(Model => Model.Phone_Number)
-    </div>
-</div>
-
-<div class="item">
-    <div>
-        @Html.LabelFor(Model => Model.Address_1)
-        @Html.TextBoxFor(Model => Model.Address_1)
-    </div>
-</div>
-
-<div class="item">
-    <div>
-        @Html.LabelFor(Model => Model.Zip)
-        @Html.TextBoxFor(Model => Model.Zip)
-    </div>
-</div>
-
-<div class="item">
-    <div>
-        @Html.LabelFor(Model => Model.User_Name)
-        @Html.TextBoxFor(Model => Model.User_Name)
-    </div>
-</div>
-
-<div class="item">
-    <div>
-        @Html.LabelFor(Model => Model.Password)
-        @Html.TextBoxFor(Model => Model.Password)
-    </div>
-</div>
-
-<!--Confirm Password-->
-<div class="item">
-    <div>
-        @Html.LabelFor(Model => Model.Password)
-        @Html.TextBoxFor(Model => Model.Password)
-    </div>
-</div>
-
-<form action="Users">
-    <input type="submit" value="Submit" />
-</form>
-
-<form action="Users">
-    <input type="submit" value="Cancel" />
-</form>

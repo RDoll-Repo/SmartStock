@@ -28,36 +28,43 @@
         <th>
             @Html.DisplayNameFor(Model => Model.intRoleID)
         </th>
-        <th></th>
+        <th>
+            <form action="CreateUser">
+                <input type="submit" value="+" />
+            </form>
+        </th>
 
     </tr>
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.strFirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.strLastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.strPhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.strEmail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.strUserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.userPassword)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.intRoleID)
-            </td>
-
-        </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.strFirstName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.strLastName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.strPhoneNumber)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.strEmail)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.strUserName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.userPassword)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.intRoleID)
+    </td>
+    <td>
+        <a href="#"><i class="glyphicon glyphicon-pencil"></i></a>
+        <a href="#"><i class="glyphicon glyphicon-trash"></i></a>
+    </td>
+</tr>
     }
 </table>
 
