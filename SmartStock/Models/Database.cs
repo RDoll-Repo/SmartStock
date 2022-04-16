@@ -51,6 +51,8 @@ namespace SmartStock.Models
 			catch (Exception ex) { throw new Exception(ex.Message); }
 		}
 
+
+
 		public User Login(User u)
 		{
 			try
@@ -131,7 +133,34 @@ namespace SmartStock.Models
 			catch (Exception ex) { throw new Exception(ex.Message); }
 		}
 
-	
+		public User.ActionTypes DeleteUser(User u)
+		{
+			try
+			{
+				SqlConnection cn = null;
+				if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
+				SqlCommand cm = new SqlCommand("DELETE_INVENTORY", cn);
+				int intReturnValue = -1;
+
+				SetParameter(ref cm, "@InventoryID", u.User_ID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
+
+				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.Int, Direction: ParameterDirection.ReturnValue);
+
+				cm.ExecuteReader();
+
+				intReturnValue = (int)cm.Parameters["ReturnValue"].Value;
+				CloseDBConnection(ref cn);
+
+				switch (intReturnValue)
+				{
+					case 1: //new updated
+						return User.ActionTypes.DeleteSuccessful;
+					default:
+						return User.ActionTypes.Unknown;
+				}
+			}
+			catch (Exception ex) { throw new Exception(ex.Message); }
+		}
 
 		public Supplier.ActionTypes InsertSupplier(Supplier s)
 		{
@@ -189,7 +218,7 @@ namespace SmartStock.Models
 				SqlCommand cm = new SqlCommand("UPDATE_SUPPLIER", cn);
 				int intReturnValue = -1;
 
-				SetParameter(ref cm, "@Supplier_ID", s.Supplier_ID, SqlDbType.Int, Direction: ParameterDirection.Output);
+				SetParameter(ref cm, "@Supplier_ID", s.Supplier_ID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
 				SetParameter(ref cm, "@Company_Name", s.Company_Name, SqlDbType.VarChar);
 				SetParameter(ref cm, "@Contact_FirstName", s.Contact_FirstName, SqlDbType.VarChar);
 				SetParameter(ref cm, "@Contact_LastName", s.Contact_LastName, SqlDbType.VarChar);
@@ -219,6 +248,34 @@ namespace SmartStock.Models
 			catch (Exception ex) { throw new Exception(ex.Message); }
 		}
 
+		public Supplier.ActionTypes DeleteSupplier(Supplier s)
+		{
+			try
+			{
+				SqlConnection cn = null;
+				if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
+				SqlCommand cm = new SqlCommand("DELETE_INVENTORY", cn);
+				int intReturnValue = -1;
+
+				SetParameter(ref cm, "@InventoryID", s.Supplier_ID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
+
+				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.Int, Direction: ParameterDirection.ReturnValue);
+
+				cm.ExecuteReader();
+
+				intReturnValue = (int)cm.Parameters["ReturnValue"].Value;
+				CloseDBConnection(ref cn);
+
+				switch (intReturnValue)
+				{
+					case 1: //new updated
+						return Supplier.ActionTypes.DeleteSuccessful;
+					default:
+						return Supplier.ActionTypes.Unknown;
+				}
+			}
+			catch (Exception ex) { throw new Exception(ex.Message); }
+		}
 
 		public ProductPriceHistory.ActionTypes InsertProductPrice(ProductPriceHistory pph)
 		{
@@ -230,7 +287,7 @@ namespace SmartStock.Models
 				int intReturnValue = -1;
 
 				SetParameter(ref cm, "@PPHID", pph.ProductPriceHistoryID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
-				SetParameter(ref cm, "@Product_Name", pph.ProductName, SqlDbType.VarChar);
+				SetParameter(ref cm, "@ProductName", pph.ProductName, SqlDbType.VarChar);
 				SetParameter(ref cm, "@PurchaseDate", pph.PurchaseDate, SqlDbType.DateTime);
 				SetParameter(ref cm, "@CostPerUnit", pph.CostPerUnit, SqlDbType.Money);
 				SetParameter(ref cm, "@PurchaseAmt", pph.PurchaseAmt, SqlDbType.Int);
@@ -290,6 +347,35 @@ namespace SmartStock.Models
 				{
 					case 1: //new updated
 						return ProductPriceHistory.ActionTypes.UpdateSuccessful;
+					default:
+						return ProductPriceHistory.ActionTypes.Unknown;
+				}
+			}
+			catch (Exception ex) { throw new Exception(ex.Message); }
+		}
+
+		public ProductPriceHistory.ActionTypes DeleteProductPrice(ProductPriceHistory pph)
+		{
+			try
+			{
+				SqlConnection cn = null;
+				if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
+				SqlCommand cm = new SqlCommand("DELETE_INVENTORY", cn);
+				int intReturnValue = -1;
+
+				SetParameter(ref cm, "@InventoryID", pph.ProductPriceHistoryID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
+
+				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.Int, Direction: ParameterDirection.ReturnValue);
+
+				cm.ExecuteReader();
+
+				intReturnValue = (int)cm.Parameters["ReturnValue"].Value;
+				CloseDBConnection(ref cn);
+
+				switch (intReturnValue)
+				{
+					case 1: //new updated
+						return ProductPriceHistory.ActionTypes.DeleteSuccessful;
 					default:
 						return ProductPriceHistory.ActionTypes.Unknown;
 				}
@@ -372,6 +458,34 @@ namespace SmartStock.Models
 			catch (Exception ex) { throw new Exception(ex.Message); }
 		}
 
+		public Inventory.ActionTypes DeleteInventory(Inventory i)
+		{
+			try
+			{
+				SqlConnection cn = null;
+				if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
+				SqlCommand cm = new SqlCommand("DELETE_INVENTORY", cn);
+				int intReturnValue = -1;
+
+				SetParameter(ref cm, "@InventoryID", i.InventoryID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
+
+				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.Int, Direction: ParameterDirection.ReturnValue);
+
+				cm.ExecuteReader();
+
+				intReturnValue = (int)cm.Parameters["ReturnValue"].Value;
+				CloseDBConnection(ref cn);
+
+				switch (intReturnValue)
+				{
+					case 1: //new updated
+						return Inventory.ActionTypes.DeleteSuccessful;
+					default:
+						return Inventory.ActionTypes.Unknown;
+				}
+			}
+			catch (Exception ex) { throw new Exception(ex.Message); }
+		}
 		private bool GetDBConnection(ref SqlConnection SQLConn)
 		{
 			try

@@ -7,7 +7,7 @@
             <table>
                 <tr>
                     <td colspan="2" style="text-align: center;">
-                        <h1>Initialize Inventory</h1>
+                        <h1>Add Inventory</h1>
                     </td>
                 </tr>
                 <tr>
@@ -35,12 +35,7 @@
                 </tr>
                 <tr>
                     <td class="table-label">
-                        @Html.TextBoxFor(model => model.CostPerUnit, new { @placeholder = "Cost" })
-                    </td>
-                </tr>
-                <tr>
-                    <td class="table-label">
-                        @Html.TextBoxFor(model => model.PurchaseAmt, new { @placeholder = "Amount" })
+                        @Html.TextBoxFor(model => model.CostPerUnit, new { @placeholder = "Cost Per Unit" })
                     </td>
                 </tr>
                 <tr>

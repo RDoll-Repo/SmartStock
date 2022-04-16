@@ -110,11 +110,17 @@ namespace SmartStock.Controllers
 			return View();
 		}
 
-        public ActionResult Inventory()
+		public ActionResult Inventory()
 		{
-			ViewBag.Message = "Inventory";
+			return View(GetAllInventory());
+		}
+		IEnumerable<TInventory> GetAllInventory()
+		{
+			using (DBModel db = new DBModel())
+			{
+				return db.TInventories.ToList<TInventory>();
+			}
 
-			return View();
 		}
 
 		public ActionResult SingleItem()
@@ -189,42 +195,51 @@ namespace SmartStock.Controllers
 				i.Status = col["Status"];
 				i.CategoryID = Convert.ToInt32(col["catagoryName"]);
 				i.ProductlocationID = Convert.ToInt32(col["location"]);
+				pph.ProductName = col["ProductName"];
 				pph.CostPerUnit = Convert.ToDecimal(col["CostPerUnit"]);
-				pph.PurchaseAmt = Convert.ToInt32(col["PurchaseAmt"]);
+				pph.PurchaseAmt = Convert.ToInt32(col["InvCount"]);
 				pph.UserID = Convert.ToInt32(col["user"]);
 				pph.SupplierID = Convert.ToInt32(col["supplier"]);
 
-				if (col["btnSubmit"] == "addItem")
-				{ //sign up button pressed
-				  // create if/else statement to determine if they are a new business signing up or a manager/employee signingup
-				  // if owner, prompt to initialize stock
-				  // if manager/employee, allow signup via
 
-					if (i.ProductName.Length == 0 || i.InvCount == 0 || i.Status.Length == 0 || i.CategoryID == 0 || i.ProductlocationID == 0 || pph.CostPerUnit == 0 || pph.PurchaseAmt == 0 || pph.UserID == 0 || pph.SupplierID == 0)
-					{
-						i.ActionType = Models.Inventory.ActionTypes.RequiredFieldsMissing;
-						pph.ActionType = Models.ProductPriceHistory.ActionTypes.RequiredFieldsMissing;
-						return View();
-					}
-					else
-					{
+
+				if (i.ProductName.Length == 0 || i.InvCount == 0 || i.Status.Length == 0 || i.CategoryID == 0 || i.ProductlocationID == 0 || pph.CostPerUnit == 0 || pph.PurchaseAmt == 0 || pph.UserID == 0 || pph.SupplierID == 0)
+				{
+					i.ActionType = Models.Inventory.ActionTypes.RequiredFieldsMissing;
+					pph.ActionType = Models.ProductPriceHistory.ActionTypes.RequiredFieldsMissing;
+					return View(i);
+				}
+				else
+				{
+					if (col["btnSubmit"] == "addproduct")
+					{ //sign up button pressed
+					// create if/else statement to determine if they are a new business signing up or a manager/employee signingup
+					// if owner, prompt to initialize stock
+					// if manager/employee, allow signup via
 						pph.SaveProductPriceSession();
 						pph.Save();
 						i.SaveInventorySession();
 						i.Save();
-
 						return RedirectToAction("Inventory");
 					}
-
 				}
-
 				return View();
-
 			}
 			catch (Exception)
 			{
 				Models.Inventory i = new Models.Inventory();
 				return View();
+			}
+		}
+		public ActionResult PurchaseLog()
+		{
+			return View(GetAllPurchaseLog());
+		}
+		IEnumerable<TProductPriceHistory> GetAllPurchaseLog()
+		{
+			using (DBModel db = new DBModel())
+			{
+				return db.TProductPriceHistories.ToList<TProductPriceHistory>();
 			}
 		}
 
@@ -244,6 +259,17 @@ namespace SmartStock.Controllers
 
 		public ActionResult CreateUser()
 		{
+			//Create db context object here 
+			DBModel dbContext = new DBModel();
+			//Get the value from database and then set it to ViewBag to pass it View
+			IEnumerable<SelectListItem> items2 = dbContext.TRoles.Select(c => new SelectListItem
+			{
+				Value = c.intRoleID.ToString(),
+				Text = c.strRoleName
+
+			});
+			ViewBag.rolename = items2;
+			//return View();
 			Models.User u = new Models.User();
 			return View(u);
 		}
@@ -261,9 +287,9 @@ namespace SmartStock.Controllers
 				u.Email = col["Email"];
 				u.User_Name = col["User_Name"];
 				u.Password = col["Password"];
-				//u.Role_ID = col["Role_ID"];
+				u.Role_ID = Convert.ToInt32(col["rolename"]);
 
-				if (u.First_Name.Length == 0 || u.Last_Name.Length == 0 || u.Phone_Number.Length == 0 || u.Email.Length == 0 || u.User_Name.Length == 0 || u.Password.Length == 0)
+				if (u.First_Name.Length == 0 || u.Last_Name.Length == 0 || u.Phone_Number.Length == 0 || u.Email.Length == 0 || u.User_Name.Length == 0 || u.Password.Length == 0 || u.Role_ID == 0)
 				{
 					u.ActionType = Models.User.ActionTypes.RequiredFieldsMissing;
 					return View(u);
@@ -274,7 +300,7 @@ namespace SmartStock.Controllers
 					{ //sign up button pressed
 						u.Save();
 						u.SaveUserSession();
-						return RedirectToAction("Index");
+						return RedirectToAction("Users");
 					}
 					return View(u);
 				}

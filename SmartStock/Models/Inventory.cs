@@ -96,7 +96,8 @@ namespace SmartStock.Models
             DuplicateUserID = 4,
             Unknown = 5,
             RequiredFieldsMissing = 6,
-            LoginFailed = 7
+            LoginFailed = 7,
+            DeleteSuccessful = 8
         }
     }
 }
