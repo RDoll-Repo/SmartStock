@@ -10,16 +10,9 @@
 namespace SmartStock.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class TUser
+    public partial class SELECT_USER_Result
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TUser()
-        {
-            this.TProductPriceHistories = new HashSet<TProductPriceHistory>();
-        }
-    
         public int intUserID { get; set; }
         public string strFirstName { get; set; }
         public string strLastName { get; set; }
@@ -28,9 +21,5 @@ namespace SmartStock.Models
         public string strUserName { get; set; }
         public string userPassword { get; set; }
         public int intRoleID { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TProductPriceHistory> TProductPriceHistories { get; set; }
-        public virtual TRole TRole { get; set; }
     }
 }

@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using SmartStock.Models;
+using System.Data.SqlClient;
+using System.Configuration;
+using System.Data;
 
 namespace SmartStock.Controllers
 {
@@ -17,42 +20,7 @@ namespace SmartStock.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult SignUp(FormCollection col)
-		{
-			try
-			{
-				Models.User u = new Models.User();
-
-				u.First_Name = col["First_Name"];
-				u.Last_Name = col["Last_Name"];
-				u.Phone_Number = col["Phone_Number"];
-				u.Email = col["Email"];
-				u.User_Name = col["User_Name"];
-				u.Password = col["Password"];
-				//u.Role_ID = col["Role_ID"];
-
-				if (u.First_Name.Length == 0 || u.Last_Name.Length == 0 || u.Phone_Number.Length == 0 || u.Email.Length == 0 || u.User_Name.Length == 0 || u.Password.Length == 0)
-				{
-					u.ActionType = Models.User.ActionTypes.RequiredFieldsMissing;
-					return View(u);
-				}
-				else
-				{
-					if (col["btnSubmit"] == "signup")
-					{ //sign up button pressed
-						u.Save();
-						u.SaveUserSession();
-						return RedirectToAction("Index");
-					}
-					return View(u);
-				}
-			}
-			catch (Exception)
-			{
-				Models.User u = new Models.User();
-				return View(u);
-			}
-		}
+		
 
 		public ActionResult Index()
 		{
@@ -142,7 +110,7 @@ namespace SmartStock.Controllers
 			return View();
 		}
 
-		public ActionResult Inventory()
+        public ActionResult Inventory()
 		{
 			ViewBag.Message = "Inventory";
 
@@ -162,19 +130,102 @@ namespace SmartStock.Controllers
 
 			return View();
 		}
-
 		public ActionResult CreateItem()
 		{
-			ViewBag.Message = "CreateItem";
+			//Create db context object here 
+			DBModel dbContext = new DBModel();
+			//Get the value from database and then set it to ViewBag to pass it View
+			IEnumerable<SelectListItem> items3 = dbContext.TCategories.Select(g => new SelectListItem
+			{
+				Value = g.intCategoryID.ToString(),
+				Text = g.strCategory
 
+			});
+			ViewBag.catagoryName = items3;
+
+			IEnumerable<SelectListItem> items5 = dbContext.TProductLocations.Select(l => new SelectListItem
+			{
+				Value = l.intProductLocationID.ToString(),
+				Text = l.strLocation
+
+			});
+			ViewBag.location = items5;
+
+			IEnumerable<SelectListItem> items4 = dbContext.TUsers.Select(tu => new SelectListItem
+			{
+				Value = tu.intUserID.ToString(),
+				Text = tu.strFirstName
+
+			});
+			ViewBag.user = items4;
+
+			IEnumerable<SelectListItem> items2 = dbContext.TSuppliers.Select(s => new SelectListItem
+			{
+				Value = s.intSupplierID.ToString(),
+				Text = s.strCompanyName
+
+			});
+			ViewBag.supplier = items2;
+			//return View();
+			Models.Inventory i = new Models.Inventory();
+			Models.ProductPriceHistory pph = new Models.ProductPriceHistory();
 			return View();
 		}
 
-		public ActionResult InventoryAdjustment()
-		{
-			ViewBag.Message = "InventoryAdjustment";
 
-			return View();
+
+		[HttpPost] // when submit button pressed in signup:
+		public ActionResult CreateItem(FormCollection col, Inventory model)
+		{
+			try
+			{
+
+				Models.Inventory i = new Models.Inventory();
+				Models.ProductPriceHistory pph = new Models.ProductPriceHistory();
+
+
+				i.ProductName = col["ProductName"];
+				i.InvCount = Convert.ToInt32(col["InvCount"]);
+				i.Status = col["Status"];
+				i.CategoryID = Convert.ToInt32(col["catagoryName"]);
+				i.ProductlocationID = Convert.ToInt32(col["location"]);
+				pph.CostPerUnit = Convert.ToDecimal(col["CostPerUnit"]);
+				pph.PurchaseAmt = Convert.ToInt32(col["PurchaseAmt"]);
+				pph.UserID = Convert.ToInt32(col["user"]);
+				pph.SupplierID = Convert.ToInt32(col["supplier"]);
+
+				if (col["btnSubmit"] == "addItem")
+				{ //sign up button pressed
+				  // create if/else statement to determine if they are a new business signing up or a manager/employee signingup
+				  // if owner, prompt to initialize stock
+				  // if manager/employee, allow signup via
+
+					if (i.ProductName.Length == 0 || i.InvCount == 0 || i.Status.Length == 0 || i.CategoryID == 0 || i.ProductlocationID == 0 || pph.CostPerUnit == 0 || pph.PurchaseAmt == 0 || pph.UserID == 0 || pph.SupplierID == 0)
+					{
+						i.ActionType = Models.Inventory.ActionTypes.RequiredFieldsMissing;
+						pph.ActionType = Models.ProductPriceHistory.ActionTypes.RequiredFieldsMissing;
+						return View();
+					}
+					else
+					{
+						pph.SaveProductPriceSession();
+						pph.Save();
+						i.SaveInventorySession();
+						i.Save();
+
+						return RedirectToAction("Inventory");
+					}
+
+				}
+
+				return View();
+
+			}
+			catch (Exception)
+			{
+				Models.Inventory i = new Models.Inventory();
+				return View();
+			}
 		}
 
 		public ActionResult Users()
@@ -298,7 +349,7 @@ namespace SmartStock.Controllers
 					{ //sign up button pressed
 						s.Save();
 						s.SaveSupplierSession();
-						return RedirectToAction("Index");
+						return RedirectToAction("Suppliers");
 					}
 					return View(s);
 				}

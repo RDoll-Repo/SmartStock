@@ -10,16 +10,9 @@
 namespace SmartStock.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class TSupplier
+    public partial class SELECT_SUPPLIER_Result
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TSupplier()
-        {
-            this.TProductPriceHistories = new HashSet<TProductPriceHistory>();
-        }
-    
         public int intSupplierID { get; set; }
         public string strCompanyName { get; set; }
         public string strContactFirstName { get; set; }
@@ -31,8 +24,5 @@ namespace SmartStock.Models
         public string strURL { get; set; }
         public string strNotes { get; set; }
         public string strContactState { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TProductPriceHistory> TProductPriceHistories { get; set; }
     }
 }

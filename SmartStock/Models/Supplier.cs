@@ -9,16 +9,16 @@ namespace SmartStock.Models
     public class Supplier
     {
         public long Supplier_ID = 0;
-        public string @Company_Name = string.Empty;
-        public string @Contact_FirstName = string.Empty;
-        public string @Contact_LastName = string.Empty;
-        public string @Contact_PhoneNumber = string.Empty;
-        public string @Contact_Email = string.Empty;
-        public string @Contact_Address1 = string.Empty;
-        public string @Contact_Zip = string.Empty;
-        public string @URL = string.Empty;
-        public string @Notes = string.Empty;
-        public string @Contact_State = string.Empty;
+        public string Company_Name = string.Empty;
+        public string Contact_FirstName = string.Empty;
+        public string Contact_LastName = string.Empty;
+        public string Contact_PhoneNumber = string.Empty;
+        public string Contact_Email = string.Empty;
+        public string Contact_Address1 = string.Empty;
+        public string Contact_Zip = string.Empty;
+        public string URL = string.Empty;
+        public string Notes = string.Empty;
+        public string Contact_State = string.Empty;
         public ActionTypes ActionType = ActionTypes.NoType;
 
         public bool IsAuthenticated

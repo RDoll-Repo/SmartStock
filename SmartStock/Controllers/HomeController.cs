@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using SmartStock.Models;
+using System.Data.SqlClient;
+using System.Configuration;
+using System.Data;
 
 namespace SmartStock.Controllers
 {
@@ -75,17 +79,18 @@ namespace SmartStock.Controllers
 
         public ActionResult SignUp()
         {
-            // get data from data base to put into drop down
-            ////Create db context object here 
-            //Database db = new Database();
-            ////Get the value from database and then set it to ViewBag to pass it View
-            //IEnumerable<SelectListItem> items = db.Employees.Select(c => new SelectListItem {
-            //    Value = c.JobTitle,
-            //    Text = c.JobTitle
 
-            //});
-            //ViewBag.JobTitle = items;
+            //Create db context object here 
+            DBModel dbContext = new DBModel();
+            //Get the value from database and then set it to ViewBag to pass it View
+            IEnumerable<SelectListItem> items2 = dbContext.TRoles.Select(c => new SelectListItem
+            {
+                Value = c.intRoleID.ToString(),
+                Text = c.strRoleName
 
+            });
+            ViewBag.rolename = items2;
+            //return View();
             Models.User u = new Models.User();
             return View(u);
         }
@@ -101,9 +106,9 @@ namespace SmartStock.Controllers
                 u.Email = col["Email"];
                 u.User_Name = col["User_Name"];
                 u.Password = col["Password"];
-                //u.Role_ID = col["Role_ID"];
+                u.Role_ID = Convert.ToInt32(col["rolename"]);
 
-                if (u.First_Name.Length == 0 || u.Last_Name.Length == 0 || u.Phone_Number.Length == 0 || u.Email.Length == 0 || u.User_Name.Length == 0 || u.Password.Length == 0) {
+                if (u.First_Name.Length == 0 || u.Last_Name.Length == 0 || u.Phone_Number.Length == 0 || u.Email.Length == 0 || u.User_Name.Length == 0 || u.Password.Length == 0 || u.Role_ID == 0) {
                     u.ActionType = Models.User.ActionTypes.RequiredFieldsMissing;
                     return View(u);
                 }
@@ -112,9 +117,16 @@ namespace SmartStock.Controllers
                         // create if/else statement to determine if they are a new business signing up or a manager/employee signingup
                         // if owner, prompt to initialize stock
                         // if manager/employee, allow signup via
-                        u.Save();
                         u.SaveUserSession();
-                        return RedirectToAction("Index");
+                        if (u.Role_ID == 1)
+                        {
+                            return RedirectToAction("InitializeInventory");
+                        }
+                        else {
+                            u.Save();
+                            return RedirectToAction("Dashboard", "Profile");
+                        }
+                        
                     }
                     return View(u);
                 }
@@ -127,9 +139,83 @@ namespace SmartStock.Controllers
 
         public ActionResult InitializeInventory()
         {
-            ViewBag.Message = "Initialize Inventory";
-            return View();
+            //Create db context object here 
+            DBModel dbContext = new DBModel();
+            //Get the value from database and then set it to ViewBag to pass it View
+            IEnumerable<SelectListItem> items3 = dbContext.TCategories.Select(g => new SelectListItem
+            {
+                Value = g.intCategoryID.ToString(),
+                Text = g.strCategory
+
+            });
+            ViewBag.catagoryName = items3;
+
+            IEnumerable<SelectListItem> items5 = dbContext.TProductLocations.Select(l => new SelectListItem
+            {
+                Value = l.intProductLocationID.ToString(),
+                Text = l.strLocation
+
+            });
+            ViewBag.location = items5;
+            //return View();
+            Models.Inventory i = new Models.Inventory();
+            return View(i);
         }
+
+
+
+        [HttpPost] // when submit button pressed in signup:
+        public ActionResult InitializeInventory(FormCollection col, Inventory model)
+        {
+            try
+            {
+
+                Models.Inventory i = new Models.Inventory();
+                Models.User u = new Models.User();
+
+                if (col["btnFinishInit"] == "finishinit")
+                {
+                    u = u.GetUserSession();
+                    u.Save();
+                    return RedirectToAction("Dashboard", "Profile");
+                }
+
+                i.ProductName = col["ProductName"];
+                i.InvCount = Convert.ToInt32(col["InvCount"]);
+                i.Status = col["Status"];
+                i.CategoryID = Convert.ToInt32(col["catagoryName"]);
+                i.ProductlocationID = Convert.ToInt32(col["location"]);
+
+                    if (col["btnSubmit"] == "addproduct")
+                    { //sign up button pressed
+                      // create if/else statement to determine if they are a new business signing up or a manager/employee signingup
+                      // if owner, prompt to initialize stock
+                      // if manager/employee, allow signup via
+
+                        if (i.ProductName.Length == 0 || i.InvCount == 0 || i.Status.Length == 0 || i.CategoryID == 0 || i.ProductlocationID == 0)
+                        {
+                            i.ActionType = Models.Inventory.ActionTypes.RequiredFieldsMissing;
+                            return View(i);
+                        }
+                        else
+                        {
+                            i.SaveInventorySession();
+                            i.Save();
+                            InitializeInventory();
+                        }
+
+                    }
+                    
+                    return View();
+                
+            }
+            catch (Exception)
+            {
+                Models.Inventory i = new Models.Inventory();
+                return View();
+            }
+        }
+    
 
         public ActionResult InitializeEmployees()
         {

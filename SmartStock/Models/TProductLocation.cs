@@ -17,13 +17,13 @@ namespace SmartStock.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TProductLocation()
         {
-            this.TOrderProducts = new HashSet<TOrderProduct>();
+            this.TInventories = new HashSet<TInventory>();
         }
     
         public int intProductLocationID { get; set; }
         public string strLocation { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TOrderProduct> TOrderProducts { get; set; }
+        public virtual ICollection<TInventory> TInventories { get; set; }
     }
 }

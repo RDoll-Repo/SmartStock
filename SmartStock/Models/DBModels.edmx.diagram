@@ -4,31 +4,18 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="9e848a22884b4604ba6fc8402f8077fc" Name="Diagram1">
-        <EntityTypeShape EntityType="Model.TAdjustment" Width="1.5" PointX="5.25" PointY="8.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.TCategory" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.TInventory" Width="1.5" PointX="5.25" PointY="5.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.TInventoryAdjustment" Width="1.5" PointX="7.5" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.TOrder" Width="1.5" PointX="3" PointY="12.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.TOrderProduct" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.TPayment" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.TProduct" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.TProductLocation" Width="1.5" PointX="3" PointY="16" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.TRole" Width="1.5" PointX="1.5" PointY="19.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.TSupplier" Width="1.5" PointX="0.75" PointY="11.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.TUser" Width="1.5" PointX="0.75" PointY="15.125" IsExpanded="true" />
-        <AssociationConnector Association="Model.TInventoryAdjustment_TAdjustment_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.TProduct_TCategory_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.TInventory_TProduct_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.TInventoryAdjustment_TInventory_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.TInventoryAdjustment_TProduct_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.TInventoryAdjustment_TUser_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.TOrder_TPayment_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.TOrder_TSupplier_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.TOrder_TUser_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.TOrderProducts_TOrder_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.TOrderProducts_TProduct_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.TOrderProducts_TProductLocation_FK" ManuallyRouted="false" />
+      <Diagram DiagramId="35e176172f014b37af17ae5a9c6c585c" Name="Diagram1">
+        <EntityTypeShape EntityType="Model.TCategory" Width="1.5" PointX="5.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.TInventory" Width="1.5" PointX="8" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.TProductLocation" Width="1.5" PointX="5.75" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.TProductPriceHistory" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.TRole" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.TSupplier" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.TUser" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="Model.TInventory_TCategory_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.TInventory_TProductLocation_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.TProductPriceHistory_TSupplier_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.TProductPriceHistory_TUser_FK" ManuallyRouted="false" />
         <AssociationConnector Association="Model.TUser_TRole_FK" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>

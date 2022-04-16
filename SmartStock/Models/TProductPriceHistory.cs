@@ -12,17 +12,17 @@ namespace SmartStock.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TInventoryAdjustment
+    public partial class TProductPriceHistory
     {
-        public int intInventoryAdjustmentID { get; set; }
-        public int intInventoryID { get; set; }
-        public int intAdjustmentID { get; set; }
+        public int intProductPriceHistoryID { get; set; }
+        public string strProductName { get; set; }
+        public System.DateTime dtmPurchaseDate { get; set; }
+        public decimal monCostPerUnit { get; set; }
+        public int intPurchaseAmt { get; set; }
         public int intUserID { get; set; }
-        public int intProductID { get; set; }
+        public int intSupplierID { get; set; }
     
-        public virtual TAdjustment TAdjustment { get; set; }
-        public virtual TInventory TInventory { get; set; }
-        public virtual TProduct TProduct { get; set; }
+        public virtual TSupplier TSupplier { get; set; }
         public virtual TUser TUser { get; set; }
     }
 }

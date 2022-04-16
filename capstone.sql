@@ -14,6 +14,8 @@ SET NOCOUNT ON; -- Report only errors
 -- Drop PROCEDURES
 -- --------------------------------------------------------------------------------
 
+
+IF OBJECT_ID ('INSERT_Inventory')		IS NOT NULL DROP PROCEDURE INSERT_Inventory
 IF OBJECT_ID ('INSERT_USER')			IS NOT NULL DROP PROCEDURE INSERT_USER
 IF OBJECT_ID ('LOGIN')					IS NOT NULL DROP PROCEDURE LOGIN
 IF OBJECT_ID ('SELECT_USER')			IS NOT NULL DROP PROCEDURE SELECT_USER
@@ -28,9 +30,7 @@ IF OBJECT_ID ('UPDATE_PRODUCT')			IS NOT NULL DROP PROCEDURE UPDATE_PRODUCT
 -- --------------------------------------------------------------------------------
 -- Drop VIEWS
 -- --------------------------------------------------------------------------------
-IF OBJECT_ID ('Inventory_View')			IS NOT NULL DROP VIEW Inventory_View
-IF OBJECT_ID ('User_View')				IS NOT NULL DROP VIEW User_View
-IF OBJECT_ID ('Supplier_View')			IS NOT NULL DROP VIEW Supplier_View
+
 -- --------------------------------------------------------------------------------
 -- Drop tables
 -- --------------------------------------------------------------------------------
@@ -96,8 +96,10 @@ CREATE TABLE TInventory
 (
 	 intInventoryID				INTEGER			NOT NULL
 	,intProductID				INTEGER			NOT NULL 
+	,intUnitsPerCase			INTEGER			NOT NULL
+	,intCases					INTEGER			NOT NULL
 	,intStatusID				INTEGER			NOT NULL
-	,intCurrentInventory		INTEGER			NOT NULL
+	,intProductLocationID		INTEGER			NOT NULL
 	,CONSTRAINT TInventory_PK PRIMARY KEY (intInventoryID)
 )
 
@@ -137,7 +139,6 @@ CREATE TABLE TOrderProducts
 	,intUnitSize				INTEGER			NOT NULL
 	,intUnitType				INTEGER			NOT NULL
 	,monUnitPrice				MONEY			NOT NULL
-	,intProductLocationID		INTEGER			NOT NULL
 	,intOrderID					INTEGER			NOT NULL
 	,intProductID				INTEGER			NOT NULL
 	,CONSTRAINT TOrderProducts_PK PRIMARY KEY (intOrderProductsID)
@@ -232,7 +233,7 @@ ALTER TABLE TInventory ADD CONSTRAINT TInventory_TStatus_FK
 FOREIGN KEY ( intStatusID ) REFERENCES TStatus ( intStatusID )
 
 -- 9
-ALTER TABLE TOrderProducts ADD CONSTRAINT TOrderProducts_TProductLocation_FK
+ALTER TABLE TInventory ADD CONSTRAINT TInventory_TProductLocation_FK
 FOREIGN KEY (intProductLocationID) REFERENCES TProductLocation (intProductLocationID)
 
 -- 10
@@ -296,7 +297,7 @@ VALUES	 (1, 2, 2, 16)
 		,(3, 4, 3, 31)
 		,(4, 5, 1, 43)
 		,(5, 6, 2, 5)
-		,(6, 1, 1, 65)
+		,(6, 1, 1, 65)*/
 
 INSERT INTO TStatus(intStatusID, strStatusType)
 VALUES	 (1, 'High')
@@ -318,7 +319,7 @@ VALUES	 (1, 'dry storage')
 		,(2, 'freezer')
 		,(3, 'fridge')
 
-INSERT INTO TProduct(intProductID, strProductName,intCategoryID,intProductLocationID,intUnitSize,intUnitType,monUnitPrice)
+/*INSERT INTO TProduct(intProductID, strProductName,intCategoryID,intProductLocationID,intUnitSize,intUnitType,monUnitPrice)
 VALUES	 (1, 'Tomato',1,3,10,4,0.60)
 		,(2, 'Chicken Breast',3,2,8,4,1.00)
 		,(3, 'Wings',3,2,24,2,0.75)
@@ -326,7 +327,7 @@ VALUES	 (1, 'Tomato',1,3,10,4,0.60)
 		,(5, 'Milk',7,3,1,6,1.20)
 
 INSERT INTO TOrderProducts(intOrderProductsID, intOrderID, intProductID, intProductQuantity)
-VALUES	 (1, 1, 4)
+VALUES	 (1, 1, 4)*/
 
 
 INSERT INTO TPayment(intPaymentID, strPaymentType)
@@ -334,7 +335,7 @@ VALUES	 (1, 'debit')
 		,(2, 'credit')
 		,(3, 'cash')
 
-INSERT INTO TOrder(intOrderID, dtmOrderDate, intUserID, intPaymentID, intSupplierID)
+/*INSERT INTO TOrder(intOrderID, dtmOrderDate, intUserID, intPaymentID, intSupplierID)
 VALUES	 (1, '2/2/22', 2,2,1)
 
 
@@ -345,34 +346,7 @@ VALUES	 (1, 'Sysco','Bill','Thomson','Billy@something.com','908098098','6th st',
 -- VIEWS
 -- --------------------------------------------------------------------------------
  --Inventory view
-GO
-CREATE VIEW Inventory_View AS
-SELECT TI.intInventoryID as InventoryID, TP.strProductName as Product, TSS.strStatusType as Status, TPL.strLocation as StoredLocation, TPO.intUnitSize as UnitSize, TPO.intUnitType as CaseSize, TP.strProductDesc as Description
-FROM TInventory as TI
-	JOIN TProduct as TP
-	ON TP.intProductID = TI.intProductID
-	JOIN TStatus as TSS
-	ON TSS.intStatusID = TI.intStatusID
-	JOIN TCategory as TC
-	ON TC.intCategoryID = TP.intCategoryID
-	JOIN TOrderProducts as TPO
-	ON TPO.intProductID = TP.intProductID
-	JOIN TProductLocation as TPL
-	ON TPL.intProductLocationID = TPO.intProductLocationID;
 
--- User view
-GO
-CREATE VIEW User_View AS
-SELECT TU.intUserID as UserID, TR.strRoleName as Role,TU.strUserName as Username, TU.strFirstName as FirstName, TU.strLastName as LastName, TU.strEmail as Email, TU.strPhoneNumber as Phone
-FROM TUser as TU
-	JOIN TRole as TR
-	ON TR.intRoleID = TU.intRoleID;
-
--- Supplier view
-GO
-CREATE VIEW Supplier_View AS
-SELECT TSP.intSupplierID as SupplierID, TSP.strCompanyName as CompanyName, TSP.strContactFirstName as FirstName, TSP.strContactLastName as LastName, TSP.strPhoneNumber as Phone, TSP.strEmail as Email, TSP.strURL as URL, TSP.strAddress1 as Address, TSP.strContactState as State, TSP.strZip as Zip, TSP.strNotes as Notes
-FROM TSupplier as TSP
 
 
 -- --------------------------------------------------------------------------------
@@ -527,17 +501,17 @@ BEGIN
 	if @count >0 return -2
 
 	INSERT INTO [db_owner].[TSupplier]
-				(intSupplierID
-				,strCompanyName
-				,strContactFirstName
-				,strContactLastName
-				,strEmail
-				,strAddress1
-				,strZip
-				,strPhoneNumber
-				,strURL
-				,strNotes
-				,strContactState)
+				([intSupplierID]
+				,[strCompanyName]
+				,[strContactFirstName]
+				,[strContactLastName]
+				,[strEmail]
+				,[strAddress1]
+				,[strZip]
+				,[strPhoneNumber]
+				,[strURL]
+				,[strNotes]
+				,[strContactState])
 			VALUES
 				(@Supplier_ID
 				,@Company_Name
@@ -550,7 +524,8 @@ BEGIN
 				,@URL
 				,@Notes
 				,@Contact_State)
-
+			select @Supplier_ID=@@IDENTITY
+		return 1
 	END
 
 
@@ -634,15 +609,15 @@ BEGIN
 	SET NOCOUNT ON;
 
 	INSERT INTO [db_owner].[TProduct]
-				(intProductID
-				,strProductName
+				(strProductName
 				,strProductDesc
 				,intCategoryID)
 			VALUES
-				(@Product_ID
-				,@Product_Name
+				(@Product_Name
 				,@Product_Desc
 				,@Category_ID)
+				select @Product_ID=@@IDENTITY
+			return 1
 
 	END
 
@@ -692,3 +667,40 @@ BEGIN
 	 WHERE intProductID = @Product_ID
 	 return 1
 END
+
+-- INSERT_INVENTORY PROCEDURE
+
+GO
+CREATE PROCEDURE [db_owner].[INSERT_INVENTORY]
+@InventoryID bigint = null output
+,@ProductID INTEGER
+,@UnitsPerCase INTEGER
+,@Cases INTEGER
+,@StatusID INTEGER
+,@ProductlocationID INTEGER
+
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	declare @count tinyint
+
+	select @count=count(*) from TInventory where intProductID=@ProductID
+	if @count >0 return -1
+
+	INSERT INTO [db_owner].[TInventory]
+				([intProductID]
+				,[intUnitsPerCase]
+				,[intCases]
+				,[intStatusID]
+				,[intProductLocationID])
+			VALUES
+				(@ProductID
+				,@UnitsPerCase
+				,@Cases
+				,@StatusID
+				,@ProductlocationID)
+				select @InventoryID=@@IDENTITY
+			return 1
+END
+

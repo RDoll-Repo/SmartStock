@@ -152,32 +152,34 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DBModels.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Supplier.cs" />
-    <Compile Include="Models\TAdjustment.cs">
+    <Compile Include="Models\Inventory.cs" />
+    <Compile Include="Models\LOGIN_Result.cs">
       <DependentUpon>DBModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProductPriceHistory.cs" />
+    <Compile Include="Models\SELECT_INVENTORY_Result.cs">
+      <DependentUpon>DBModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SELECT_PRODUCTPRICEHISTORY_Result.cs">
+      <DependentUpon>DBModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SELECT_SUPPLIER_Result.cs">
+      <DependentUpon>DBModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SELECT_USER_Result.cs">
+      <DependentUpon>DBModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Supplier.cs" />
     <Compile Include="Models\TCategory.cs">
       <DependentUpon>DBModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TInventory.cs">
       <DependentUpon>DBModels.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\TInventoryAdjustment.cs">
-      <DependentUpon>DBModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TOrder.cs">
-      <DependentUpon>DBModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TOrderProduct.cs">
-      <DependentUpon>DBModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TPayment.cs">
-      <DependentUpon>DBModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TProduct.cs">
-      <DependentUpon>DBModels.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TProductLocation.cs">
+      <DependentUpon>DBModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TProductPriceHistory.cs">
       <DependentUpon>DBModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TRole.cs">
@@ -262,7 +264,7 @@
     <Content Include="Views\Profile\CreateSupplier.cshtml" />
     <Content Include="Views\Profile\EditUser.cshtml" />
     <Content Include="Views\Profile\Dashboard.cshtml" />
-    <Content Include="Views\Profile\InventoryAdjustment.cshtml" />
+    <Content Include="Views\Profile\PurchaseLog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

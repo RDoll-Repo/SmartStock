@@ -1,64 +1,86 @@
-﻿@{
-    ViewBag.Title = "InitializeInventory";
-}
-
-<div class="initializeInventory">
-    <!--A class for the inv. initialization page.-->
-
-    <h1>Initialize Inventory</h1>
-
-    <div class="item">
-        <form action="initializestock">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name"><br><br>
-
-            <label for="category">Category:</label>
-            <input type="text" id="category" name="category"><br><br>
-
-            <label for="location">Location:</label>
-            <input type="text" id="location" name="location"><br><br>
-
-            <label for="price">Price:</label>
-            <input type="text" id="price" name="price"><br><br>
-
-            <label for="intialStock">Initial Stock:</label>
-            <input type="text" id="initialStock" name="inittialStock"><br><br>
-
-            <label for="unitMeasurement">Unit/Measurement:</label>
-            <input type="text" id="unitMesaurement" name="unitMeasurement"><br><br>
-
-            <label for="supplier">Supplier:</label>
-            <input type="text" id="supplier" name="supplier"><br><br>
-
+﻿@model SmartStock.Models.Inventory
+@*@model IEnumerable<SmartStock.Models.TInventory>*@
+@using (Html.BeginForm(FormMethod.Post))
+{
+    <div class="center-up">
+        <form action="initInventory">
+            <table>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <h1>Initialize Inventory</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.TextBoxFor(model => model.ProductName, new { @placeholder = "Item Name" })
+                    </td>
+                    <td colspan="2">
+                        @Html.DropDownList("catagoryName", "Select a Catagory")
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        @Html.DropDownList("location", "Select a Location")
+                    </td>
+                    <td colspan="2">
+                        @Html.TextBoxFor(model => model.InvCount, new { @placeholder = "Added Amount" })
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.TextBoxFor(model => model.Status, new { @placeholder = "Status" })
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <button id="btnAddProduct" name="btnSubmit" value="addproduct" class="button-action"><i class="fas fa-user-plus"></i> Add-Product</button>
+                    </td>
+                    <td colspan="2" style="text-align: center;">
+                        <button id="btnAddProduct" name="btnFinishInit" value="finishinit" class="button-action"><<i class="fa-thin fa-angle-right"></i> Finish</button>
+                    </td>
+                </tr>
+            </table>
         </form>
-
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Location</th>
-                <th>Price</th>
-                <th>Unit/Measurement</th>
-                <th>Supplier</th>
-            </tr>
-            <tr>
-                <td>Sample</td>
-                <td>Fridge</td>
-                <td> 5.95</td>
-                <td>50</td>
-                <td>lb</td>
-                <td>Cysco</td>
-            </tr>
-        </table>
-
     </div>
-</div>
+}
+@*<table class="table table-striped table-condensed">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(Model => Model.strProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(Model => Model.intInvCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(Model => Model.strStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(Model => Model.intCatagoryID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(Model => Model.intProductLocationID)
+        </th>
+    </tr>
 
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.strProductName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.intInvCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.strStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.intCatagoryID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.intProductLocationID)
+        </td>
 
-    <form action="InitializeEmployees">
-        <input type="submit" value="Next" />
-    </form>
-
-    <form action="HomePage">
-        <input type="submit" value="Cancel" />
-    </form>
+    </tr>
+    }
+</table>*@
