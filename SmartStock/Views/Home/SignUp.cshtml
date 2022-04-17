@@ -2,11 +2,34 @@
     ViewBag.Title = "SignUp";
 }
 @model SmartStock.Models.User
-@using (Html.BeginForm(FormMethod.Post)) {
-    if (Model.ActionType == SmartStock.Models.User.ActionTypes.RequiredFieldsMissing) {
+@using (Html.BeginForm(FormMethod.Post))
+{
+    if (Model.ActionType == SmartStock.Models.User.ActionTypes.RequiredFieldsMissing)
+    {
         <div id="content-locked">
             <i class="fa-solid fa-triangle-exclamation"></i>
             <span>All fields are required.</span>
+        </div>
+    }
+    if (Model.ActionType == SmartStock.Models.User.ActionTypes.InvalidPhoneNumber)
+    {
+        <div id="content-locked">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Please enter a valid phone number.</span>
+        </div>
+    }
+    if (Model.ActionType == SmartStock.Models.User.ActionTypes.InvalidEmail)
+    {
+        <div id="content-locked">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Please enter a valid email.</span>
+        </div>
+    }
+    if (Model.ActionType == SmartStock.Models.User.ActionTypes.NoRole)
+    {
+        <div id="content-locked">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Please select a role.</span>
         </div>
     }
     <div class="center-up">

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace SmartStock.Models
@@ -90,6 +92,36 @@ namespace SmartStock.Models
 			catch (Exception ex) { throw new Exception(ex.Message); }
 		}
 
+		public User Validation()
+		{
+			Regex phone = new Regex(@"\(?\d{3}\)?-? *\d{3}-? *-?\d{4}");
+
+			if (this.First_Name == string.Empty || this.Last_Name == string.Empty || this.User_Name == string.Empty || this.Password == string.Empty )
+            {
+				this.ActionType = ActionTypes.RequiredFieldsMissing;
+				//return this;
+            }
+
+
+			if (!phone.IsMatch(this.Phone_Number))
+            {
+				this.ActionType = ActionTypes.InvalidPhoneNumber;
+				return this;
+            }
+
+			try
+            {
+				MailAddress m = new MailAddress(this.Email);
+            }
+			catch (Exception)
+            {
+				this.ActionType = ActionTypes.InvalidEmail;
+				return this;
+            }
+
+			return this;
+	}
+
 		public enum ActionTypes
 		{
 			NoType = 0,
@@ -100,7 +132,10 @@ namespace SmartStock.Models
 			Unknown = 5,
 			RequiredFieldsMissing = 6,
 			LoginFailed = 7,
-			DeleteSuccessful = 8
+			DeleteSuccessful = 8,
+			InvalidPhoneNumber = 9,
+			InvalidEmail = 10,
+			NoRole = 11
 		}
 	}
 }
