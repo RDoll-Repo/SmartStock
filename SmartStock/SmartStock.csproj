@@ -136,6 +136,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Card.cs" />
     <Compile Include="Models\Database.cs" />
     <Compile Include="Models\DBModels.Context.cs">
       <AutoGen>True</AutoGen>

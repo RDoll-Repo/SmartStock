@@ -108,8 +108,21 @@ namespace SmartStock.Controllers
                 u.Password = col["Password"];
                 u.Role_ID = Convert.ToInt32(col["rolename"]);
 
-                if (u.First_Name.Length == 0 || u.Last_Name.Length == 0 || u.Phone_Number.Length == 0 || u.Email.Length == 0 || u.User_Name.Length == 0 || u.Password.Length == 0 || u.Role_ID == 0) {
-                    u.ActionType = Models.User.ActionTypes.RequiredFieldsMissing;
+
+                u.Validation();
+
+                if (u.ActionType != Models.User.ActionTypes.NoType) {
+
+                    // We need to reuse this snippet here because the transient nature of viewbags makes it 
+                    // so that the dropdown will NOT load properly upon failed validation. 
+                    DBModel dbContext = new DBModel();
+                    IEnumerable<SelectListItem> items2 = dbContext.TRoles.Select(c => new SelectListItem
+                    {
+                        Value = c.intRoleID.ToString(),
+                        Text = c.strRoleName
+
+                    });
+                    ViewBag.rolename = items2;
                     return View(u);
                 }
                 else {
@@ -133,6 +146,15 @@ namespace SmartStock.Controllers
             }
             catch (Exception) {
                 Models.User u = new Models.User();
+                u.ActionType = Models.User.ActionTypes.NoRole;
+                DBModel dbContext = new DBModel();
+                IEnumerable<SelectListItem> items2 = dbContext.TRoles.Select(c => new SelectListItem
+                {
+                    Value = c.intRoleID.ToString(),
+                    Text = c.strRoleName
+
+                });
+                ViewBag.rolename = items2;
                 return View(u);
             }
         }
