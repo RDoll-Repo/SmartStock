@@ -390,9 +390,10 @@ namespace SmartStock.Controllers
 				s.URL = col["URL"];
 				s.Notes = col["Notes"];
 
-				if (s.Company_Name.Length == 0 || s.Contact_FirstName.Length == 0 || s.Contact_LastName.Length == 0 || s.Contact_PhoneNumber.Length == 0 || s.Contact_Email.Length == 0 || s.Contact_Address1.Length == 0 || s.Contact_State.Length == 0 || s.Contact_Zip.Length == 0)
+				s.Validation();
+
+				if (s.ActionType != Models.Supplier.ActionTypes.NoType)
 				{
-					s.ActionType = Models.Supplier.ActionTypes.RequiredFieldsMissing;
 					return View(s);
 				}
 				else
