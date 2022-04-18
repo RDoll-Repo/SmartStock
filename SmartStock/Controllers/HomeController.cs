@@ -108,7 +108,6 @@ namespace SmartStock.Controllers
                 u.Password = col["Password"];
                 u.Role_ID = Convert.ToInt32(col["rolename"]);
 
-
                 u.Validation();
 
                 if (u.ActionType != Models.User.ActionTypes.NoType) {

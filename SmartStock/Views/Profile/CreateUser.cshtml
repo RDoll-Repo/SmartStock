@@ -1,6 +1,34 @@
 ﻿@model SmartStock.Models.User
 @using (Html.BeginForm(FormMethod.Post))
 {
+    if (Model.ActionType == SmartStock.Models.User.ActionTypes.RequiredFieldsMissing)
+    {
+        <div id="content-locked">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>All fields are required.</span>
+        </div>
+    }
+    if (Model.ActionType == SmartStock.Models.User.ActionTypes.InvalidPhoneNumber)
+    {
+        <div id="content-locked">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Please enter a valid phone number.</span>
+        </div>
+    }
+    if (Model.ActionType == SmartStock.Models.User.ActionTypes.InvalidEmail)
+    {
+        <div id="content-locked">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Please enter a valid email.</span>
+        </div>
+    }
+    if (Model.ActionType == SmartStock.Models.User.ActionTypes.NoRole)
+    {
+        <div id="content-locked">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Please select a role.</span>
+        </div>
+    }
     <div class="center-up">
         <form action="addUser">
             <table>
@@ -64,7 +92,8 @@
                 </tr>
                 <tr>
                     <td colspan="2" style="text-align: center;">
-                        <button id="btnAddUser" name="btnSubmit" value="adduser" class="button-action"><i class="fas fa-user-plus"></i> Add-Item</button>
+                        <button id="btnBack" name="btnCancel" value="back" class="button-action"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                        <button id="btnAddUser" name="btnSubmit" value="adduser" class="button-action"><i class="fas fa-user-plus"></i> Add User</button>
                     </td>
                 </tr>
             </table>
