@@ -279,7 +279,10 @@ namespace SmartStock.Controllers
 		{
 			try
 			{
-				if (col["btnCancel"] == "")
+				if (col["btnCancel"] == "back")
+                {
+					return RedirectToAction("Users");
+                }
 
 				Models.User u = new Models.User();
 
