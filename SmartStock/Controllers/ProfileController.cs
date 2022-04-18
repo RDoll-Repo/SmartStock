@@ -377,6 +377,11 @@ namespace SmartStock.Controllers
 		{
 			try
 			{
+				if (col["btnCancel"] == "back")
+				{
+					return RedirectToAction("Suppliers");
+				}
+
 				Models.Supplier s = new Models.Supplier();
 
 				s.Company_Name = col["Company_Name"];
