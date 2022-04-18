@@ -279,6 +279,8 @@ namespace SmartStock.Controllers
 		{
 			try
 			{
+				if (col["btnCancel"] == "")
+
 				Models.User u = new Models.User();
 
 				u.First_Name = col["First_Name"];
