@@ -5,6 +5,35 @@
 <h2>@ViewBag.Title</h2>
 @using (Html.BeginForm(FormMethod.Post))
 {
+    if (Model.ActionType == SmartStock.Models.Supplier.ActionTypes.RequiredFieldsMissing)
+    {
+        <div id="content-locked">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>All fields are required.</span>
+        </div>
+    }
+    if (Model.ActionType == SmartStock.Models.Supplier.ActionTypes.InvalidPhoneNumber)
+    {
+        <div id="content-locked">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Please enter a valid phone number.</span>
+        </div>
+    }
+    if (Model.ActionType == SmartStock.Models.Supplier.ActionTypes.InvalidEmail)
+    {
+        <div id="content-locked">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Please enter a valid email.</span>
+        </div>
+    }
+    if (Model.ActionType == SmartStock.Models.Supplier.ActionTypes.InvalidZip)
+    {
+        <div id="content-locked">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Please enter a valid zip code.</span>
+        </div>
+    }
+
     <div class="section">
 
         <div class="item">
@@ -77,6 +106,7 @@
         </div>
     </div>
     <div>
+        <button id="btnBack" name="btnCancel" value="back" class="button-action"><i class="fa-solid fa-arrow-left"></i> Back</button>
         <button id="btnSignUp" name="btnSubmit" value="addsupplier" class="button-action"><i class="fas fa-user-plus"></i> Add-Supplier</button>
     </div>
 }

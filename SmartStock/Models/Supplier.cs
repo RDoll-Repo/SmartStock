@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace SmartStock.Models
@@ -83,6 +85,47 @@ namespace SmartStock.Models
             catch (Exception ex) { throw new Exception(ex.Message); }
         }
 
+        public Supplier Validation()
+        {
+            /**
+             * Decided against regex for Address. There's just too many edge cases to make a reliable pattern.  
+             * In addition, doing states would require an entire extra table that I don't think is worth the overhead.
+             * Treat URL as optional since some businesses possibly don't have websites
+             */
+            Regex phone = new Regex(@"\(?\d{3}\)?-? *\d{3}-? *-?\d{4}");
+            Regex zip = new Regex(@"^[0-9]{5}(?:-[0-9]{4})?$");
+
+            if (this.Company_Name == string.Empty || this.Contact_FirstName == string.Empty || this.Contact_State == string.Empty || this.Contact_Address1 == string.Empty)
+            {
+                this.ActionType = ActionTypes.RequiredFieldsMissing;
+                return this;
+            }
+
+            if (!phone.IsMatch(this.Contact_PhoneNumber))
+            {
+                this.ActionType = ActionTypes.InvalidPhoneNumber;
+                return this;
+            }
+
+            if (!zip.IsMatch(this.Contact_Zip))
+            {
+                this.ActionType = ActionTypes.InvalidZip;
+                return this;
+            }
+
+            try
+            {
+                MailAddress m = new MailAddress(this.Contact_Email);
+            }
+            catch (Exception)
+            {
+                this.ActionType = ActionTypes.InvalidEmail;
+                return this;
+            }
+
+            return this;
+        }
+
         public enum ActionTypes
         {
             NoType = 0,
@@ -93,7 +136,10 @@ namespace SmartStock.Models
             Unknown = 5,
             RequiredFieldsMissing = 6,
             LoginFailed = 7,
-            DeleteSuccessful = 8
+            DeleteSuccessful = 8,
+            InvalidPhoneNumber = 9,
+            InvalidEmail = 10,
+            InvalidZip = 11,
         }
     }
 }
