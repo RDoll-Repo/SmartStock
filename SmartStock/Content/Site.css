@@ -54,8 +54,20 @@ h2 {
     padding: 10px;
 }
 
+.center-up-inv {
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+}
+
 .table-label {
     text-align: right;
+}
+
+table, th, td {
+    border: 1px solid black;
 }
 
 td {
