@@ -203,7 +203,6 @@ namespace SmartStock.Controllers
 
                 i.ProductName = col["ProductName"];
                 i.InvCount = Convert.ToInt32(col["InvCount"]);
-                i.Status = col["Status"];
                 i.CategoryID = Convert.ToInt32(col["catagoryName"]);
                 i.ProductlocationID = Convert.ToInt32(col["location"]);
 
@@ -213,7 +212,7 @@ namespace SmartStock.Controllers
                       // if owner, prompt to initialize stock
                       // if manager/employee, allow signup via
 
-                        if (i.ProductName.Length == 0 || i.InvCount == 0 || i.Status.Length == 0 || i.CategoryID == 0 || i.ProductlocationID == 0)
+                        if (i.ProductName.Length == 0 || i.InvCount == 0 || i.CategoryID == 0 || i.ProductlocationID == 0)
                         {
                             i.ActionType = Models.Inventory.ActionTypes.RequiredFieldsMissing;
                             return View(i);

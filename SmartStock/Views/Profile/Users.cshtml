@@ -26,7 +26,7 @@
             @Html.DisplayNameFor(Model => Model.userPassword)
         </th>
         <th>
-            @Html.DisplayNameFor(Model => Model.intRoleID)
+            @Html.DisplayNameFor(Model => Model.TRole.strRoleName)
         </th>
         <th>
             <form action="CreateUser">
@@ -58,11 +58,13 @@
         @Html.DisplayFor(modelItem => item.userPassword)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.intRoleID)
+        @Html.DisplayFor(modelItem => item.TRole.strRoleName)
     </td>
-    <td>
-        <a href="#"><i class="glyphicon glyphicon-pencil"></i></a>
-        <a href="#"><i class="glyphicon glyphicon-trash"></i></a>
+    <td colspan="2" style="text-align: center;">
+        <button id="btnEditProduct" name="btnSubmit" value="Editproduct" class="button-action"><i class="fas fa-user-plus"></i>Edit</button>
+    </td>
+    <td colspan="2" style="text-align: center;">
+        <button id="btnDeleteProduct" name="btnSubmit" value="Deleteproduct" class="button-action"><i class="fas fa-user-plus"></i>Delete</button>
     </td>
 </tr>
     }

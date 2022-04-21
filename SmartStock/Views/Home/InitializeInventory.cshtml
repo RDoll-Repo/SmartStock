@@ -14,6 +14,8 @@
                     <td class="table-label">
                         @Html.TextBoxFor(model => model.ProductName, new { @placeholder = "Item Name" })
                     </td>
+                </tr>
+                <tr>
                     <td colspan="2">
                         @Html.DropDownList("catagoryName", "Select a Catagory")
                     </td>
@@ -22,13 +24,15 @@
                     <td colspan="2">
                         @Html.DropDownList("location", "Select a Location")
                     </td>
+                </tr>
+                <tr>
                     <td colspan="2">
                         @Html.TextBoxFor(model => model.InvCount, new { @placeholder = "Added Amount" })
                     </td>
                 </tr>
                 <tr>
-                    <td class="table-label">
-                        @Html.TextBoxFor(model => model.Status, new { @placeholder = "Status" })
+                    <td colspan="2">
+                        @Html.TextBoxFor(model => model.UnitType, new { @placeholder = "Unit Type" })
                     </td>
                 </tr>
                 <tr>
@@ -43,44 +47,3 @@
         </form>
     </div>
 }
-@*<table class="table table-striped table-condensed">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(Model => Model.strProductName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(Model => Model.intInvCount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(Model => Model.strStatus)
-        </th>
-        <th>
-            @Html.DisplayNameFor(Model => Model.intCatagoryID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(Model => Model.intProductLocationID)
-        </th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.strProductName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.intInvCount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.strStatus)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.intCatagoryID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.intProductLocationID)
-        </td>
-
-    </tr>
-    }
-</table>*@

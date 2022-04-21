@@ -13,13 +13,16 @@
             @Html.DisplayNameFor(Model => Model.intInvCount)
         </th>
         <th>
-            @Html.DisplayNameFor(Model => Model.strStatus)
+            @Html.DisplayNameFor(Model => Model.strUnitType)
         </th>
         <th>
-            @Html.DisplayNameFor(Model => Model.intCategoryID)
+            @Html.DisplayNameFor(Model => Model.blnIsLow)
         </th>
         <th>
-            @Html.DisplayNameFor(Model => Model.intProductLocationID)
+            @Html.DisplayNameFor(Model => Model.TCategory.strCategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(Model => Model.TProductLocation.strLocation)
         </th>
         <th>
             <form action="CreateItem">
@@ -31,26 +34,29 @@
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.strProductName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.intInvCount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.strStatus)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.intCategoryID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.intProductLocationID)
-            </td>
-            <td>
-                <a href="#"><i class="glyphicon glyphicon-pencil"></i></a>
-                <a href="#"><i class="glyphicon glyphicon-trash"></i></a>
-            </td>
-        </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.strProductName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.intInvCount)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.strUnitType)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.blnIsLow)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.TCategory.strCategory)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.TProductLocation.strLocation)
+    </td>
+    <td>
+        <a href="#"><i class="glyphicon glyphicon-pencil"></i></a>
+        <a href="#"><i class="glyphicon glyphicon-trash"></i></a>
+    </td>
+</tr>
     }
 </table>

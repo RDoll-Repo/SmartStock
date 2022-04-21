@@ -30,12 +30,12 @@
                 </tr>
                 <tr>
                     <td class="table-label">
-                        @Html.TextBoxFor(model => model.Status, new { @placeholder = "Status" })
+                        @Html.TextBoxFor(model => model.CostPerUnit, new { @placeholder = "Cost Per Unit" })
                     </td>
                 </tr>
                 <tr>
-                    <td class="table-label">
-                        @Html.TextBoxFor(model => model.CostPerUnit, new { @placeholder = "Cost Per Unit" })
+                    <td colspan="2">
+                        @Html.TextBoxFor(model => model.UnitType, new { @placeholder = "Unit Type" })
                     </td>
                 </tr>
                 <tr>

@@ -290,6 +290,7 @@ namespace SmartStock.Models
 				SetParameter(ref cm, "@ProductName", pph.ProductName, SqlDbType.VarChar);
 				SetParameter(ref cm, "@PurchaseDate", pph.PurchaseDate, SqlDbType.DateTime);
 				SetParameter(ref cm, "@CostPerUnit", pph.CostPerUnit, SqlDbType.Money);
+				SetParameter(ref cm, "@UnitType", pph.UnitType, SqlDbType.VarChar);
 				SetParameter(ref cm, "@PurchaseAmt", pph.PurchaseAmt, SqlDbType.Int);
 				SetParameter(ref cm, "@UserID", pph.UserID, SqlDbType.Int);
 				SetParameter(ref cm, "@SupplierID", pph.SupplierID, SqlDbType.Int);
@@ -333,6 +334,7 @@ namespace SmartStock.Models
 				SetParameter(ref cm, "@PurchaseDate", pph.PurchaseDate, SqlDbType.DateTime);
 				SetParameter(ref cm, "@CostPerUnit", pph.CostPerUnit, SqlDbType.Money);
 				SetParameter(ref cm, "@PurchaseAmt", pph.PurchaseAmt, SqlDbType.Int);
+				SetParameter(ref cm, "@UnitType", pph.UnitType, SqlDbType.VarChar);
 				SetParameter(ref cm, "@UserID", pph.UserID, SqlDbType.Int);
 				SetParameter(ref cm, "@SupplierID", pph.SupplierID, SqlDbType.Int);
 
@@ -395,7 +397,8 @@ namespace SmartStock.Models
 				SetParameter(ref cm, "@InventoryID", i.InventoryID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
 				SetParameter(ref cm, "@ProductName", i.ProductName, SqlDbType.VarChar);
 				SetParameter(ref cm, "@InvCount", i.InvCount, SqlDbType.Int);
-				SetParameter(ref cm, "@Status", i.Status, SqlDbType.VarChar);
+				SetParameter(ref cm, "@blnIsLow", i.blnIsLow, SqlDbType.VarChar);
+				SetParameter(ref cm, "@UnitType", i.UnitType, SqlDbType.VarChar);
 				SetParameter(ref cm, "@CategoryID", i.CategoryID, SqlDbType.Int);
 				SetParameter(ref cm, "@ProductlocationID", i.ProductlocationID, SqlDbType.Int);
 
@@ -436,7 +439,7 @@ namespace SmartStock.Models
 				SetParameter(ref cm, "@InventoryID", i.InventoryID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
 				SetParameter(ref cm, "@ProductName", i.ProductName, SqlDbType.VarChar);
 				SetParameter(ref cm, "@InvCount", i.InvCount, SqlDbType.Int);
-				SetParameter(ref cm, "@Status", i.Status, SqlDbType.VarChar);
+				SetParameter(ref cm, "@blnIsLow", i.blnIsLow, SqlDbType.VarChar);
 				SetParameter(ref cm, "@CategoryID", i.CategoryID, SqlDbType.Int);
 				SetParameter(ref cm, "@ProductlocationID", i.ProductlocationID, SqlDbType.Int);
 
