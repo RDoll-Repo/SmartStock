@@ -10,7 +10,6 @@ namespace SmartStock.Models
     {
         public string Product_Name { get; set; }
         public string PurchaseDate { get; set; }
-
         public decimal CostPerUnit { get; set; }
         public int PurchaseAmt { get; set; }
         public int UserID { get; set; }
@@ -20,6 +19,7 @@ namespace SmartStock.Models
         public long InventoryID = 0;
         public string ProductName = string.Empty;
         public int InvCount = 0;
+        public string UnitType = string.Empty;
         public string Status = string.Empty;
         public int CategoryID = 0;
         public int ProductlocationID = 0;
