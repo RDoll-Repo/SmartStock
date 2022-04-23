@@ -116,6 +116,7 @@ namespace SmartStock.Controllers
 			
 			return View(GetAllInventory());
 		}
+
 		IEnumerable<TInventory> GetAllInventory()
 		{
 			using (DBModel db = new DBModel())

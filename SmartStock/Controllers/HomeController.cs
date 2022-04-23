@@ -190,6 +190,7 @@ namespace SmartStock.Controllers
         {
             try
             {
+                String str = string.Empty;
 
                 Models.Inventory i = new Models.Inventory();
                 Models.User u = new Models.User();
@@ -223,7 +224,6 @@ namespace SmartStock.Controllers
                             i.Save();
                             InitializeInventory();
                         }
-
                     }
                     
                     return View();
@@ -235,7 +235,6 @@ namespace SmartStock.Controllers
                 return View();
             }
         }
-    
 
         public ActionResult InitializeEmployees()
         {
