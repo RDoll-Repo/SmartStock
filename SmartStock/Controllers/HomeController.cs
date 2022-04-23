@@ -206,14 +206,15 @@ namespace SmartStock.Controllers
                 i.InvCount = Convert.ToInt32(col["InvCount"]);
                 i.CategoryID = Convert.ToInt32(col["catagoryName"]);
                 i.ProductlocationID = Convert.ToInt32(col["location"]);
+                i.UnitType = col["UnitType"];
 
-                    if (col["btnSubmit"] == "addproduct")
+                if (col["btnSubmit"] == "addproduct")
                     { //sign up button pressed
                       // create if/else statement to determine if they are a new business signing up or a manager/employee signingup
                       // if owner, prompt to initialize stock
                       // if manager/employee, allow signup via
 
-                        if (i.ProductName.Length == 0 || i.InvCount == 0 || i.CategoryID == 0 || i.ProductlocationID == 0)
+                        if (i.ProductName.Length == 0 || i.InvCount == 0 || i.CategoryID == 0 || i.ProductlocationID == 0 || i.UnitType.Length == 0)
                         {
                             i.ActionType = Models.Inventory.ActionTypes.RequiredFieldsMissing;
                             return View(i);

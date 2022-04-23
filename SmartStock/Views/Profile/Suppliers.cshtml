@@ -77,10 +77,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.strContactState)
             </td>
-            <td>
-                <a href="#"><i class="glyphicon glyphicon-pencil"></i></a>
-                <a href="#"><i class="glyphicon glyphicon-trash"></i></a>
-            </td>
+            <td colspan="2" style="text-align: center;">
+    <td>
+        @Html.ActionLink("Edit", "EditSupplier", new { Supplier_ID = item.intSupplierID })
+
+        @Html.ActionLink("Delete", "DeleteSupplier", new { Supplier_ID = item.intSupplierID })
+    </td>
         </tr>
     }
 </table>

@@ -27,6 +27,7 @@ namespace SmartStock.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<TAlert> TAlerts { get; set; }
         public virtual DbSet<TCategory> TCategories { get; set; }
         public virtual DbSet<TInventory> TInventories { get; set; }
         public virtual DbSet<TProductLocation> TProductLocations { get; set; }
@@ -34,6 +35,11 @@ namespace SmartStock.Models
         public virtual DbSet<TRole> TRoles { get; set; }
         public virtual DbSet<TSupplier> TSuppliers { get; set; }
         public virtual DbSet<TUser> TUsers { get; set; }
+    
+        public virtual int DELETE_ALERT(ObjectParameter alertID)
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DELETE_ALERT", alertID);
+        }
     
         public virtual int DELETE_INVENTORY(ObjectParameter inventoryID)
         {
@@ -55,7 +61,20 @@ namespace SmartStock.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DELETE_USER", user_ID);
         }
     
-        public virtual int INSERT_INVENTORY(ObjectParameter inventoryID, string productName, Nullable<int> invCount, string unitType, string blnIsLow, Nullable<int> categoryID, Nullable<int> productlocationID)
+        public virtual int INSERT_ALERT(ObjectParameter alertID, string alert, Nullable<System.DateTime> alertDate)
+        {
+            var alertParameter = alert != null ?
+                new ObjectParameter("Alert", alert) :
+                new ObjectParameter("Alert", typeof(string));
+    
+            var alertDateParameter = alertDate.HasValue ?
+                new ObjectParameter("AlertDate", alertDate) :
+                new ObjectParameter("AlertDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("INSERT_ALERT", alertID, alertParameter, alertDateParameter);
+        }
+    
+        public virtual int INSERT_INVENTORY(ObjectParameter inventoryID, string productName, Nullable<int> invCount, string unitType, Nullable<bool> blnIsLow, Nullable<int> categoryID, Nullable<int> productlocationID)
         {
             var productNameParameter = productName != null ?
                 new ObjectParameter("ProductName", productName) :
@@ -69,9 +88,9 @@ namespace SmartStock.Models
                 new ObjectParameter("UnitType", unitType) :
                 new ObjectParameter("UnitType", typeof(string));
     
-            var blnIsLowParameter = blnIsLow != null ?
+            var blnIsLowParameter = blnIsLow.HasValue ?
                 new ObjectParameter("blnIsLow", blnIsLow) :
-                new ObjectParameter("blnIsLow", typeof(string));
+                new ObjectParameter("blnIsLow", typeof(bool));
     
             var categoryIDParameter = categoryID.HasValue ?
                 new ObjectParameter("CategoryID", categoryID) :
@@ -208,6 +227,15 @@ namespace SmartStock.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<LOGIN_Result>("LOGIN", user_NameParameter, passwordParameter);
         }
     
+        public virtual ObjectResult<SELECT_ALERT_Result> SELECT_ALERT(Nullable<long> alertID)
+        {
+            var alertIDParameter = alertID.HasValue ?
+                new ObjectParameter("AlertID", alertID) :
+                new ObjectParameter("AlertID", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SELECT_ALERT_Result>("SELECT_ALERT", alertIDParameter);
+        }
+    
         public virtual ObjectResult<SELECT_INVENTORY_Result> SELECT_INVENTORY(Nullable<long> inventoryID)
         {
             var inventoryIDParameter = inventoryID.HasValue ?
@@ -244,7 +272,20 @@ namespace SmartStock.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SELECT_USER_Result>("SELECT_USER", user_IDParameter);
         }
     
-        public virtual int UPDATE_INVENTORY(ObjectParameter inventoryID, string productName, Nullable<int> invCount, string blnIsLow, string unitType, Nullable<int> categoryID, Nullable<int> productlocationID)
+        public virtual int UPDATE_ALERT(ObjectParameter alertID, string alert, Nullable<System.DateTime> alertDate)
+        {
+            var alertParameter = alert != null ?
+                new ObjectParameter("Alert", alert) :
+                new ObjectParameter("Alert", typeof(string));
+    
+            var alertDateParameter = alertDate.HasValue ?
+                new ObjectParameter("AlertDate", alertDate) :
+                new ObjectParameter("AlertDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UPDATE_ALERT", alertID, alertParameter, alertDateParameter);
+        }
+    
+        public virtual int UPDATE_INVENTORY(ObjectParameter inventoryID, string productName, Nullable<int> invCount, Nullable<bool> blnIsLow, string unitType, Nullable<int> categoryID, Nullable<int> productlocationID)
         {
             var productNameParameter = productName != null ?
                 new ObjectParameter("ProductName", productName) :
@@ -254,9 +295,9 @@ namespace SmartStock.Models
                 new ObjectParameter("InvCount", invCount) :
                 new ObjectParameter("InvCount", typeof(int));
     
-            var blnIsLowParameter = blnIsLow != null ?
+            var blnIsLowParameter = blnIsLow.HasValue ?
                 new ObjectParameter("blnIsLow", blnIsLow) :
-                new ObjectParameter("blnIsLow", typeof(string));
+                new ObjectParameter("blnIsLow", typeof(bool));
     
             var unitTypeParameter = unitType != null ?
                 new ObjectParameter("UnitType", unitType) :

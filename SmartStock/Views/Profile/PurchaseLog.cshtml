@@ -7,10 +7,10 @@
 <table class="table table-striped table-condensed">
     <tr>
         <th>
-            @Html.DisplayNameFor(Model => Model.strProductName)
+            @Html.DisplayNameFor(Model => Model.dtmPurchaseDate)
         </th>
         <th>
-            @Html.DisplayNameFor(Model => Model.dtmPurchaseDate)
+            @Html.DisplayNameFor(Model => Model.strProductName)
         </th>
         <th>
             @Html.DisplayNameFor(Model => Model.monCostPerUnit)
@@ -30,10 +30,10 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.strProductName)
+                @Html.DisplayFor(modelItem => item.dtmPurchaseDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.dtmPurchaseDate)
+                @Html.DisplayFor(modelItem => item.strProductName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.monCostPerUnit)
