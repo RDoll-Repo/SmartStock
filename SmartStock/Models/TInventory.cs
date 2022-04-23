@@ -17,7 +17,8 @@ namespace SmartStock.Models
         public int intInventoryID { get; set; }
         public string strProductName { get; set; }
         public int intInvCount { get; set; }
-        public string strStatus { get; set; }
+        public string strUnitType { get; set; }
+        public string blnIsLow { get; set; }
         public int intCategoryID { get; set; }
         public int intProductLocationID { get; set; }
     

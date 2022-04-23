@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="TCategory">
           <Key>
             <PropertyRef Name="intCategoryID" />
@@ -19,7 +19,8 @@
           <Property Name="intInventoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="strProductName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="intInvCount" Type="int" Nullable="false" />
-          <Property Name="strStatus" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="strUnitType" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="blnIsLow" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="intCategoryID" Type="int" Nullable="false" />
           <Property Name="intProductLocationID" Type="int" Nullable="false" />
         </EntityType>
@@ -37,6 +38,7 @@
           <Property Name="intProductPriceHistoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="strProductName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="dtmPurchaseDate" Type="date" Nullable="false" />
+          <Property Name="strUnitType" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="monCostPerUnit" Type="money" Nullable="false" />
           <Property Name="intPurchaseAmt" Type="int" Nullable="false" />
           <Property Name="intUserID" Type="int" Nullable="false" />
@@ -154,7 +156,8 @@
           <Parameter Name="InventoryID" Type="bigint" Mode="InOut" />
           <Parameter Name="ProductName" Type="varchar" Mode="In" />
           <Parameter Name="InvCount" Type="int" Mode="In" />
-          <Parameter Name="Status" Type="varchar" Mode="In" />
+          <Parameter Name="UnitType" Type="varchar" Mode="In" />
+          <Parameter Name="blnIsLow" Type="varchar" Mode="In" />
           <Parameter Name="CategoryID" Type="int" Mode="In" />
           <Parameter Name="ProductlocationID" Type="int" Mode="In" />
         </Function>
@@ -163,6 +166,7 @@
           <Parameter Name="ProductName" Type="varchar" Mode="In" />
           <Parameter Name="PurchaseDate" Type="date" Mode="In" />
           <Parameter Name="CostPerUnit" Type="money" Mode="In" />
+          <Parameter Name="UnitType" Type="varchar" Mode="In" />
           <Parameter Name="PurchaseAmt" Type="int" Mode="In" />
           <Parameter Name="UserID" Type="int" Mode="In" />
           <Parameter Name="SupplierID" Type="int" Mode="In" />
@@ -210,7 +214,8 @@
           <Parameter Name="InventoryID" Type="bigint" Mode="InOut" />
           <Parameter Name="ProductName" Type="varchar" Mode="In" />
           <Parameter Name="InvCount" Type="int" Mode="In" />
-          <Parameter Name="Status" Type="varchar" Mode="In" />
+          <Parameter Name="blnIsLow" Type="varchar" Mode="In" />
+          <Parameter Name="UnitType" Type="varchar" Mode="In" />
           <Parameter Name="CategoryID" Type="int" Mode="In" />
           <Parameter Name="ProductlocationID" Type="int" Mode="In" />
         </Function>
@@ -219,6 +224,7 @@
           <Parameter Name="ProductName" Type="varchar" Mode="In" />
           <Parameter Name="PurchaseDate" Type="date" Mode="In" />
           <Parameter Name="CostPerUnit" Type="money" Mode="In" />
+          <Parameter Name="UnitType" Type="varchar" Mode="In" />
           <Parameter Name="PurchaseAmt" Type="int" Mode="In" />
           <Parameter Name="UserID" Type="int" Mode="In" />
           <Parameter Name="SupplierID" Type="int" Mode="In" />
@@ -275,7 +281,8 @@
             <End Role="TUser" EntitySet="TUser" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -291,10 +298,11 @@
           <Key>
             <PropertyRef Name="intInventoryID" />
           </Key>
-          <Property Name="intInventoryID" Type="Int32" Nullable="false" />
+          <Property Name="intInventoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="strProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="intInvCount" Type="Int32" Nullable="false" />
-          <Property Name="strStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="strUnitType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="blnIsLow" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="intCategoryID" Type="Int32" Nullable="false" />
           <Property Name="intProductLocationID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="TCategory" Relationship="Self.TInventory_TCategory_FK" FromRole="TInventory" ToRole="TCategory" />
@@ -312,9 +320,10 @@
           <Key>
             <PropertyRef Name="intProductPriceHistoryID" />
           </Key>
-          <Property Name="intProductPriceHistoryID" Type="Int32" Nullable="false" />
+          <Property Name="intProductPriceHistoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="strProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="dtmPurchaseDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="strUnitType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="monCostPerUnit" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="intPurchaseAmt" Type="Int32" Nullable="false" />
           <Property Name="intUserID" Type="Int32" Nullable="false" />
@@ -451,22 +460,23 @@
             <End Role="TUser" EntitySet="TUsers" />
           </AssociationSet>
           <FunctionImport Name="DELETE_INVENTORY">
-          <Parameter Name="InventoryID" Mode="InOut" Type="Int64" />
+            <Parameter Name="InventoryID" Mode="InOut" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="DELETE_PRODUCTPRICEHISTORY">
-          <Parameter Name="PPHID" Mode="InOut" Type="Int64" />
+            <Parameter Name="PPHID" Mode="InOut" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="DELETE_SUPPLIER">
-          <Parameter Name="Supplier_ID" Mode="InOut" Type="Int64" />
+            <Parameter Name="Supplier_ID" Mode="InOut" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="DELETE_USER">
-          <Parameter Name="User_ID" Mode="InOut" Type="Int64" />
+            <Parameter Name="User_ID" Mode="InOut" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INVENTORY">
             <Parameter Name="InventoryID" Mode="InOut" Type="Int64" />
             <Parameter Name="ProductName" Mode="In" Type="String" />
             <Parameter Name="InvCount" Mode="In" Type="Int32" />
-            <Parameter Name="Status" Mode="In" Type="String" />
+            <Parameter Name="UnitType" Mode="In" Type="String" />
+            <Parameter Name="blnIsLow" Mode="In" Type="String" />
             <Parameter Name="CategoryID" Mode="In" Type="Int32" />
             <Parameter Name="ProductlocationID" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -475,6 +485,7 @@
             <Parameter Name="ProductName" Mode="In" Type="String" />
             <Parameter Name="PurchaseDate" Mode="In" Type="DateTime" />
             <Parameter Name="CostPerUnit" Mode="In" Type="Decimal" />
+            <Parameter Name="UnitType" Mode="In" Type="String" />
             <Parameter Name="PurchaseAmt" Mode="In" Type="Int32" />
             <Parameter Name="UserID" Mode="In" Type="Int32" />
             <Parameter Name="SupplierID" Mode="In" Type="Int32" />
@@ -507,22 +518,23 @@
             <Parameter Name="Password" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SELECT_INVENTORY" ReturnType="Collection(Model.SELECT_INVENTORY_Result)">
-          <Parameter Name="InventoryID" Mode="In" Type="Int64" />
+            <Parameter Name="InventoryID" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="SELECT_PRODUCTPRICEHISTORY" ReturnType="Collection(Model.SELECT_PRODUCTPRICEHISTORY_Result)">
-          <Parameter Name="PPHID" Mode="In" Type="Int64" />
+            <Parameter Name="PPHID" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="SELECT_SUPPLIER" ReturnType="Collection(Model.SELECT_SUPPLIER_Result)">
-          <Parameter Name="Supplier_ID" Mode="In" Type="Int64" />
+            <Parameter Name="Supplier_ID" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="SELECT_USER" ReturnType="Collection(Model.SELECT_USER_Result)">
-          <Parameter Name="User_ID" Mode="In" Type="Int64" />
+            <Parameter Name="User_ID" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_INVENTORY">
             <Parameter Name="InventoryID" Mode="InOut" Type="Int64" />
             <Parameter Name="ProductName" Mode="In" Type="String" />
             <Parameter Name="InvCount" Mode="In" Type="Int32" />
-            <Parameter Name="Status" Mode="In" Type="String" />
+            <Parameter Name="blnIsLow" Mode="In" Type="String" />
+            <Parameter Name="UnitType" Mode="In" Type="String" />
             <Parameter Name="CategoryID" Mode="In" Type="Int32" />
             <Parameter Name="ProductlocationID" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -531,6 +543,7 @@
             <Parameter Name="ProductName" Mode="In" Type="String" />
             <Parameter Name="PurchaseDate" Mode="In" Type="DateTime" />
             <Parameter Name="CostPerUnit" Mode="In" Type="Decimal" />
+            <Parameter Name="UnitType" Mode="In" Type="String" />
             <Parameter Name="PurchaseAmt" Mode="In" Type="Int32" />
             <Parameter Name="UserID" Mode="In" Type="Int32" />
             <Parameter Name="SupplierID" Mode="In" Type="Int32" />
@@ -573,7 +586,8 @@
           <Property Type="Int32" Name="intInventoryID" Nullable="false" />
           <Property Type="String" Name="strProductName" Nullable="false" MaxLength="50" />
           <Property Type="Int32" Name="intInvCount" Nullable="false" />
-          <Property Type="String" Name="strStatus" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="strUnitType" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="blnIsLow" Nullable="false" MaxLength="50" />
           <Property Type="Int32" Name="intCategoryID" Nullable="false" />
           <Property Type="Int32" Name="intProductLocationID" Nullable="false" />
         </ComplexType>
@@ -581,6 +595,7 @@
           <Property Type="Int32" Name="intProductPriceHistoryID" Nullable="false" />
           <Property Type="String" Name="strProductName" Nullable="false" MaxLength="50" />
           <Property Type="DateTime" Name="dtmPurchaseDate" Nullable="false" />
+          <Property Type="String" Name="strUnitType" Nullable="false" MaxLength="50" />
           <Property Type="Decimal" Name="monCostPerUnit" Nullable="false" Precision="19" />
           <Property Type="Int32" Name="intPurchaseAmt" Nullable="false" />
           <Property Type="Int32" Name="intUserID" Nullable="false" />
@@ -629,7 +644,8 @@
                 <ScalarProperty Name="intInventoryID" ColumnName="intInventoryID" />
                 <ScalarProperty Name="strProductName" ColumnName="strProductName" />
                 <ScalarProperty Name="intInvCount" ColumnName="intInvCount" />
-                <ScalarProperty Name="strStatus" ColumnName="strStatus" />
+                <ScalarProperty Name="strUnitType" ColumnName="strUnitType" />
+                <ScalarProperty Name="blnIsLow" ColumnName="blnIsLow" />
                 <ScalarProperty Name="intCategoryID" ColumnName="intCategoryID" />
                 <ScalarProperty Name="intProductLocationID" ColumnName="intProductLocationID" />
               </MappingFragment>
@@ -649,6 +665,7 @@
                 <ScalarProperty Name="intProductPriceHistoryID" ColumnName="intProductPriceHistoryID" />
                 <ScalarProperty Name="strProductName" ColumnName="strProductName" />
                 <ScalarProperty Name="dtmPurchaseDate" ColumnName="dtmPurchaseDate" />
+                <ScalarProperty Name="strUnitType" ColumnName="strUnitType" />
                 <ScalarProperty Name="monCostPerUnit" ColumnName="monCostPerUnit" />
                 <ScalarProperty Name="intPurchaseAmt" ColumnName="intPurchaseAmt" />
                 <ScalarProperty Name="intUserID" ColumnName="intUserID" />
@@ -723,7 +740,8 @@
                 <ScalarProperty Name="intInventoryID" ColumnName="intInventoryID" />
                 <ScalarProperty Name="strProductName" ColumnName="strProductName" />
                 <ScalarProperty Name="intInvCount" ColumnName="intInvCount" />
-                <ScalarProperty Name="strStatus" ColumnName="strStatus" />
+                <ScalarProperty Name="strUnitType" ColumnName="strUnitType" />
+                <ScalarProperty Name="blnIsLow" ColumnName="blnIsLow" />
                 <ScalarProperty Name="intCategoryID" ColumnName="intCategoryID" />
                 <ScalarProperty Name="intProductLocationID" ColumnName="intProductLocationID" />
               </ComplexTypeMapping>
@@ -735,6 +753,7 @@
                 <ScalarProperty Name="intProductPriceHistoryID" ColumnName="intProductPriceHistoryID" />
                 <ScalarProperty Name="strProductName" ColumnName="strProductName" />
                 <ScalarProperty Name="dtmPurchaseDate" ColumnName="dtmPurchaseDate" />
+                <ScalarProperty Name="strUnitType" ColumnName="strUnitType" />
                 <ScalarProperty Name="monCostPerUnit" ColumnName="monCostPerUnit" />
                 <ScalarProperty Name="intPurchaseAmt" ColumnName="intPurchaseAmt" />
                 <ScalarProperty Name="intUserID" ColumnName="intUserID" />

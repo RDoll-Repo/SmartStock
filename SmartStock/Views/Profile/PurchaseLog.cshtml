@@ -19,10 +19,10 @@
             @Html.DisplayNameFor(Model => Model.intPurchaseAmt)
         </th>
         <th>
-            @Html.DisplayNameFor(Model => Model.intUserID)
+            @Html.DisplayNameFor(Model => Model.TUser.strFirstName)
         </th>
         <th>
-            @Html.DisplayNameFor(Model => Model.intSupplierID)
+            @Html.DisplayNameFor(Model => Model.TSupplier.strCompanyName)
         </th>
     </tr>
 
@@ -42,10 +42,10 @@
                 @Html.DisplayFor(modelItem => item.intPurchaseAmt)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.intUserID)
+                @Html.DisplayFor(modelItem => item.TUser.strFirstName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.intSupplierID)
+                @Html.DisplayFor(modelItem => item.TSupplier.strCompanyName)
             </td>
         </tr>
     }

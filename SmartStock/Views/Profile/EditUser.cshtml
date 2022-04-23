@@ -1,80 +1,103 @@
-﻿
-@{
-    ViewBag.Title = "EditUser";
+﻿@model SmartStock.Models.User
+@using (Html.BeginForm(FormMethod.Post))
+{
+    if (Model.ActionType == SmartStock.Models.User.ActionTypes.RequiredFieldsMissing)
+    {
+        <div id="content-locked">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>All fields are required.</span>
+        </div>
+    }
+    if (Model.ActionType == SmartStock.Models.User.ActionTypes.InvalidPhoneNumber)
+    {
+        <div id="content-locked">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Please enter a valid phone number.</span>
+        </div>
+    }
+    if (Model.ActionType == SmartStock.Models.User.ActionTypes.InvalidEmail)
+    {
+        <div id="content-locked">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Please enter a valid email.</span>
+        </div>
+    }
+    if (Model.ActionType == SmartStock.Models.User.ActionTypes.NoRole)
+    {
+        <div id="content-locked">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Please select a role.</span>
+        </div>
+    }
+    <div class="center-up">
+        <form action="editUser">
+            <table>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <h1>Edit User</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(Model => Model.First_Name, "First Name:")
+                    </td>
+                    <td colspan="2">
+                        @Html.TextBoxFor(Model => Model.First_Name, new { @autofocus = "autofocus" })
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(Model => Model.Last_Name, "Last Name:")
+                    </td>
+                    <td colspan="2">
+                        @Html.TextBoxFor(Model => Model.Last_Name)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(Model => Model.Email, "Email:")
+                    </td>
+                    <td colspan="2">
+                        @Html.TextBoxFor(Model => Model.Email)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(Model => Model.Phone_Number, "Phone Number")
+                    </td>
+                    <td colspan="2">
+                        @Html.TextBoxFor(Model => Model.Phone_Number)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(Model => Model.User_Name, "Username: ")
+                    </td>
+                    <td colspan="2">
+                        @Html.TextBoxFor(Model => Model.User_Name)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(Model => Model.Password, "Password: ")
+                    </td>
+                    <td colspan="2">
+                        @Html.TextBoxFor(Model => Model.Password)
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        @Html.DropDownList("rolename", "Select a Role")
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <button id="btnBack" name="btnCancel" value="back" class="button-action"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                        <button id="btnEditUser" name="btnSubmit" value="userSubmit" class="button-action"><i class="fas fa-user-plus"></i> Submit</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
 }
-@model SmartStock.Models.User
-
-<h1>Edit User</h1>
-
-<!--In practice, these fields will be populated with the user to be edited-->
-<div class="item">
-    <div>
-        @Html.LabelFor(Model => Model.First_Name)
-        @Html.TextBoxFor(Model => Model.First_Name)
-    </div>
-</div>
-
-<div class="item">
-    <div>
-        @Html.LabelFor(Model => Model.Last_Name)
-        @Html.TextBoxFor(Model => Model.Last_Name)
-    </div>
-</div>
-
-<div class="item">
-    <div>
-        @Html.LabelFor(Model => Model.Role_ID)
-        @Html.TextBoxFor(Model => Model.Role_ID)
-    </div>
-</div>
-
-<div class="item">
-    <div>
-        @Html.LabelFor(Model => Model.Phone_Number)
-        @Html.TextBoxFor(Model => Model.Phone_Number)
-    </div>
-</div>
-
-<div class="item">
-    <div>
-        @Html.LabelFor(Model => Model.Address_1)
-        @Html.TextBoxFor(Model => Model.Address_1)
-    </div>
-</div>
-
-<div class="item">
-    <div>
-        @Html.LabelFor(Model => Model.Zip)
-        @Html.TextBoxFor(Model => Model.Zip)
-    </div>
-</div>
-
-<div class="item">
-    <div>
-        @Html.LabelFor(Model => Model.User_Name)
-        @Html.TextBoxFor(Model => Model.User_Name)
-    </div>
-</div>
-
-<div class="item">
-    <div>
-        @Html.LabelFor(Model => Model.Password)
-        @Html.TextBoxFor(Model => Model.Password)
-    </div>
-</div>
-
-<!--Confirm Password-->
-<div class="item">
-    <div>
-        @Html.LabelFor(Model => Model.Password)
-        @Html.TextBoxFor(Model => Model.Password)
-    </div>
-</div>
-
-<form action="Users">
-    <input type="submit" value="Submit" />
-</form>
-
-<form action="Users">
-    <input type="submit" value="Cancel" />
-</form>

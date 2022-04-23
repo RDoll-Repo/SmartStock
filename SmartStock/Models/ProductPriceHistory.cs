@@ -13,6 +13,7 @@ namespace SmartStock.Models
         public DateTime PurchaseDate = DateTime.Now;
         public decimal CostPerUnit = 0;
         public int PurchaseAmt = 0;
+        public string UnitType = string.Empty;
         public int UserID = 0;
         public int SupplierID = 0;
         public ActionTypes ActionType = ActionTypes.NoType;

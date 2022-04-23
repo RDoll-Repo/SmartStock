@@ -16,6 +16,7 @@ namespace SmartStock.Models
         public int intProductPriceHistoryID { get; set; }
         public string strProductName { get; set; }
         public System.DateTime dtmPurchaseDate { get; set; }
+        public string strUnitType { get; set; }
         public decimal monCostPerUnit { get; set; }
         public int intPurchaseAmt { get; set; }
         public int intUserID { get; set; }

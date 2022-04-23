@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using SmartStock.Models;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Data.Entity;
 using System.Data;
 
 namespace SmartStock.Controllers
@@ -112,6 +113,7 @@ namespace SmartStock.Controllers
 
 		public ActionResult Inventory()
 		{
+			
 			return View(GetAllInventory());
 		}
 
@@ -119,10 +121,15 @@ namespace SmartStock.Controllers
 		{
 			using (DBModel db = new DBModel())
 			{
-				return db.TInventories.ToList<TInventory>();
+				return db.TInventories.Include(c => c.TCategory).Include(l => l.TProductLocation).ToList<TInventory>();
 			}
 
 		}
+		//[HttpPost]
+		//public ActionResult Inventory(FormCollection col)
+		//{ 
+
+		//}
 
 		public ActionResult SingleItem()
 		{
@@ -193,9 +200,10 @@ namespace SmartStock.Controllers
 
 				i.ProductName = col["ProductName"];
 				i.InvCount = Convert.ToInt32(col["InvCount"]);
-				i.Status = col["Status"];
 				i.CategoryID = Convert.ToInt32(col["catagoryName"]);
 				i.ProductlocationID = Convert.ToInt32(col["location"]);
+				i.UnitType = col["UnitType"];
+				pph.UnitType = col["UnitType"];
 				pph.ProductName = col["ProductName"];
 				pph.CostPerUnit = Convert.ToDecimal(col["CostPerUnit"]);
 				pph.PurchaseAmt = Convert.ToInt32(col["InvCount"]);
@@ -204,7 +212,7 @@ namespace SmartStock.Controllers
 
 
 
-				if (i.ProductName.Length == 0 || i.InvCount == 0 || i.Status.Length == 0 || i.CategoryID == 0 || i.ProductlocationID == 0 || pph.CostPerUnit == 0 || pph.PurchaseAmt == 0 || pph.UserID == 0 || pph.SupplierID == 0)
+				if (i.ProductName.Length == 0 || i.InvCount == 0 || i.CategoryID == 0 || i.ProductlocationID == 0 || pph.CostPerUnit == 0 || pph.PurchaseAmt == 0 || pph.UserID == 0 || pph.SupplierID == 0)
 				{
 					i.ActionType = Models.Inventory.ActionTypes.RequiredFieldsMissing;
 					pph.ActionType = Models.ProductPriceHistory.ActionTypes.RequiredFieldsMissing;
@@ -240,7 +248,7 @@ namespace SmartStock.Controllers
 		{
 			using (DBModel db = new DBModel())
 			{
-				return db.TProductPriceHistories.ToList<TProductPriceHistory>();
+				return db.TProductPriceHistories.Include(u => u.TUser).Include(s => s.TSupplier).ToList<TProductPriceHistory>();
 			}
 		}
 
@@ -253,7 +261,7 @@ namespace SmartStock.Controllers
 		{
 			using (DBModel db = new DBModel())
 			{
-				return db.TUsers.ToList<TUser>();
+				return db.TUsers.Include(r => r.TRole).ToList<TUser>();
 			}
 
 		}

@@ -202,23 +202,18 @@ namespace SmartStock.Controllers
                     return RedirectToAction("Dashboard", "Profile");
                 }
 
+                i.ProductName = col["ProductName"];
+                i.InvCount = Convert.ToInt32(col["InvCount"]);
+                i.CategoryID = Convert.ToInt32(col["catagoryName"]);
+                i.ProductlocationID = Convert.ToInt32(col["location"]);
+
                     if (col["btnSubmit"] == "addproduct")
-                    {
+                    { //sign up button pressed
+                      // create if/else statement to determine if they are a new business signing up or a manager/employee signingup
+                      // if owner, prompt to initialize stock
+                      // if manager/employee, allow signup via
 
-                        i.ProductName = col["ProductName"];
-
-                        if (col["catagoryName"] != "" && col["location"] != "" && col["InvCount"] != "") 
-                        {
-                            i.CategoryID = Convert.ToInt32(col["catagoryName"]);
-                            i.ProductlocationID = Convert.ToInt32(col["location"]);
-                            i.InvCount = Convert.ToInt32(col["InvCount"]);
-                        }
-					    else 
-                        {
-                            i.ActionType = Models.Inventory.ActionTypes.RequiredFieldsMissing;
-                            return View(i);
-                        }
-                        if (i.ProductName.Length == 0 || i.InvCount == 0)
+                        if (i.ProductName.Length == 0 || i.InvCount == 0 || i.CategoryID == 0 || i.ProductlocationID == 0)
                         {
                             i.ActionType = Models.Inventory.ActionTypes.RequiredFieldsMissing;
                             return View(i);

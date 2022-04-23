@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SmartStock.Models
 {
@@ -15,12 +16,11 @@ namespace SmartStock.Models
         public int UserID { get; set; }
         public int SupplierID { get; set; }
 
-
+        public string UnitType = string.Empty;
         public long InventoryID = 0;
         public string ProductName = string.Empty;
         public int InvCount = 0;
-        public string UnitType = string.Empty;
-        public string Status = string.Empty;
+        public bool blnIsLow;
         public int CategoryID = 0;
         public int ProductlocationID = 0;
         public ActionTypes ActionType = ActionTypes.NoType;
