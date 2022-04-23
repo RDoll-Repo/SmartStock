@@ -21,7 +21,6 @@ namespace SmartStock.Models
         public string ProductName = string.Empty;
         public int InvCount = 0;
         public bool blnIsLow;
-        public string UnitType = string.Empty;
         public int CategoryID = 0;
         public int ProductlocationID = 0;
         public ActionTypes ActionType = ActionTypes.NoType;
