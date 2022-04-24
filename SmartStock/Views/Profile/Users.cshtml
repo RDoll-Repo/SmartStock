@@ -56,7 +56,6 @@
         @Html.DisplayFor(modelItem => item.TRole.strRoleName)
     </td>
     <td colspan="2" style="text-align: center;">
-    <td>
         @Html.ActionLink(" ", "EditUser", new { User_ID = item.intUserID }, new { @class = "fa-solid fa-pen" })
         &nbsp;
         @Html.ActionLink(" ", "DeleteUser", new { User_ID = item.intUserID }, new { @class = "fa-solid fa-trash" })
