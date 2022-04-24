@@ -600,6 +600,8 @@ namespace SmartStock.Controllers
 
 			try
 			{
+				ViewBag.flag = Supplier.ActionTypes.NoType;
+
 				if (col["btnCancel"] == "back")
 				{
 					return RedirectToAction("Suppliers");
@@ -617,25 +619,44 @@ namespace SmartStock.Controllers
 				s.Contact_State = col["strContactState"];
 				s.Contact_Zip = col["strZip"];
 				s.URL = col["strURL"];
-				s.Notes = col["Notes"];
+				s.Notes = col["strNotes"];
 
 				if (s.Notes == null) { s.Notes = " "; }
 				if (s.URL == null) { s.URL = " "; }
 
-				if (col["btnSubmit"] == "editSubmit")
-				{ //sign up button pressed
-					s.Supplier_ID = Supplier_ID;
-					s.Save();
-					s.SaveSupplierSession();
-					return RedirectToAction("Suppliers");
+				s.Validation();
+
+				if (s.ActionType != Models.Supplier.ActionTypes.NoType)
+				{
+					ViewBag.flag = s.ActionType;
+					return View(ts);
 				}
+				else
+				{
+					if (col["btnSubmit"] == "editSubmit")
+					{ //sign up button pressed
+						s.Supplier_ID = Supplier_ID;
+						s.Save();
+						s.SaveSupplierSession();
+						return RedirectToAction("Suppliers");
+					}
+					return View(ts);
+				}
+
+
+
+
 				return View(ts);
+
 			}
 			catch (Exception)
 			{
 				Models.Supplier s = new Models.Supplier();
 				return View(ts);
 			}
+
+
+
 		}
 
 		public ActionResult CreateSupplier()
