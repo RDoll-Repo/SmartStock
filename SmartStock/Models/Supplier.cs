@@ -10,7 +10,7 @@ namespace SmartStock.Models
 
     public class Supplier
     {
-        public long Supplier_ID = 0;
+        public long Supplier_ID { get; set; }
         public string Company_Name = string.Empty;
         public string Contact_FirstName = string.Empty;
         public string Contact_LastName = string.Empty;
@@ -50,6 +50,16 @@ namespace SmartStock.Models
             catch (Exception ex) { throw new Exception(ex.Message); }
         }
 
+        public Supplier.ActionTypes Delete()
+        {
+            try
+            {
+                Database db = new Database();
+                this.ActionType = db.DeleteSupplier(this);
+                return this.ActionType;
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+        }
         public bool RemoveSupplierSession()
         {
             try

@@ -106,9 +106,15 @@ namespace SmartStock.Controllers
 
 		public ActionResult Dashboard()
 		{
-			ViewBag.Message = "Dashboard";
+			return View(GetAllCards());
+		}
+		IEnumerable<TAlert> GetAllCards()
+		{
+			using (DBModel db = new DBModel())
+			{
+				return db.TAlerts.ToList<TAlert>();
+			}
 
-			return View();
 		}
 
 		public ActionResult Inventory()
@@ -125,11 +131,7 @@ namespace SmartStock.Controllers
 			}
 
 		}
-		//[HttpPost]
-		//public ActionResult Inventory(FormCollection col)
-		//{ 
 
-		//}
 
 		public ActionResult SingleItem()
 		{
@@ -138,11 +140,115 @@ namespace SmartStock.Controllers
 			return View();
 		}
 
-		public ActionResult EditItem()
+		public ActionResult EditItem(int InventoryID)
 		{
-			ViewBag.Message = "EditItem";
 
+			//Create db context object here 
+			DBModel dbContext = new DBModel();
+			//Get the value from database and then set it to ViewBag to pass it View
+			IEnumerable<SelectListItem> items3 = dbContext.TCategories.Select(g => new SelectListItem
+			{
+				Value = g.intCategoryID.ToString(),
+				Text = g.strCategory
+
+			});
+			ViewBag.catagoryName = items3;
+
+			IEnumerable<SelectListItem> items5 = dbContext.TProductLocations.Select(l => new SelectListItem
+			{
+				Value = l.intProductLocationID.ToString(),
+				Text = l.strLocation
+
+			});
+			ViewBag.location = items5;
+			//return View();
+			Models.Inventory i = new Models.Inventory();
+			return View(i);
+
+		}
+
+		[HttpPost]
+		public ActionResult EditItem(FormCollection col, int InventoryID)
+		{
+
+			try
+			{
+				if (col["btnCancel"] == "back")
+				{
+					return RedirectToAction("Inventory");
+				}
+
+				Models.Inventory i = new Models.Inventory();
+
+
+				i.ProductName = col["ProductName"];
+				i.InvCount = Convert.ToInt32(col["InvCount"]);
+				i.CategoryID = Convert.ToInt32(col["catagoryName"]);
+				i.ProductlocationID = Convert.ToInt32(col["location"]);
+				i.UnitType = col["UnitType"];
+
+				if (col["btnSubmit"] == "editSubmit")
+				{ //sign up button pressed
+					i.InventoryID = InventoryID;
+					i.Save();
+					i.SaveInventorySession();
+					return RedirectToAction("Inventory");
+				}
+				return View(i);
+			}
+			catch (Exception)
+			{
+				Models.Inventory i = new Models.Inventory();
+				DBModel dbContext = new DBModel();
+				IEnumerable<SelectListItem> items3 = dbContext.TCategories.Select(g => new SelectListItem
+				{
+					Value = g.intCategoryID.ToString(),
+					Text = g.strCategory
+
+				});
+				ViewBag.catagoryName = items3;
+
+				IEnumerable<SelectListItem> items5 = dbContext.TProductLocations.Select(l => new SelectListItem
+				{
+					Value = l.intProductLocationID.ToString(),
+					Text = l.strLocation
+
+				});
+				ViewBag.location = items5;
+				return View(i);
+			}
+		}
+		public ActionResult DeleteItem(int InventoryID)
+		{
 			return View();
+		}
+		[HttpPost]
+		public ActionResult DeleteItem(FormCollection col, int InventoryID)
+		{
+
+			try
+			{
+				if (col["btnCancel"] == "back")
+				{
+					return RedirectToAction("Inventory");
+				}
+
+				Models.Inventory i = new Models.Inventory();
+
+				if (col["btnSubmit"] == "deleteSubmit")
+				{ //sign up button pressed
+					i.InventoryID = InventoryID;
+					i.Delete();
+					i.SaveInventorySession();
+					return RedirectToAction("Inventory");
+				}
+				return View(i);
+			}
+			catch (Exception)
+			{
+				Models.Inventory i = new Models.Inventory();
+				return View(i);
+			}
 		}
 		public ActionResult CreateItem()
 		{
@@ -347,11 +453,113 @@ namespace SmartStock.Controllers
 			}
 		}
 
-		public ActionResult EditUser()
+		public ActionResult EditUser(int User_ID)
 		{
-			ViewBag.Message = "EditUser";
+			//Create db context object here 
+			DBModel dbContext = new DBModel();
+			
+				IEnumerable<SelectListItem> items2 = dbContext.TRoles.Select(c => new SelectListItem
+				{
+					Value = c.intRoleID.ToString(),
+					Text = c.strRoleName
 
+				});
+				ViewBag.rolename = items2;
+				//return View();
+				Models.User u = new Models.User();
+				return View();
+		
+		}
+
+		[HttpPost]
+		public ActionResult EditUser(FormCollection col, int User_ID)
+		{
+
+			try
+			{
+				if (col["btnCancel"] == "back")
+				{
+					return RedirectToAction("Users");
+				}
+
+				Models.User u = new Models.User();
+
+
+				u.First_Name = col["First_Name"];
+				u.Last_Name = col["Last_Name"];
+				u.Phone_Number = col["Phone_Number"];
+				u.Email = col["Email"];
+				u.User_Name = col["User_Name"];
+				u.Password = col["Password"];
+				u.Role_ID = Convert.ToInt32(col["rolename"]);
+
+				u.Validation();
+
+				if (col["btnSubmit"] == "editSubmit")
+				{ //sign up button pressed
+					u.User_ID = User_ID;
+					u.Save();
+					u.SaveUserSession();
+					return RedirectToAction("Users");
+				}
+				return View(u);
+			}
+			catch (Exception)
+			{
+				Models.User u = new Models.User();
+				u.ActionType = Models.User.ActionTypes.NoRole;
+				DBModel dbContext = new DBModel();
+				IEnumerable<SelectListItem> items2 = dbContext.TRoles.Select(c => new SelectListItem
+				{
+					Value = c.intRoleID.ToString(),
+					Text = c.strRoleName
+
+				});
+				ViewBag.rolename = items2;
+				return View(u);
+			}
+		}
+
+		public ActionResult DeleteUser(int User_ID)
+		{
 			return View();
+		}
+		[HttpPost]
+		public ActionResult DeleteUser(FormCollection col, int User_ID)
+		{
+
+			try
+			{
+				if (col["btnCancel"] == "back")
+				{
+					return RedirectToAction("Users");
+				}
+
+				Models.User u = new Models.User();
+
+				if (col["btnSubmit"] == "deleteSubmit")
+				{ //sign up button pressed
+					u.User_ID = User_ID;
+					u.Delete();
+					u.SaveUserSession();
+					return RedirectToAction("Users");
+				}
+				return View(u);
+			}
+			catch (Exception)
+			{
+				Models.User u = new Models.User();
+				u.ActionType = Models.User.ActionTypes.NoRole;
+				DBModel dbContext = new DBModel();
+				IEnumerable<SelectListItem> items2 = dbContext.TRoles.Select(c => new SelectListItem
+				{
+					Value = c.intRoleID.ToString(),
+					Text = c.strRoleName
+
+				});
+				ViewBag.rolename = items2;
+				return View(u);
+			}
 		}
 
 
@@ -368,11 +576,55 @@ namespace SmartStock.Controllers
 
 		}
 
-		public ActionResult EditSupplier()
+		public ActionResult EditSupplier(int Supplier_ID)
 		{
-			ViewBag.Message = "Edit Supplier";
+			//Create db context object here 
+			DBModel dbContext = new DBModel();
 
+			Models.Supplier s = new Models.Supplier();
 			return View();
+
+		}
+
+		[HttpPost]
+		public ActionResult EditSupplier(FormCollection col, int Supplier_ID)
+		{
+
+			try
+			{
+				if (col["btnCancel"] == "back")
+				{
+					return RedirectToAction("Suppliers");
+				}
+
+				Models.Supplier s = new Models.Supplier();
+
+
+				s.Company_Name = col["Company_Name"];
+				s.Contact_FirstName = col["Contact_FirstName"];
+				s.Contact_LastName = col["Contact_LastName"];
+				s.Contact_PhoneNumber = col["Contact_PhoneNumber"];
+				s.Contact_Email = col["Contact_Email"];
+				s.Contact_Address1 = col["Contact_Address1"];
+				s.Contact_State = col["Contact_State"];
+				s.Contact_Zip = col["Contact_Zip"];
+				s.URL = col["URL"];
+				s.Notes = col["Notes"];
+
+				if (col["btnSubmit"] == "editSubmit")
+				{ //sign up button pressed
+					s.Supplier_ID = Supplier_ID;
+					s.Save();
+					s.SaveSupplierSession();
+					return RedirectToAction("Suppliers");
+				}
+				return View(s);
+			}
+			catch (Exception)
+			{
+				Models.Supplier s = new Models.Supplier();
+				return View(s);
+			}
 		}
 
 		public ActionResult CreateSupplier()
@@ -425,6 +677,156 @@ namespace SmartStock.Controllers
 			{
 				Models.Supplier s = new Models.Supplier();
 				return View(s);
+			}
+		}
+
+
+		public ActionResult DeleteSupplier(int Supplier_ID)
+		{
+			return View();
+		}
+		[HttpPost]
+		public ActionResult DeleteSupplier(FormCollection col, int Supplier_ID)
+		{
+
+			try
+			{
+				if (col["btnCancel"] == "back")
+				{
+					return RedirectToAction("Users");
+				}
+
+				Models.Supplier s = new Models.Supplier();
+
+				if (col["btnSubmit"] == "deleteSubmit")
+				{ //sign up button pressed
+					s.Supplier_ID = Supplier_ID;
+					s.Delete();
+					s.SaveSupplierSession();
+					return RedirectToAction("Suppliers");
+				}
+				return View(s);
+			}
+			catch (Exception)
+			{
+				Models.Supplier s = new Models.Supplier();
+				return View(s);
+			}
+		}
+
+		public ActionResult CreateCard()
+		{
+			Models.Card c = new Models.Card();
+			return View(c);
+		}
+
+		[HttpPost]
+		public ActionResult CreateCard(FormCollection col)
+		{
+			try
+			{
+				if (col["btnCancel"] == "back")
+				{
+					return RedirectToAction("Dashboard");
+				}
+
+				Models.Card c = new Models.Card();
+
+				c.Message = col["Message"];
+
+
+				if (c.CardType != Models.Card.CardTypes.NoType)
+				{
+					return View(c);
+				}
+				else
+				{
+					if (col["btnSubmit"] == "addcard")
+					{ //sign up button pressed
+						c.Save();
+						c.SaveCardSession();
+						return RedirectToAction("Dashboard");
+					}
+					return View(c);
+				}
+			}
+			catch (Exception)
+			{
+				Models.Card c = new Models.Card();
+				return View(c);
+			}
+		}
+		public ActionResult EditCard(int Card_ID)
+		{
+			//Create db context object here 
+			DBModel dbContext = new DBModel();
+
+			Models.Card c = new Models.Card();
+			return View();
+
+		}
+
+		[HttpPost]
+		public ActionResult EditCard(FormCollection col, int Card_ID)
+		{
+
+			try
+			{
+				if (col["btnCancel"] == "back")
+				{
+					return RedirectToAction("Dashboard");
+				}
+
+				Models.Card c = new Models.Card();
+
+
+				c.Message = col["Message"];
+
+				if (col["btnSubmit"] == "editSubmit")
+				{ //sign up button pressed
+					c.Card_ID = Card_ID;
+					c.Save();
+					c.SaveCardSession();
+					return RedirectToAction("Dashboard");
+				}
+				return View(c);
+			}
+			catch (Exception)
+			{
+				Models.Card c = new Models.Card();
+				return View(c);
+			}
+		}
+		public ActionResult DeleteCard(int Card_ID)
+		{
+			return View();
+		}
+		[HttpPost]
+		public ActionResult DeleteCard(FormCollection col, int Card_ID)
+		{
+
+			try
+			{
+				if (col["btnCancel"] == "back")
+				{
+					return RedirectToAction("Dashboard");
+				}
+
+				Models.Card c = new Models.Card();
+
+				if (col["btnSubmit"] == "deleteSubmit")
+				{ //sign up button pressed
+					c.Card_ID = Card_ID;
+					c.Delete();
+					c.SaveCardSession();
+					return RedirectToAction("Dashboard");
+				}
+				return View(c);
+			}
+			catch (Exception)
+			{
+				Models.Card c = new Models.Card();
+				return View(c);
 			}
 		}
 	}

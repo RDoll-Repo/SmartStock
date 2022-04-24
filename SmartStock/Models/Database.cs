@@ -139,10 +139,10 @@ namespace SmartStock.Models
 			{
 				SqlConnection cn = null;
 				if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
-				SqlCommand cm = new SqlCommand("DELETE_INVENTORY", cn);
+				SqlCommand cm = new SqlCommand("DELETE_USER", cn);
 				int intReturnValue = -1;
 
-				SetParameter(ref cm, "@InventoryID", u.User_ID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
+				SetParameter(ref cm, "@User_ID", u.User_ID, SqlDbType.BigInt);
 
 				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.Int, Direction: ParameterDirection.ReturnValue);
 
@@ -218,7 +218,7 @@ namespace SmartStock.Models
 				SqlCommand cm = new SqlCommand("UPDATE_SUPPLIER", cn);
 				int intReturnValue = -1;
 
-				SetParameter(ref cm, "@Supplier_ID", s.Supplier_ID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
+				SetParameter(ref cm, "@Supplier_ID", s.Supplier_ID, SqlDbType.BigInt);
 				SetParameter(ref cm, "@Company_Name", s.Company_Name, SqlDbType.VarChar);
 				SetParameter(ref cm, "@Contact_FirstName", s.Contact_FirstName, SqlDbType.VarChar);
 				SetParameter(ref cm, "@Contact_LastName", s.Contact_LastName, SqlDbType.VarChar);
@@ -254,10 +254,10 @@ namespace SmartStock.Models
 			{
 				SqlConnection cn = null;
 				if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
-				SqlCommand cm = new SqlCommand("DELETE_INVENTORY", cn);
+				SqlCommand cm = new SqlCommand("DELETE_SUPPLIER", cn);
 				int intReturnValue = -1;
 
-				SetParameter(ref cm, "@InventoryID", s.Supplier_ID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
+				SetParameter(ref cm, "@Supplier_ID", s.Supplier_ID, SqlDbType.BigInt);
 
 				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.Int, Direction: ParameterDirection.ReturnValue);
 
@@ -362,10 +362,10 @@ namespace SmartStock.Models
 			{
 				SqlConnection cn = null;
 				if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
-				SqlCommand cm = new SqlCommand("DELETE_INVENTORY", cn);
+				SqlCommand cm = new SqlCommand("DELETE_PRODUCTPRICEHISTORY", cn);
 				int intReturnValue = -1;
 
-				SetParameter(ref cm, "@InventoryID", pph.ProductPriceHistoryID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
+				SetParameter(ref cm, "@PPHID", pph.ProductPriceHistoryID, SqlDbType.BigInt);
 
 				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.Int, Direction: ParameterDirection.ReturnValue);
 
@@ -436,10 +436,11 @@ namespace SmartStock.Models
 				SqlCommand cm = new SqlCommand("UPDATE_INVENTORY", cn);
 				int intReturnValue = -1;
 
-				SetParameter(ref cm, "@InventoryID", i.InventoryID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
+				SetParameter(ref cm, "@InventoryID", i.InventoryID, SqlDbType.BigInt);
 				SetParameter(ref cm, "@ProductName", i.ProductName, SqlDbType.VarChar);
 				SetParameter(ref cm, "@InvCount", i.InvCount, SqlDbType.Int);
 				SetParameter(ref cm, "@blnIsLow", i.blnIsLow, SqlDbType.VarChar);
+				SetParameter(ref cm, "@UnitType", i.UnitType, SqlDbType.VarChar);
 				SetParameter(ref cm, "@CategoryID", i.CategoryID, SqlDbType.Int);
 				SetParameter(ref cm, "@ProductlocationID", i.ProductlocationID, SqlDbType.Int);
 
@@ -470,7 +471,7 @@ namespace SmartStock.Models
 				SqlCommand cm = new SqlCommand("DELETE_INVENTORY", cn);
 				int intReturnValue = -1;
 
-				SetParameter(ref cm, "@InventoryID", i.InventoryID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
+				SetParameter(ref cm, "@InventoryID", i.InventoryID, SqlDbType.BigInt);
 
 				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.Int, Direction: ParameterDirection.ReturnValue);
 
@@ -489,6 +490,101 @@ namespace SmartStock.Models
 			}
 			catch (Exception ex) { throw new Exception(ex.Message); }
 		}
+
+		public Card.CardTypes InsertCard(Card c)
+		{
+			try
+			{
+				SqlConnection cn = null;
+				if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
+				SqlCommand cm = new SqlCommand("INSERT_ALERT", cn);
+				int intReturnValue = -1;
+
+				SetParameter(ref cm, "@AlertID", c.Card_ID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
+				SetParameter(ref cm, "@Alert", c.Message, SqlDbType.VarChar);
+				SetParameter(ref cm, "@AlertDate", c.AlertDateTime, SqlDbType.DateTime);
+
+				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.TinyInt, Direction: ParameterDirection.ReturnValue);
+
+				cm.ExecuteReader();
+
+				intReturnValue = (int)cm.Parameters["ReturnValue"].Value;
+				CloseDBConnection(ref cn);
+
+				switch (intReturnValue)
+				{
+					case 1: // new Supplier created
+						c.Card_ID = (long)cm.Parameters["@AlertID"].Value;
+						return Card.CardTypes.InsertSuccessful;
+					default:
+						return Card.CardTypes.Unknown;
+				}
+			}
+			catch (Exception ex) { throw new Exception(ex.Message); }
+		}
+
+
+
+		public Card.CardTypes UpdateCard(Card c)
+		{
+			try
+			{
+				SqlConnection cn = null;
+				if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
+				SqlCommand cm = new SqlCommand("UPDATE_ALERT", cn);
+				int intReturnValue = -1;
+
+				SetParameter(ref cm, "@AlertID", c.Card_ID, SqlDbType.BigInt);
+				SetParameter(ref cm, "@Alert", c.Message, SqlDbType.VarChar);
+				SetParameter(ref cm, "@AlertDate", c.AlertDateTime, SqlDbType.DateTime);
+
+				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.Int, Direction: ParameterDirection.ReturnValue);
+
+				cm.ExecuteReader();
+
+				intReturnValue = (int)cm.Parameters["ReturnValue"].Value;
+				CloseDBConnection(ref cn);
+
+				switch (intReturnValue)
+				{
+					case 1: //new updated
+						return Card.CardTypes.UpdateSuccessful;
+					default:
+						return Card.CardTypes.Unknown;
+				}
+			}
+			catch (Exception ex) { throw new Exception(ex.Message); }
+		}
+
+		public Card.CardTypes DeleteCard(Card c)
+		{
+			try
+			{
+				SqlConnection cn = null;
+				if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
+				SqlCommand cm = new SqlCommand("DELETE_ALERT", cn);
+				int intReturnValue = -1;
+
+				SetParameter(ref cm, "@AlertID", c.Card_ID, SqlDbType.BigInt);
+
+				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.Int, Direction: ParameterDirection.ReturnValue);
+
+				cm.ExecuteReader();
+
+				intReturnValue = (int)cm.Parameters["ReturnValue"].Value;
+				CloseDBConnection(ref cn);
+
+				switch (intReturnValue)
+				{
+					case 1: //new updated
+						return Card.CardTypes.DeleteSuccessful;
+					default:
+						return Card.CardTypes.Unknown;
+				}
+			}
+			catch (Exception ex) { throw new Exception(ex.Message); }
+		}
+
 		private bool GetDBConnection(ref SqlConnection SQLConn)
 		{
 			try

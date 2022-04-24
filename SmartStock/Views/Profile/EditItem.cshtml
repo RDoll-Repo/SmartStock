@@ -1,45 +1,72 @@
-﻿
-@{
-    ViewBag.Title = "EditItem";
-}
+﻿@model SmartStock.Models.Inventory
 
-<div class="EditItem">
 
-    <h1>Edit Item</h1>
 
-    <!--In practice, this list will be pre-occu[ied with the values of the item to edit-->
-    <div class="item">
-        <form action="EditItem">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name"><br><br>
+<h2>Edit Item</h2>
 
-            <label for="category">Category:</label>
-            <input type="text" id="category" name="category"><br><br>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    <h4>TInventory</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.InventoryID)
 
-            <label for="location">Location:</label>
-            <input type="text" id="location" name="location"><br><br>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+        </div>
+    </div>
 
-            <label for="price">Price:</label>
-            <input type="text" id="price" name="price"><br><br>
+    <div class="form-group">
+        @Html.LabelFor(model => model.InvCount, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.InvCount, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.InvCount, "", new { @class = "text-danger" })
+        </div>
+    </div>
 
-            <label for="inventory">Inventory:</label>
-            <input type="text" id="inventory" name="inventory"><br><br>
+    <div class="form-group">
+        @Html.LabelFor(model => model.UnitType, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.UnitType, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.UnitType, "", new { @class = "text-danger" })
+        </div>
+    </div>
 
-            <label for="unitMeasurement">Unit/Measurement:</label>
-            <input type="text" id="unitMesaurement" name="unitMeasurement"><br><br>
+    <div class="form-group">
+        @Html.LabelFor(model => model.blnIsLow, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.blnIsLow)
+                @Html.ValidationMessageFor(model => model.blnIsLow, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
 
-            <label for="supplier">Supplier:</label>
-            <input type="text" id="supplier" name="supplier"><br><br>
+        <div class="col-md-10">
+            @Html.DropDownList("catagoryName", "Select a Category")
+        </div>
+    </div>
+    <div class="form-group">
 
-        </form>
+        <div class="col-md-10">
+            @Html.DropDownList("location", "Select a Location")
+        </div>
+    </div>
+   
 
-        <form action="SingleItem">
-            <input type="submit" value="Cancel" />
-        </form>
-
-        <form action="Inventory">
-            <input type="submit" value="Submit" />
-        </form>
-
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button id="btnBack" name="btnCancel" value="back" class="button-action"><i class="fa-solid fa-arrow-left"></i> Back</button>
+            <button id="btnEditItem" name="btnSubmit" value="editSubmit" class="button-action"><i class="fas fa-user-plus"></i> Submit </button>
+        </div>
     </div>
 </div>
+}
+

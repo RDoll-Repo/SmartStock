@@ -52,6 +52,17 @@ namespace SmartStock.Models
             catch (Exception ex) { throw new Exception(ex.Message); }
         }
 
+        public Inventory.ActionTypes Delete()
+        {
+            try
+            {
+                Database db = new Database();
+                this.ActionType = db.DeleteInventory(this);
+                return this.ActionType;
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+        }
+
         public bool RemoveInventorySession()
         {
             try

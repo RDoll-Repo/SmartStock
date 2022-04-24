@@ -1,0 +1,27 @@
+﻿@model SmartStock.Models.Card
+@*@model IEnumerable<SmartStock.Models.TInventory>*@
+@using (Html.BeginForm(FormMethod.Post))
+{
+    <div class="center-up">
+        <form action="Create Alert">
+            <table>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <h1>Dashboard Alerts</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.TextBoxFor(model => model.Message, new { @placeholder = "Alert/Note" })
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <button id="btnBack" name="btnCancel" value="back" class="button-action"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                        <button id="btnAddCard" name="btnSubmit" value="addcard" class="button-action"><i class="fas fa-user-plus"></i> Add-Card</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+}

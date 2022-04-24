@@ -5,6 +5,14 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TAlerts">
+          <Key>
+            <PropertyRef Name="intAlertID" />
+          </Key>
+          <Property Name="intAlertID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="strAlert" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="dtmAlertDate" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="TCategory">
           <Key>
             <PropertyRef Name="intCategoryID" />
@@ -20,7 +28,7 @@
           <Property Name="strProductName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="intInvCount" Type="int" Nullable="false" />
           <Property Name="strUnitType" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="blnIsLow" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="blnIsLow" Type="bit" Nullable="false" />
           <Property Name="intCategoryID" Type="int" Nullable="false" />
           <Property Name="intProductLocationID" Type="int" Nullable="false" />
         </EntityType>
@@ -140,6 +148,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="DELETE_ALERT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="AlertID" Type="bigint" Mode="InOut" />
+        </Function>
         <Function Name="DELETE_INVENTORY" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
           <Parameter Name="InventoryID" Type="bigint" Mode="InOut" />
         </Function>
@@ -152,12 +163,17 @@
         <Function Name="DELETE_USER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
           <Parameter Name="User_ID" Type="bigint" Mode="InOut" />
         </Function>
+        <Function Name="INSERT_ALERT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="AlertID" Type="bigint" Mode="InOut" />
+          <Parameter Name="Alert" Type="varchar" Mode="In" />
+          <Parameter Name="AlertDate" Type="date" Mode="In" />
+        </Function>
         <Function Name="INSERT_INVENTORY" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
           <Parameter Name="InventoryID" Type="bigint" Mode="InOut" />
           <Parameter Name="ProductName" Type="varchar" Mode="In" />
           <Parameter Name="InvCount" Type="int" Mode="In" />
           <Parameter Name="UnitType" Type="varchar" Mode="In" />
-          <Parameter Name="blnIsLow" Type="varchar" Mode="In" />
+          <Parameter Name="blnIsLow" Type="bit" Mode="In" />
           <Parameter Name="CategoryID" Type="int" Mode="In" />
           <Parameter Name="ProductlocationID" Type="int" Mode="In" />
         </Function>
@@ -198,6 +214,9 @@
           <Parameter Name="User_Name" Type="varchar" Mode="In" />
           <Parameter Name="Password" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SELECT_ALERT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="AlertID" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="SELECT_INVENTORY" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
           <Parameter Name="InventoryID" Type="bigint" Mode="In" />
         </Function>
@@ -210,11 +229,16 @@
         <Function Name="SELECT_USER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
           <Parameter Name="User_ID" Type="bigint" Mode="In" />
         </Function>
+        <Function Name="UPDATE_ALERT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="AlertID" Type="bigint" Mode="InOut" />
+          <Parameter Name="Alert" Type="varchar" Mode="In" />
+          <Parameter Name="AlertDate" Type="date" Mode="In" />
+        </Function>
         <Function Name="UPDATE_INVENTORY" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
           <Parameter Name="InventoryID" Type="bigint" Mode="InOut" />
           <Parameter Name="ProductName" Type="varchar" Mode="In" />
           <Parameter Name="InvCount" Type="int" Mode="In" />
-          <Parameter Name="blnIsLow" Type="varchar" Mode="In" />
+          <Parameter Name="blnIsLow" Type="bit" Mode="In" />
           <Parameter Name="UnitType" Type="varchar" Mode="In" />
           <Parameter Name="CategoryID" Type="int" Mode="In" />
           <Parameter Name="ProductlocationID" Type="int" Mode="In" />
@@ -253,6 +277,7 @@
           <Parameter Name="Role_ID" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="TAlerts" EntityType="Self.TAlerts" Schema="db_owner" store:Type="Tables" />
           <EntitySet Name="TCategory" EntityType="Self.TCategory" Schema="db_owner" store:Type="Tables" />
           <EntitySet Name="TInventory" EntityType="Self.TInventory" Schema="db_owner" store:Type="Tables" />
           <EntitySet Name="TProductLocation" EntityType="Self.TProductLocation" Schema="db_owner" store:Type="Tables" />
@@ -286,6 +311,14 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TAlert">
+          <Key>
+            <PropertyRef Name="intAlertID" />
+          </Key>
+          <Property Name="intAlertID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="strAlert" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dtmAlertDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
         <EntityType Name="TCategory">
           <Key>
             <PropertyRef Name="intCategoryID" />
@@ -302,7 +335,7 @@
           <Property Name="strProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="intInvCount" Type="Int32" Nullable="false" />
           <Property Name="strUnitType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="blnIsLow" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="blnIsLow" Type="Boolean" Nullable="false" />
           <Property Name="intCategoryID" Type="Int32" Nullable="false" />
           <Property Name="intProductLocationID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="TCategory" Relationship="Self.TInventory_TCategory_FK" FromRole="TInventory" ToRole="TCategory" />
@@ -432,6 +465,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="DBModel" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TAlerts" EntityType="Self.TAlert" />
           <EntitySet Name="TCategories" EntityType="Self.TCategory" />
           <EntitySet Name="TInventories" EntityType="Self.TInventory" />
           <EntitySet Name="TProductLocations" EntityType="Self.TProductLocation" />
@@ -459,6 +493,9 @@
             <End Role="TRole" EntitySet="TRoles" />
             <End Role="TUser" EntitySet="TUsers" />
           </AssociationSet>
+          <FunctionImport Name="DELETE_ALERT">
+            <Parameter Name="AlertID" Mode="InOut" Type="Int64" />
+          </FunctionImport>
           <FunctionImport Name="DELETE_INVENTORY">
             <Parameter Name="InventoryID" Mode="InOut" Type="Int64" />
           </FunctionImport>
@@ -471,12 +508,17 @@
           <FunctionImport Name="DELETE_USER">
             <Parameter Name="User_ID" Mode="InOut" Type="Int64" />
           </FunctionImport>
+          <FunctionImport Name="INSERT_ALERT">
+            <Parameter Name="AlertID" Mode="InOut" Type="Int64" />
+            <Parameter Name="Alert" Mode="In" Type="String" />
+            <Parameter Name="AlertDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
           <FunctionImport Name="INSERT_INVENTORY">
             <Parameter Name="InventoryID" Mode="InOut" Type="Int64" />
             <Parameter Name="ProductName" Mode="In" Type="String" />
             <Parameter Name="InvCount" Mode="In" Type="Int32" />
             <Parameter Name="UnitType" Mode="In" Type="String" />
-            <Parameter Name="blnIsLow" Mode="In" Type="String" />
+            <Parameter Name="blnIsLow" Mode="In" Type="Boolean" />
             <Parameter Name="CategoryID" Mode="In" Type="Int32" />
             <Parameter Name="ProductlocationID" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -517,6 +559,9 @@
             <Parameter Name="User_Name" Mode="In" Type="String" />
             <Parameter Name="Password" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="SELECT_ALERT" ReturnType="Collection(Model.SELECT_ALERT_Result)">
+            <Parameter Name="AlertID" Mode="In" Type="Int64" />
+          </FunctionImport>
           <FunctionImport Name="SELECT_INVENTORY" ReturnType="Collection(Model.SELECT_INVENTORY_Result)">
             <Parameter Name="InventoryID" Mode="In" Type="Int64" />
           </FunctionImport>
@@ -529,11 +574,16 @@
           <FunctionImport Name="SELECT_USER" ReturnType="Collection(Model.SELECT_USER_Result)">
             <Parameter Name="User_ID" Mode="In" Type="Int64" />
           </FunctionImport>
+          <FunctionImport Name="UPDATE_ALERT">
+            <Parameter Name="AlertID" Mode="InOut" Type="Int64" />
+            <Parameter Name="Alert" Mode="In" Type="String" />
+            <Parameter Name="AlertDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
           <FunctionImport Name="UPDATE_INVENTORY">
             <Parameter Name="InventoryID" Mode="InOut" Type="Int64" />
             <Parameter Name="ProductName" Mode="In" Type="String" />
             <Parameter Name="InvCount" Mode="In" Type="Int32" />
-            <Parameter Name="blnIsLow" Mode="In" Type="String" />
+            <Parameter Name="blnIsLow" Mode="In" Type="Boolean" />
             <Parameter Name="UnitType" Mode="In" Type="String" />
             <Parameter Name="CategoryID" Mode="In" Type="Int32" />
             <Parameter Name="ProductlocationID" Mode="In" Type="Int32" />
@@ -582,12 +632,17 @@
           <Property Type="String" Name="userPassword" Nullable="false" MaxLength="50" />
           <Property Type="Int32" Name="intRoleID" Nullable="false" />
         </ComplexType>
+        <ComplexType Name="SELECT_ALERT_Result">
+          <Property Type="Int32" Name="intAlertID" Nullable="false" />
+          <Property Type="String" Name="strAlert" Nullable="false" MaxLength="500" />
+          <Property Type="DateTime" Name="dtmAlertDate" Nullable="false" Precision="23" />
+        </ComplexType>
         <ComplexType Name="SELECT_INVENTORY_Result">
           <Property Type="Int32" Name="intInventoryID" Nullable="false" />
           <Property Type="String" Name="strProductName" Nullable="false" MaxLength="50" />
           <Property Type="Int32" Name="intInvCount" Nullable="false" />
           <Property Type="String" Name="strUnitType" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="blnIsLow" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="blnIsLow" Nullable="false" />
           <Property Type="Int32" Name="intCategoryID" Nullable="false" />
           <Property Type="Int32" Name="intProductLocationID" Nullable="false" />
         </ComplexType>
@@ -630,6 +685,15 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="DBModel">
+          <EntitySetMapping Name="TAlerts">
+            <EntityTypeMapping TypeName="Model.TAlert">
+              <MappingFragment StoreEntitySet="TAlerts">
+                <ScalarProperty Name="intAlertID" ColumnName="intAlertID" />
+                <ScalarProperty Name="strAlert" ColumnName="strAlert" />
+                <ScalarProperty Name="dtmAlertDate" ColumnName="dtmAlertDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="TCategories">
             <EntityTypeMapping TypeName="Model.TCategory">
               <MappingFragment StoreEntitySet="TCategory">
@@ -712,10 +776,12 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="DELETE_ALERT" FunctionName="Model.Store.DELETE_ALERT" />
           <FunctionImportMapping FunctionImportName="DELETE_INVENTORY" FunctionName="Model.Store.DELETE_INVENTORY" />
           <FunctionImportMapping FunctionImportName="DELETE_PRODUCTPRICEHISTORY" FunctionName="Model.Store.DELETE_PRODUCTPRICEHISTORY" />
           <FunctionImportMapping FunctionImportName="DELETE_SUPPLIER" FunctionName="Model.Store.DELETE_SUPPLIER" />
           <FunctionImportMapping FunctionImportName="DELETE_USER" FunctionName="Model.Store.DELETE_USER" />
+          <FunctionImportMapping FunctionImportName="INSERT_ALERT" FunctionName="Model.Store.INSERT_ALERT" />
           <FunctionImportMapping FunctionImportName="INSERT_INVENTORY" FunctionName="Model.Store.INSERT_INVENTORY" />
           <FunctionImportMapping FunctionImportName="INSERT_PRODUCTPRICEHISTORY" FunctionName="Model.Store.INSERT_PRODUCTPRICEHISTORY" />
           <FunctionImportMapping FunctionImportName="INSERT_SUPPLIER" FunctionName="Model.Store.INSERT_SUPPLIER" />
@@ -731,6 +797,15 @@
                 <ScalarProperty Name="strUserName" ColumnName="strUserName" />
                 <ScalarProperty Name="userPassword" ColumnName="userPassword" />
                 <ScalarProperty Name="intRoleID" ColumnName="intRoleID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SELECT_ALERT" FunctionName="Model.Store.SELECT_ALERT">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.SELECT_ALERT_Result">
+                <ScalarProperty Name="intAlertID" ColumnName="intAlertID" />
+                <ScalarProperty Name="strAlert" ColumnName="strAlert" />
+                <ScalarProperty Name="dtmAlertDate" ColumnName="dtmAlertDate" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -792,6 +867,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UPDATE_ALERT" FunctionName="Model.Store.UPDATE_ALERT" />
           <FunctionImportMapping FunctionImportName="UPDATE_INVENTORY" FunctionName="Model.Store.UPDATE_INVENTORY" />
           <FunctionImportMapping FunctionImportName="UPDATE_PRODUCTPRICEHISTORY" FunctionName="Model.Store.UPDATE_PRODUCTPRICEHISTORY" />
           <FunctionImportMapping FunctionImportName="UPDATE_SUPPLIER" FunctionName="Model.Store.UPDATE_SUPPLIER" />
