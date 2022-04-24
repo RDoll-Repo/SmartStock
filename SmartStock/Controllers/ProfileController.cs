@@ -582,12 +582,20 @@ namespace SmartStock.Controllers
 			DBModel dbContext = new DBModel();
 
 			Models.Supplier s = new Models.Supplier();
-			return View();
+			return View(GetSingleSupplier(Supplier_ID));
+
+		}
+		TSupplier GetSingleSupplier(int Supplier_ID)
+		{
+			using (DBModel db = new DBModel())
+			{
+				return db.TSuppliers.First(s => s.intSupplierID == Supplier_ID);
+			}
 
 		}
 
 		[HttpPost]
-		public ActionResult EditSupplier(FormCollection col, int Supplier_ID)
+		public ActionResult EditSupplier(FormCollection col, int Supplier_ID, TSupplier ts)
 		{
 
 			try
@@ -600,16 +608,19 @@ namespace SmartStock.Controllers
 				Models.Supplier s = new Models.Supplier();
 
 
-				s.Company_Name = col["Company_Name"];
-				s.Contact_FirstName = col["Contact_FirstName"];
-				s.Contact_LastName = col["Contact_LastName"];
-				s.Contact_PhoneNumber = col["Contact_PhoneNumber"];
-				s.Contact_Email = col["Contact_Email"];
-				s.Contact_Address1 = col["Contact_Address1"];
-				s.Contact_State = col["Contact_State"];
-				s.Contact_Zip = col["Contact_Zip"];
-				s.URL = col["URL"];
+				s.Company_Name = col["strCompanyName"];
+				s.Contact_FirstName = col["strContactFirstName"];
+				s.Contact_LastName = col["strContactLastName"];
+				s.Contact_PhoneNumber = col["strPhoneNumber"];
+				s.Contact_Email = col["strEmail"];
+				s.Contact_Address1 = col["strAddress1"];
+				s.Contact_State = col["strContactState"];
+				s.Contact_Zip = col["strZip"];
+				s.URL = col["strURL"];
 				s.Notes = col["Notes"];
+
+				if (s.Notes == null) { s.Notes = " "; }
+				if (s.URL == null) { s.URL = " "; }
 
 				if (col["btnSubmit"] == "editSubmit")
 				{ //sign up button pressed
@@ -618,12 +629,12 @@ namespace SmartStock.Controllers
 					s.SaveSupplierSession();
 					return RedirectToAction("Suppliers");
 				}
-				return View(s);
+				return View(ts);
 			}
 			catch (Exception)
 			{
 				Models.Supplier s = new Models.Supplier();
-				return View(s);
+				return View(ts);
 			}
 		}
 
