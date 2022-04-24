@@ -29,7 +29,7 @@
         </th>
         <th>
             <form action="CreateSupplier">
-                <input type="submit" value="+" />
+                <input type="submit" value="+"/>
             </form>
         </th>
 
@@ -63,11 +63,10 @@
                 @Html.DisplayFor(modelItem => item.strNotes)
             </td>
             <td>
-                <button id="btnAddProduct" name="btnSubmit" value="addproduct" class="button-action"><i class="fas fa-user-plus"></i> Add-Product</button>
-                <button id="btnAddSupplier" name="btnSubmit" value="editsupplier" class="button-action"><i class="fa-solid fa-pen"></i></button>
-                @Html.ActionLink("Edit", "EditSupplier", new { Supplier_ID = item.intSupplierID })
-                @Html.ActionLink("Delete", "DeleteSupplier", new { Supplier_ID = item.intSupplierID })
-            </td>
+                @Html.ActionLink(" ", "EditSupplier", new { Supplier_ID = item.intSupplierID }, new {@class="fa-solid fa-pen" })
+                &nbsp;
+                @Html.ActionLink(" ", "DeleteSupplier", new { Supplier_ID = item.intSupplierID }, new { @class = "fa-solid fa-trash" })
+            </td >
         </tr>
     }
 </table>

@@ -563,7 +563,7 @@ namespace SmartStock.Controllers
 		}
 
 
-		public ActionResult Suppliers()
+		public ActionResult Suppliers(FormCollection col)
 		{
 			return View(GetAllSuppliers());
 		}
@@ -693,7 +693,7 @@ namespace SmartStock.Controllers
 			{
 				if (col["btnCancel"] == "back")
 				{
-					return RedirectToAction("Users");
+					return RedirectToAction("Suppliers");
 				}
 
 				Models.Supplier s = new Models.Supplier();
