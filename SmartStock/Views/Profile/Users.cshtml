@@ -8,25 +8,22 @@
 <table class="table table-striped table-condensed">
     <tr>
         <th>
-            @Html.DisplayNameFor(Model => Model.strFirstName)
+            @Html.DisplayName("Name")
         </th>
         <th>
-            @Html.DisplayNameFor(Model => Model.strLastName)
+            @Html.DisplayName("Phone")
         </th>
         <th>
-            @Html.DisplayNameFor(Model => Model.strPhoneNumber)
+            @Html.DisplayName("Email")
         </th>
         <th>
-            @Html.DisplayNameFor(Model => Model.strEmail)
+            @Html.DisplayName("Username")
         </th>
         <th>
-            @Html.DisplayNameFor(Model => Model.strUserName)
+            @Html.DisplayName("Password")
         </th>
         <th>
-            @Html.DisplayNameFor(Model => Model.userPassword)
-        </th>
-        <th>
-            @Html.DisplayNameFor(Model => Model.TRole.strRoleName)
+            @Html.DisplayName("Notes")
         </th>
         <th>
             <form action="CreateUser">
@@ -41,8 +38,6 @@
 <tr>
     <td>
         @Html.DisplayFor(modelItem => item.strFirstName)
-    </td>
-    <td>
         @Html.DisplayFor(modelItem => item.strLastName)
     </td>
     <td>
@@ -61,10 +56,9 @@
         @Html.DisplayFor(modelItem => item.TRole.strRoleName)
     </td>
     <td colspan="2" style="text-align: center;">
-    <td>
-        @Html.ActionLink("Edit", "EditUser", new { User_ID = item.intUserID })
-
-        @Html.ActionLink("Delete", "DeleteUser", new { User_ID = item.intUserID })
+        @Html.ActionLink(" ", "EditUser", new { User_ID = item.intUserID }, new { @class = "fa-solid fa-pen" })
+        &nbsp;
+        @Html.ActionLink(" ", "DeleteUser", new { User_ID = item.intUserID }, new { @class = "fa-solid fa-trash" })
     </td>
 </tr>
     }

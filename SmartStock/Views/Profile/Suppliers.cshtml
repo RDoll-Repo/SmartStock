@@ -63,10 +63,11 @@
                 @Html.DisplayFor(modelItem => item.strNotes)
             </td>
             <td>
-                @Html.ActionLink(" ", "EditSupplier", new { Supplier_ID = item.intSupplierID }, new {@class="fa-solid fa-pen" })
+                @Html.ActionLink(" ", "EditSupplier", new { Supplier_ID = item.intSupplierID }, new { @class = "fa-solid fa-pen" })
                 &nbsp;
-                @Html.ActionLink(" ", "DeleteSupplier", new { Supplier_ID = item.intSupplierID }, new { @class = "fa-solid fa-trash" })
-            </td >
+                @*Delete is dummied out for now. Replace "Suppliers" with "DeleteSupplier" when we're good.*@
+                @Html.ActionLink(" ", "Suppliers", new { Supplier_ID = item.intSupplierID }, new { @class = "fa-solid fa-trash" })
+            </td>
         </tr>
     }
 </table>
