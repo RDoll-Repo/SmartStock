@@ -101,7 +101,7 @@ namespace SmartStock.Controllers
 		{
 			Models.User u = new Models.User();
 			u.RemoveUserSession();
-			return RedirectToAction("Index", "Home");
+			return RedirectToAction("HomePage", "Home");
 		}
 
 		public ActionResult Dashboard()
