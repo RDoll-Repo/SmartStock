@@ -7,38 +7,29 @@
 <table class="table table-striped table-condensed">
     <tr>
         <th>
-            @Html.DisplayNameFor(Model => Model.strCompanyName)
+            @Html.DisplayName("Company Name")
         </th>
         <th>
-            @Html.DisplayNameFor(Model => Model.strContactFirstName)
+            @Html.DisplayName("Contact Name")
         </th>
         <th>
-            @Html.DisplayNameFor(Model => Model.strContactLastName)
+            @Html.DisplayName("Address")
         </th>
         <th>
-            @Html.DisplayNameFor(Model => Model.strEmail)
+            @Html.DisplayName("Email")
         </th>
         <th>
-            @Html.DisplayNameFor(Model => Model.strAddress1)
+            @Html.DisplayName("Phone Number")
         </th>
         <th>
-            @Html.DisplayNameFor(Model => Model.strZip)
+            @Html.DisplayName("Website")
         </th>
         <th>
-            @Html.DisplayNameFor(Model => Model.strPhoneNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(Model => Model.strURL)
-        </th>
-        <th>
-            @Html.DisplayNameFor(Model => Model.strNotes)
-        </th>
-        <th>
-            @Html.DisplayNameFor(Model => Model.strContactState)
+            @Html.DisplayName("Notes")
         </th>
         <th>
             <form action="CreateSupplier">
-                <input type="submit" value="+" />
+                <input type="submit" value="+"/>
             </form>
         </th>
 
@@ -52,18 +43,15 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.strContactFirstName)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.strContactLastName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.strEmail)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.strAddress1)
+                @Html.DisplayFor(modelItem => item.strContactState)
+                @Html.DisplayFor(modelItem => item.strZip)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.strZip)
+                @Html.DisplayFor(modelItem => item.strEmail)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.strPhoneNumber)
@@ -75,14 +63,10 @@
                 @Html.DisplayFor(modelItem => item.strNotes)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.strContactState)
-            </td>
-            <td colspan="2" style="text-align: center;">
-    <td>
-        @Html.ActionLink("Edit", "EditSupplier", new { Supplier_ID = item.intSupplierID })
-
-        @Html.ActionLink("Delete", "DeleteSupplier", new { Supplier_ID = item.intSupplierID })
-    </td>
+                @Html.ActionLink(" ", "EditSupplier", new { Supplier_ID = item.intSupplierID }, new {@class="fa-solid fa-pen" })
+                &nbsp;
+                @Html.ActionLink(" ", "DeleteSupplier", new { Supplier_ID = item.intSupplierID }, new { @class = "fa-solid fa-trash" })
+            </td >
         </tr>
     }
 </table>
