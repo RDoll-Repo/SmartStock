@@ -61,10 +61,10 @@
         @Html.DisplayFor(modelItem => item.TRole.strRoleName)
     </td>
     <td colspan="2" style="text-align: center;">
-        <button id="btnEditProduct" name="btnSubmit" value="Editproduct" class="button-action"><i class="fas fa-user-plus"></i>Edit</button>
-    </td>
-    <td colspan="2" style="text-align: center;">
-        <button id="btnDeleteProduct" name="btnSubmit" value="Deleteproduct" class="button-action"><i class="fas fa-user-plus"></i>Delete</button>
+    <td>
+        @Html.ActionLink("Edit", "EditUser", new { User_ID = item.intUserID })
+
+        @Html.ActionLink("Delete", "DeleteUser", new { User_ID = item.intUserID })
     </td>
 </tr>
     }

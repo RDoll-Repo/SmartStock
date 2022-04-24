@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SmartStock.Models
 {
@@ -15,7 +16,9 @@ namespace SmartStock.Models
     {
         public long Card_ID = 0;
         public string Message = string.Empty;
-        public CardType Type = CardType.Null;
+        //public ActionTypes Type = ActionTypes.Null;
+        public DateTime AlertDateTime = DateTime.Now;
+        public CardTypes CardType = CardTypes.NoType;
 
         public void Dismiss()
         {
@@ -45,13 +48,91 @@ namespace SmartStock.Models
                 Sample Output: There is an extra shift available on April 29th, 2022.
 
         */
-
-        public enum CardType
+        public bool IsAuthenticated
         {
-            Null = 0,
-            StockAlert = 1,
-            PriceIncrease = 2,
-            Announcement = 3
+            get
+            {
+                if (Card_ID > 0) return true;
+                return false;
+            }
+        }
+
+        public Card.CardTypes Save()
+        {
+            try
+            {
+                Database db = new Database();
+                if (Card_ID == 0)
+                { //insert new product
+                    this.CardType = db.InsertCard(this);
+                }
+                else
+                {
+                    this.CardType = db.UpdateCard(this);
+                }
+                return this.CardType;
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+        }
+
+        public Card.CardTypes Delete()
+        {
+            try
+            {
+                Database db = new Database();
+                this.CardType = db.DeleteCard(this);
+                return this.CardType;
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+        }
+        public bool RemoveCardSession()
+        {
+            try
+            {
+                HttpContext.Current.Session["CurrentInventory"] = null;
+                return true;
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+        }
+
+        public Card GetCardSession()
+        {
+            try
+            {
+                Card c = new Card();
+                if (HttpContext.Current.Session["CurrentCard"] == null)
+                {
+                    return c;
+                }
+                c = (Card)HttpContext.Current.Session["CurrentCard"];
+                return c;
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+        }
+
+        public bool SaveCardSession()
+        {
+            try
+            {
+                HttpContext.Current.Session["CurrentCard"] = this;
+                return true;
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+        }
+
+
+        public enum CardTypes
+        {
+            NoType = 0,
+            InsertSuccessful = 1,
+            UpdateSuccessful = 2,
+            Unknown = 3,
+            RequiredFieldsMissing = 4,
+            DeleteSuccessful = 5,
+            Null = 6,
+            StockAlert = 7,
+            PriceIncrease = 8,
+            Announcement = 9
         }
     }
 }

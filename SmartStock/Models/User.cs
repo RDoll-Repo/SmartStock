@@ -10,7 +10,7 @@ namespace SmartStock.Models
 
 	public class User
 	{
-		public long User_ID = 0;
+		public long User_ID { get; set; }
 		public string First_Name = string.Empty;
 		public string Last_Name = string.Empty;
 		public string Phone_Number = string.Empty;
@@ -52,6 +52,16 @@ namespace SmartStock.Models
 				{
 					this.ActionType = db.UpdateUser(this);
 				}
+				return this.ActionType;
+			}
+			catch (Exception ex) { throw new Exception(ex.Message); }
+		}
+
+		public User.ActionTypes Delete()
+        {
+			try { 
+				Database db = new Database();	
+				this.ActionType = db.DeleteUser(this);
 				return this.ActionType;
 			}
 			catch (Exception ex) { throw new Exception(ex.Message); }

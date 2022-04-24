@@ -12,17 +12,10 @@ namespace SmartStock.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TInventory
+    public partial class TAlert
     {
-        public int intInventoryID { get; set; }
-        public string strProductName { get; set; }
-        public int intInvCount { get; set; }
-        public string strUnitType { get; set; }
-        public bool blnIsLow { get; set; }
-        public int intCategoryID { get; set; }
-        public int intProductLocationID { get; set; }
-    
-        public virtual TCategory TCategory { get; set; }
-        public virtual TProductLocation TProductLocation { get; set; }
+        public int intAlertID { get; set; }
+        public string strAlert { get; set; }
+        public System.DateTime dtmAlertDate { get; set; }
     }
 }

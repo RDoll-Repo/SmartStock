@@ -54,8 +54,9 @@
         @Html.DisplayFor(modelItem => item.TProductLocation.strLocation)
     </td>
     <td>
-        <a href="#"><i class="glyphicon glyphicon-pencil"></i></a>
-        <a href="#"><i class="glyphicon glyphicon-trash"></i></a>
+        @Html.ActionLink("Edit", "EditItem", new { InventoryID = item.intInventoryID })
+
+        @Html.ActionLink("Delete", "DeleteItem", new { InventoryID = item.intInventoryID })
     </td>
 </tr>
     }
