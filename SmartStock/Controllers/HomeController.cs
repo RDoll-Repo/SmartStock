@@ -188,10 +188,7 @@ namespace SmartStock.Controllers
         [HttpPost] // when submit button pressed in signup:
         public ActionResult InitializeInventory(FormCollection col, Inventory model)
         {
-            try
-            {
-                String str = string.Empty;
-
+            try { 
                 Models.Inventory i = new Models.Inventory();
                 Models.User u = new Models.User();
 
