@@ -9,20 +9,20 @@ namespace SmartStock.Models
 
     public class Inventory
     {
-        public string Product_Name { get; set; }
-        public string PurchaseDate { get; set; }
-        public decimal CostPerUnit { get; set; }
-        public int PurchaseAmt { get; set; }
-        public int UserID { get; set; }
+        public string ProductName { get; set; }
+        public string UnitType { get; set; }
+        public int InvCount { get; set; }
+        public int CategoryID { get; set; }
+        public int ProductlocationID { get; set; }
         public int SupplierID { get; set; }
 
-        public string UnitType = string.Empty;
+        //public string UnitType = string.Empty;
         public long InventoryID = 0;
-        public string ProductName = string.Empty;
-        public int InvCount = 0;
+        //public string ProductName = string.Empty;
+        //public int InvCount = 0;
         public bool blnIsLow;
-        public int CategoryID = 0;
-        public int ProductlocationID = 0;
+        //public int CategoryID = 0;
+        //public int ProductlocationID = 0;
         public ActionTypes ActionType = ActionTypes.NoType;
 
         public bool IsAuthenticated

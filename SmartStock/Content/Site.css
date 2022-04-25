@@ -2,6 +2,8 @@
     margin: 0 0 1em 0;
     padding: 0;
     font-size: 1em;
+    color: white;
+    background-color: #2F343E;
     font-family: "Proxima Nova Extra Condensed",proxima-nova-extra-condensed,Helvetica,sans-serif;
 }
 
@@ -66,10 +68,6 @@ h2 {
     text-align: right;
 }
 
-table, th, td {
-    border: 1px solid black;
-}
-
 td {
     padding-right: 10px;
     padding-top: 5px;
@@ -118,7 +116,7 @@ p {
 button, input[type=submit], input[type=button] {
     cursor: pointer;
     padding: 12px 30px 12px 30px;
-    background-color: #33236f;
+    background-color: dimgray;
     color: black;
     border: 1px solid white;
 }
@@ -128,22 +126,22 @@ button i {
 }
 
 .button-action {
-    background-color: #42475d;
+    background-color: dimgray;
     color: white;
 }
 
 .button-action:hover {
-    background-color: #878da9;
+    background-color: gray;
 }
 
 .button-cancel {
-    background-color: #42475d;
-    color: black;
+    background-color: #643A43;
+    color: white;
 }
 
 .button-cancel:hover {
-    background-color: #878da9;
-    color: white;
+    background-color: #7A4751;
+    color: grey;
 }
 
 .button-alert {
@@ -160,15 +158,34 @@ button i {
     display: none;
 }
 
+#content-success {
+    border: 1px solid gray;
+    -webkit-border-radius: 0.3em;
+    -moz-border-radius: 0.3em;
+    border-radius: 0.3em;
+    background-color: #3E392F;
+    padding: 1em;
+    margin-bottom: 1em;
+}
+
+#content-success i {
+    color: green;
+}
+
+#content-success span {
+    margin-left: 1em;
+}
+
 #content-locked {
     border: 1px solid gray;
     -webkit-border-radius: 0.3em;
     -moz-border-radius: 0.3em;
     border-radius: 0.3em;
-    background-color: lightyellow;
+    background-color: #3E392F;
     padding: 1em;
     margin-bottom: 1em;
 }
+
 
 #content-locked i {
     color: red;

@@ -8,45 +8,35 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
 
-namespace SmartStock.Controllers
-{
-    public class HomeController : Controller
-    {
-        public ActionResult Index()
-        {
+namespace SmartStock.Controllers {
+    public class HomeController : Controller {
+        public ActionResult Index() {
             return View();
         }
 
-        public ActionResult About()
-        {
+        public ActionResult About() {
             ViewBag.Message = "Your application description page.";
 
             return View();
         }
 
-        public ActionResult Contact()
-        {
+        public ActionResult Contact() {
             ViewBag.Message = "Your contact page.";
 
             return View();
         }
 
-        public ActionResult HomePage()
-        
-        {
+        public ActionResult HomePage() {
             Models.User u = new Models.User();
             return View(u);
         }
 
         [HttpPost] // sign-in button clicked
-        public ActionResult HomePage(FormCollection col)
-        {
-            try
-            {
+        public ActionResult HomePage(FormCollection col) {
+            try {
                 Models.User u = new Models.User();
 
-                if (col["btnSubmit"] == "signin")
-                {
+                if (col["btnSubmit"] == "signin") {
                     u.User_Name = col["User_Name"];
                     u.Password = col["Password"];
 
@@ -56,13 +46,11 @@ namespace SmartStock.Controllers
                     }
 
                     u = u.Login();
-                    if (u != null && u.User_ID > 0)
-                    {
+                    if (u != null && u.User_ID > 0) {
                         u.SaveUserSession();
                         return RedirectToAction("Dashboard", "Profile");
                     }
-                    else
-                    {
+                    else {
                         u = new Models.User();
                         u.User_Name = col["User_Name"];
                         u.ActionType = Models.User.ActionTypes.LoginFailed;
@@ -70,21 +58,18 @@ namespace SmartStock.Controllers
                 }
                 return View(u);
             }
-            catch (Exception)
-            {
+            catch (Exception) {
                 Models.User u = new Models.User();
                 return View(u);
             }
         }
 
-        public ActionResult SignUp()
-        {
+        public ActionResult SignUp() {
 
             //Create db context object here 
             DBModel dbContext = new DBModel();
             //Get the value from database and then set it to ViewBag to pass it View
-            IEnumerable<SelectListItem> items2 = dbContext.TRoles.Select(c => new SelectListItem
-            {
+            IEnumerable<SelectListItem> items2 = dbContext.TRoles.Select(c => new SelectListItem {
                 Value = c.intRoleID.ToString(),
                 Text = c.strRoleName
 
@@ -115,8 +100,7 @@ namespace SmartStock.Controllers
                     // We need to reuse this snippet here because the transient nature of viewbags makes it 
                     // so that the dropdown will NOT load properly upon failed validation. 
                     DBModel dbContext = new DBModel();
-                    IEnumerable<SelectListItem> items2 = dbContext.TRoles.Select(c => new SelectListItem
-                    {
+                    IEnumerable<SelectListItem> items2 = dbContext.TRoles.Select(c => new SelectListItem {
                         Value = c.intRoleID.ToString(),
                         Text = c.strRoleName
 
@@ -130,15 +114,14 @@ namespace SmartStock.Controllers
                         // if owner, prompt to initialize stock
                         // if manager/employee, allow signup via
                         u.SaveUserSession();
-                        if (u.Role_ID == 1)
-                        {
+                        if (u.Role_ID == 1) {
                             return RedirectToAction("InitializeInventory");
                         }
                         else {
                             u.Save();
                             return RedirectToAction("Dashboard", "Profile");
                         }
-                        
+
                     }
                     return View(u);
                 }
@@ -147,8 +130,7 @@ namespace SmartStock.Controllers
                 Models.User u = new Models.User();
                 u.ActionType = Models.User.ActionTypes.NoRole;
                 DBModel dbContext = new DBModel();
-                IEnumerable<SelectListItem> items2 = dbContext.TRoles.Select(c => new SelectListItem
-                {
+                IEnumerable<SelectListItem> items2 = dbContext.TRoles.Select(c => new SelectListItem {
                     Value = c.intRoleID.ToString(),
                     Text = c.strRoleName
 
@@ -158,21 +140,18 @@ namespace SmartStock.Controllers
             }
         }
 
-        public ActionResult InitializeInventory()
-        {
+        public ActionResult InitializeInventory() {
             //Create db context object here 
             DBModel dbContext = new DBModel();
             //Get the value from database and then set it to ViewBag to pass it View
-            IEnumerable<SelectListItem> items3 = dbContext.TCategories.Select(g => new SelectListItem
-            {
+            IEnumerable<SelectListItem> items3 = dbContext.TCategories.Select(g => new SelectListItem {
                 Value = g.intCategoryID.ToString(),
                 Text = g.strCategory
 
             });
             ViewBag.catagoryName = items3;
 
-            IEnumerable<SelectListItem> items5 = dbContext.TProductLocations.Select(l => new SelectListItem
-            {
+            IEnumerable<SelectListItem> items5 = dbContext.TProductLocations.Select(l => new SelectListItem {
                 Value = l.intProductLocationID.ToString(),
                 Text = l.strLocation
 
@@ -186,67 +165,72 @@ namespace SmartStock.Controllers
 
 
         [HttpPost] // when submit button pressed in signup:
-        public ActionResult InitializeInventory(FormCollection col, Inventory model)
-        {
-            try { 
+        public ActionResult InitializeInventory(FormCollection col, Inventory model) {
+            try {
+                String str = string.Empty;
+
                 Models.Inventory i = new Models.Inventory();
                 Models.User u = new Models.User();
 
-                if (col["btnFinishInit"] == "finishinit")
-                {
+                if (col["btnFinishInit"] == "finishinit") {
                     u = u.GetUserSession();
                     u.Save();
                     return RedirectToAction("Dashboard", "Profile");
                 }
 
-                i.ProductName = col["ProductName"];
-                i.InvCount = Convert.ToInt32(col["InvCount"]);
-                i.CategoryID = Convert.ToInt32(col["catagoryName"]);
-                i.ProductlocationID = Convert.ToInt32(col["location"]);
-                i.UnitType = col["UnitType"];
+                if (col["btnSubmit"] == "addproduct") {
+                    i.ProductName = col["ProductName"];
+                    i.UnitType = col["UnitType"];
 
-                if (col["btnSubmit"] == "addproduct")
-                    { //sign up button pressed
-                      // create if/else statement to determine if they are a new business signing up or a manager/employee signingup
-                      // if owner, prompt to initialize stock
-                      // if manager/employee, allow signup via
-
-                        if (i.ProductName.Length == 0 || i.InvCount == 0 || i.CategoryID == 0 || i.ProductlocationID == 0 || i.UnitType.Length == 0)
-                        {
-                            i.ActionType = Models.Inventory.ActionTypes.RequiredFieldsMissing;
-                            return View(i);
-                        }
-                        else
-                        {
-                            i.SaveInventorySession();
-                            i.Save();
-                            InitializeInventory();
-                        }
+                    if (col["catagoryName"] != "" && col["location"] != "" && col["InvCount"] != "") {
+                        i.CategoryID = Convert.ToInt32(col["catagoryName"]);
+                        i.ProductlocationID = Convert.ToInt32(col["location"]);
+                        i.InvCount = Convert.ToInt32(col["InvCount"]);
                     }
-                    
-                    return View();
-                
+                    else {
+                        i.ActionType = Models.Inventory.ActionTypes.RequiredFieldsMissing;
+                    }
+
+                    if (i.ProductName.Length == 0 || i.UnitType.Length == 0) {
+                        i.ActionType = Models.Inventory.ActionTypes.RequiredFieldsMissing;
+                    }
+                    else {
+                        i.SaveInventorySession();
+                        i.Save();
+                        InitializeInventory();
+                        // show completion message
+                        i.ActionType = Models.Inventory.ActionTypes.InsertSuccessful;
+                        // clear fields
+                        ModelState.Clear();
+                        RedirectToAction("InitializeInventory"); // in palce of dynamic table
+                    }
+                    if (i.ActionType != Models.Inventory.ActionTypes.NoType) {
+
+                        // We need to reuse this snippet here because the transient nature of viewbags makes it 
+                        // so that the dropdown will NOT load properly upon failed validation. 
+                        DBModel dbContext = new DBModel();
+                        IEnumerable<SelectListItem> items3 = dbContext.TCategories.Select(g => new SelectListItem {
+                            Value = g.intCategoryID.ToString(),
+                            Text = g.strCategory
+
+                        });
+                        ViewBag.catagoryName = items3;
+
+                        IEnumerable<SelectListItem> items5 = dbContext.TProductLocations.Select(l => new SelectListItem {
+                            Value = l.intProductLocationID.ToString(),
+                            Text = l.strLocation
+
+                        });
+                        ViewBag.location = items5;
+                        return View(i);
+                    }
+                }
+                return View();
             }
-            catch (Exception)
-            {
+            catch (Exception) {
                 Models.Inventory i = new Models.Inventory();
                 return View();
             }
         }
-
-        public ActionResult InitializeEmployees()
-        {
-            ViewBag.Message = "Initialize Employees";
-
-            return View();
-        }
-
-        public ActionResult InitializeSuppliers()
-        {
-            ViewBag.Message = "Initialize Suppliers";
-
-            return View();
-        }
-
     }
 }

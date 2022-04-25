@@ -1,10 +1,6 @@
 ﻿@model SmartStock.Models.Inventory
 @*@model IEnumerable<SmartStock.Models.TInventory>*@
 <style>
-	table, th, td {
-		border: 1px solid black;
-	}
-
 	.center-top {
 		position: absolute;
 		left: 50%;
@@ -12,9 +8,34 @@
 		transform: translate(-50%, -50%);
 		padding: 10px;
 	}
+
+	#content-success {
+		border: 1px solid gray;
+		-webkit-border-radius: 0.3em;
+		-moz-border-radius: 0.3em;
+		border-radius: 0.3em;
+		background-color: #3E392F;
+		padding: 1em;
+		margin-bottom: 1em;
+	}
+
+	#content-success i {
+		color: green;
+	}
+
+	#content-success span {
+		margin-left: 1em;
+	}
+
 </style>
 
 @using (Html.BeginForm(FormMethod.Post)) {
+	if (Model.ActionType == SmartStock.Models.Inventory.ActionTypes.InsertSuccessful) {
+		<div id="content-success">
+			<i class="fa-solid fa-check"></i>
+			<span>Item added.</span>
+		</div>
+	}
 	if (Model.ActionType == SmartStock.Models.Inventory.ActionTypes.RequiredFieldsMissing) {
 		<div id="content-locked">
 			<i class="fa-solid fa-triangle-exclamation"></i>
@@ -66,7 +87,7 @@
 			</table>
 			<div style="text-align: right;">
 				<button id="btnAddProduct" name="btnSubmit" value="addproduct" class="button-action"><i class="fas fa-user-plus"></i> Add-Product</button>
-				<button id="btnAddProduct" name="btnFinishInit" value="finishinit" class="button-action"><<i class="fa-thin fa-angle-right"></i> Finish</button>
+				<button id="btnAddProduct" name="btnFinishInit" value="finishinit" class="button-action"><i class="fa-solid fa-check"></i> Finish</button>
 			</div>
 		</form>
 	</div>
