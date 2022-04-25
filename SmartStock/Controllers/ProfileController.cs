@@ -163,7 +163,16 @@ namespace SmartStock.Controllers
 			ViewBag.location = items5;
 			//return View();
 			Models.Inventory i = new Models.Inventory();
-			return View(i);
+			return View(GetSingleItem(InventoryID));
+
+		}
+
+		TInventory GetSingleItem(int InventoryID)
+		{
+			using (DBModel db = new DBModel())
+			{
+				return db.TInventories.First(i => i.intInventoryID == InventoryID);
+			}
 
 		}
 
@@ -181,11 +190,11 @@ namespace SmartStock.Controllers
 				Models.Inventory i = new Models.Inventory();
 
 
-				i.ProductName = col["ProductName"];
-				i.InvCount = Convert.ToInt32(col["InvCount"]);
+				i.ProductName = col["strProductName"];
+				i.InvCount = Convert.ToInt32(col["intInvCount"]);
 				i.CategoryID = Convert.ToInt32(col["catagoryName"]);
 				i.ProductlocationID = Convert.ToInt32(col["location"]);
-				i.UnitType = col["UnitType"];
+				i.UnitType = col["strUnitType"];
 
 				if (col["btnSubmit"] == "editSubmit")
 				{ //sign up button pressed
@@ -465,10 +474,18 @@ namespace SmartStock.Controllers
 
 				});
 				ViewBag.rolename = items2;
-				//return View();
-				Models.User u = new Models.User();
-				return View();
-		
+			//return View();
+			Models.User u = new Models.User();
+			return View(GetSingleUser(User_ID));
+
+		}
+		TUser GetSingleUser(int User_ID)
+		{
+			using (DBModel db = new DBModel())
+			{
+				return db.TUsers.First(u => u.intUserID == User_ID);
+			}
+
 		}
 
 		[HttpPost]
@@ -485,12 +502,12 @@ namespace SmartStock.Controllers
 				Models.User u = new Models.User();
 
 
-				u.First_Name = col["First_Name"];
-				u.Last_Name = col["Last_Name"];
-				u.Phone_Number = col["Phone_Number"];
-				u.Email = col["Email"];
-				u.User_Name = col["User_Name"];
-				u.Password = col["Password"];
+				u.First_Name = col["strFirstName"];
+				u.Last_Name = col["strLastName"];
+				u.Phone_Number = col["strPhoneNumber"];
+				u.Email = col["strEmail"];
+				u.User_Name = col["strUserName"];
+				u.Password = col["userPassword"];
 				u.Role_ID = Convert.ToInt32(col["rolename"]);
 
 				u.Validation();
@@ -794,7 +811,15 @@ namespace SmartStock.Controllers
 			DBModel dbContext = new DBModel();
 
 			Models.Card c = new Models.Card();
-			return View();
+			return View(GetSingleCard(Card_ID));
+
+		}
+		TAlert GetSingleCard(int Card_ID)
+		{
+			using (DBModel db = new DBModel())
+			{
+				return db.TAlerts.First(a => a.intAlertID == Card_ID);
+			}
 
 		}
 
@@ -812,7 +837,7 @@ namespace SmartStock.Controllers
 				Models.Card c = new Models.Card();
 
 
-				c.Message = col["Message"];
+				c.Message = col["strAlert"];
 
 				if (col["btnSubmit"] == "editSubmit")
 				{ //sign up button pressed
