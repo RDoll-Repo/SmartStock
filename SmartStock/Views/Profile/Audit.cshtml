@@ -1,4 +1,4 @@
-﻿@model SmartStock.Models.TInventory
+﻿@model IEnumerable<SmartStock.Models.TInventory>
 
 
 @using (Html.BeginForm())
@@ -7,65 +7,34 @@
 
     <div class="center-up">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.intInventoryID)
-        <form action="editItem">
-            <table>
+        <form action="audit">
+            <table class="table table-striped table-condensed">
                 <tr>
-                    <td colspan="2" style="text-align: center;">
-                        <h1>Edit Item</h1>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="table-label">
-                        @Html.LabelFor(model => model.strProductName, "Product Name")
-                    </td>
-                    <td colspan="2">
-                        @Html.EditorFor(model => model.strProductName, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.strProductName, "", new { @class = "text-danger" })
-                    </td>
-                </tr>
-                <tr>
-                    <td class="table-label">
-                        @Html.LabelFor(model => model.intInvCount, "Item Quantity")
-                    </td>
-                    <td colspan="2">
-                        @Html.EditorFor(model => model.intInvCount, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.intInvCount, "", new { @class = "text-danger" })
-                    </td>
-                </tr>
-                <tr>
-                    <td class="table-label">
-                        @Html.LabelFor(model => model.strUnitType, "Unit Type")
-                    </td>
-                    <td colspan="2">
-                        @Html.EditorFor(model => model.strUnitType, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.strUnitType, "", new { @class = "text-danger" })
-                    </td>
-                </tr>
-                <tr>
-                    <td class="table-label">
-                        @Html.LabelFor(model => model.intCategoryID, "Category")
-                    </td>
-                    <td colspan="2">
-                        @Html.DropDownList("catagoryName", "Select a Category")
-                        @Html.ValidationMessageFor(model => model.intCategoryID, "", new { @class = "text-danger" })
-                    </td>
-                </tr>
-                <tr>
-                    <td class="table-label">
-                        @Html.LabelFor(model => model.intProductLocationID, "Location")
-                    </td>
-                    <td colspan="2">
-                        @Html.DropDownList("location", "Select a Location")
-                        @Html.ValidationMessageFor(model => model.intProductLocationID, "", new { @class = "text-danger" })
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="text-align: center;">
-                        <button id="btnBack" name="btnCancel" value="back" class="button-action"><i class="fa-solid fa-arrow-left"></i> Back</button>
-                        <button id="btnEditUser" name="btnSubmit" value="editSubmit" class="button-action"><i class="fas fa-user-plus"></i> Submit </button>
-                    </td>
-                </tr>
-            </table>
+                    <th>
+                        @Html.DisplayName("Product Name")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Inventory Count")
+                    </th>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.strProductName)
+                        </td>
+                        <td>
+                            @Html.EditorFor(modelItem => item.intInvCount, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(modelItem => item.intInvCount, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                }
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <button id="btnBack" name="btnCancel" value="back" class="button-action"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                            <button id="btnEditUser" name="btnSubmit" value="editSubmit" class="button-action"><i class="fas fa-user-plus"></i> Submit </button>
+                        </td>
+                    </tr>
+                </table>
         </form>
     </div>
+}

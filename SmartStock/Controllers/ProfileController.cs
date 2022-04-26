@@ -890,18 +890,31 @@ namespace SmartStock.Controllers
 		public ActionResult InventoryAdjustment(FormCollection col)
         {
 			ViewBag.flag = 0;
+			IEnumerable<TInventory> products = GetAllInventory();
 
-			if (col["btnAudit"] == "audit")
+			if (col["btnSubmit"] == "audit")
 			{
 				ViewBag.flag = 1;
+				Audit(products);
 			}
-			else if (col["btnDelivery"] == "delivery")
+			else if (col["btnSubmit"] == "delivery")
             {
 				ViewBag.flag = 2;
+				Delivery(products);
             }
 
 
-			return View();
+			return View(products);
+        }
+
+		public ActionResult Audit(IEnumerable<TInventory> list)
+        {
+			return PartialView(list);
+        }
+
+		public ActionResult Delivery(IEnumerable<TInventory> list)
+        {
+			return PartialView(list);
         }
 	}
 }

@@ -281,6 +281,7 @@
     <Content Include="Views\Profile\DeleteItem.cshtml" />
     <Content Include="Views\Profile\InventoryAdjustment.cshtml" />
     <Content Include="Views\Profile\Audit.cshtml" />
+    <Content Include="Views\Profile\Delivery.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
