@@ -2,6 +2,21 @@
     ViewBag.Title = "SignUp";
 }
 @model SmartStock.Models.User
+
+<style>
+	.center-top {
+		position: absolute;
+		left: 50%;
+		top: 15%;
+		transform: translate(-50%, -50%);
+		padding: 10px;
+	}
+
+	td {
+		padding: 3px;
+	}
+</style>
+
 @using (Html.BeginForm(FormMethod.Post))
 {
     if (Model.ActionType == SmartStock.Models.User.ActionTypes.RequiredFieldsMissing)
@@ -34,80 +49,81 @@
     }
     <div class="center-up">
         <form action="signup">
-            <table>
-                <tr>
-                    <td colspan="2" style="text-align: center;">
-                        <h1>Sign Up</h1>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="table-label">
-                        @Html.LabelFor(Model => Model.First_Name, "First Name:")
-                    </td>
-                    <td colspan="2">
-                        @Html.TextBoxFor(Model => Model.First_Name, new { @autofocus = "autofocus" })
-                    </td>
-                </tr>
-                <tr>
-                    <td class="table-label">
-                        @Html.LabelFor(Model => Model.Last_Name, "Last Name:")
-                    </td>
-                    <td colspan="2">
-                        @Html.TextBoxFor(Model => Model.Last_Name)
-                    </td>
-                </tr>
-                <tr>
-                    <td class="table-label">
-                        @Html.LabelFor(Model => Model.Email, "Email:")
-                    </td>
-                    <td colspan="2">
-                        @Html.TextBoxFor(Model => Model.Email)
-                    </td>
-                </tr>
-                <tr>
-                    <td class="table-label">
-                        @Html.LabelFor(Model => Model.Phone_Number, "Phone Number")
-                    </td>
-                    <td colspan="2">
-                        @Html.TextBoxFor(Model => Model.Phone_Number)
-                    </td>
-                </tr>
-                <tr>
-                    <td class="table-label">
-                        @Html.LabelFor(Model => Model.User_Name, "Username: ")
-                    </td>
-                    <td colspan="2">
-                        @Html.TextBoxFor(Model => Model.User_Name)
-                    </td>
-                </tr>
-                <tr>
-                    <td class="table-label">
-                        @Html.LabelFor(Model => Model.Password, "Password: ")
-                    </td>
-                    <td colspan="2">
-                        @Html.TextBoxFor(Model => Model.Password)
-                    </td>
-                </tr>
-                <tr align="center">
-                    <td colspan="2">
-                        @Html.DropDownList("rolename",
-                       (IEnumerable<SelectListItem>)ViewBag.items2,
-                       "Select a role")
-                    </td>
-                </tr>
-
-
-                <tr>
-                    <td colspan="2" style="text-align: center;">
-                        <button id="btnSignUp" name="btnSubmit" value="signup" class="button-action"><i class="fas fa-user-plus"></i> Sign-Up</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="text-align: center;">
-                        <a href="HomePage">Back to Login</a>
-                    </td>
-                </tr>
-            </table>
+			<table>
+				<tr>
+					<td colspan="2" style="text-align: center;">
+						<h1>Sign Up</h1>
+					</td>
+				</tr>
+				<tr>
+					<td class="table-label">
+						@Html.LabelFor(Model => Model.First_Name, "First Name:")
+					</td>
+					<td colspan="2">
+						@Html.TextBoxFor(Model => Model.First_Name, new { @autofocus = "autofocus" })
+					</td>
+				</tr>
+				<tr>
+					<td class="table-label">
+						@Html.LabelFor(Model => Model.Last_Name, "Last Name:")
+					</td>
+					<td colspan="2">
+						@Html.TextBoxFor(Model => Model.Last_Name)
+					</td>
+				</tr>
+				<tr>
+					<td class="table-label">
+						@Html.LabelFor(Model => Model.Email, "Email:")
+					</td>
+					<td colspan="2">
+						@Html.TextBoxFor(Model => Model.Email)
+					</td>
+				</tr>
+				<tr>
+					<td class="table-label">
+						@Html.LabelFor(Model => Model.Phone_Number, "Phone Number")
+					</td>
+					<td colspan="2">
+						@Html.TextBoxFor(Model => Model.Phone_Number)
+					</td>
+				</tr>
+				<tr>
+					<td class="table-label">
+						@Html.LabelFor(Model => Model.User_Name, "Username: ")
+					</td>
+					<td colspan="2">
+						@Html.TextBoxFor(Model => Model.User_Name)
+					</td>
+				</tr>
+				<tr>
+					<td class="table-label">
+						@Html.LabelFor(Model => Model.Password, "Password: ")
+					</td>
+					<td colspan="2">
+						@Html.TextBoxFor(Model => Model.Password)
+					</td>
+				</tr>
+				<tr>
+					<td class="table-label">
+						Select Role:
+					</td>
+					<td colspan="2">
+						@Html.DropDownList("rolename",
+					   (IEnumerable<SelectListItem>)ViewBag.items2,
+					   "Select a role")
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" style="text-align: center;">
+						<button id="btnSignUp" name="btnSubmit" value="signup" class="button-action"><i class="fas fa-user-plus"></i> Sign-Up</button>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" style="text-align: center;">
+						<a href="HomePage">Back to Login</a>
+					</td>
+				</tr>
+			</table>
         </form>
     </div>
 }

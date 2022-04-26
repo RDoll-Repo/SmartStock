@@ -1,49 +1,98 @@
 ﻿@model SmartStock.Models.Inventory
 @*@model IEnumerable<SmartStock.Models.TInventory>*@
-@using (Html.BeginForm(FormMethod.Post))
-{
-    <div class="center-up">
-        <form action="initInventory">
-            <table>
-                <tr>
-                    <td colspan="2" style="text-align: center;">
-                        <h1>Initialize Inventory</h1>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="table-label">
-                        @Html.TextBoxFor(model => model.ProductName, new { @placeholder = "Item Name" })
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        @Html.DropDownList("catagoryName", "Select a Catagory")
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        @Html.DropDownList("location", "Select a Location")
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        @Html.TextBoxFor(model => model.InvCount, new { @placeholder = "Added Amount" })
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        @Html.TextBoxFor(model => model.UnitType, new { @placeholder = "Unit Type" })
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="text-align: center;">
-                        <button id="btnAddProduct" name="btnSubmit" value="addproduct" class="button-action"><i class="fas fa-user-plus"></i> Add-Product</button>
-                    </td>
-                    <td colspan="2" style="text-align: center;">
-                        <button id="btnAddProduct" name="btnFinishInit" value="finishinit" class="button-action"><<i class="fa-thin fa-angle-right"></i> Finish</button>
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </div>
+<style>
+	.center-top {
+		position: absolute;
+		left: 50%;
+		top: 15%;
+		transform: translate(-50%, -50%);
+		padding: 10px;
+	}
+
+	#content-success {
+		border: 1px solid gray;
+		-webkit-border-radius: 0.3em;
+		-moz-border-radius: 0.3em;
+		border-radius: 0.3em;
+		background-color: #3E392F;
+		padding: 1em;
+		margin-bottom: 1em;
+	}
+
+	#content-success i {
+		color: green;
+	}
+
+	#content-success span {
+		margin-left: 1em;
+	}
+
+	td {
+		vertical-align: middle;
+	}
+
+</style>
+
+@using (Html.BeginForm(FormMethod.Post)) {
+	if (Model.ActionType == SmartStock.Models.Inventory.ActionTypes.InsertSuccessful) {
+		<div id="content-success">
+			<i class="fa-solid fa-check"></i>
+			<span>Item added.</span>
+		</div>
+	}
+	if (Model.ActionType == SmartStock.Models.Inventory.ActionTypes.RequiredFieldsMissing) {
+		<div id="content-locked">
+			<i class="fa-solid fa-triangle-exclamation"></i>
+			<span>All fields are required for each item entry.</span>
+		</div>
+	}
+	<div class="center-top">
+		<h1 style="text-align: center;">Initialize Inventory</h1>
+		<form action="initInventory">
+			<table>
+				<thead>
+					<tr>
+						<th>
+							Product
+						</th>
+						<th>
+							Catagory
+						</th>
+						<th>
+							Location
+						</th>
+						<th>
+							Amount
+						</th>
+						<th>
+							Unit
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							@Html.TextBoxFor(model => model.ProductName, new { @placeholder = "Item Name" })
+						</td>
+						<td>
+							@Html.DropDownList("catagoryName", "Select a Catagory")
+						</td>
+						<td>
+							@Html.DropDownList("location", "Select a Location")
+						</td>
+						<td>
+							@Html.TextBoxFor(model => model.InvCount, new { @placeholder = "Amount" })
+						</td>
+						<td>
+							@Html.TextBoxFor(model => model.UnitType, new { @placeholder = "lb, gal, case" })
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div style="text-align: right;">
+				<button id="btnAddProduct" name="btnSubmit" value="addproduct" class="button-action"><i class="fas fa-user-plus"></i> Add-Product</button>
+				<button id="btnAddProduct" name="btnFinishInit" value="finishinit" class="button-action"><i class="fa-solid fa-check"></i> Finish</button>
+			</div>
+		</form>
+	</div>
 }
