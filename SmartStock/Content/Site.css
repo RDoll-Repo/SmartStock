@@ -8,7 +8,7 @@
 }
 
 #site-header {
-    background-color: #21242f;
+    background-color: #1b1a19;
     color: white;
     font-size: 2.25em;
     padding: 20px 0px 20px 20px;
@@ -35,7 +35,7 @@ h2 {
 }
 
 .icon-bar {
-    background-color: #42475d;
+    background-color: #252524;
     display: table-cell;
     float: left;
 }
