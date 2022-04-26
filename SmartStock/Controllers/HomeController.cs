@@ -201,8 +201,11 @@ namespace SmartStock.Controllers {
                         // show completion message
                         i.ActionType = Models.Inventory.ActionTypes.InsertSuccessful;
                         // clear fields
-                        ModelState.Clear();
-                        RedirectToAction("InitializeInventory"); // in palce of dynamic table
+                        //ModelState.Clear();
+                        i.ProductName = "";
+                        i.InvCount = 0;
+                        i.UnitType = "";
+                        return View(i); // in palce of dynamic table
                     }
                     if (i.ActionType != Models.Inventory.ActionTypes.NoType) {
 

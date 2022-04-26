@@ -88,10 +88,8 @@ namespace SmartStock.Models
             catch (Exception ex) { throw new Exception(ex.Message); }
         }
 
-        public bool SaveInventorySession()
-        {
-            try
-            {
+        public bool SaveInventorySession() {
+            try {
                 HttpContext.Current.Session["CurrentInventory"] = this;
                 return true;
             }
