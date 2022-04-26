@@ -1,73 +1,113 @@
 ﻿@model IEnumerable<SmartStock.Models.TSupplier>
 @{
-    ViewBag.Title = "Suppliers";
+	ViewBag.Title = "Suppliers";
 }
+
+<style>
+	th, td {
+		vertical-align: middle;
+	}
+
+	table, td, th {
+		border: 1px solid white;
+		font-size: 14px;
+	}
+
+	table {
+		width: 1200px;
+		border-collapse: collapse;
+	}
+
+	.button-action-edit-delete {
+		padding: 4px 12px;
+		width: 100px;
+		background-color: dimgray;
+		color: white;
+	}
+
+	.button-action-edit-delete:hover {
+		background-color: gray;
+	}
+</style>
+
 <h2>@ViewBag.Title</h2>
 
-<table class="table table-striped table-condensed">
-    <tr>
-        <th>
-            @Html.DisplayName("Company Name")
-        </th>
-        <th>
-            @Html.DisplayName("Contact Name")
-        </th>
-        <th>
-            @Html.DisplayName("Address")
-        </th>
-        <th>
-            @Html.DisplayName("Email")
-        </th>
-        <th>
-            @Html.DisplayName("Phone Number")
-        </th>
-        <th>
-            @Html.DisplayName("Website")
-        </th>
-        <th>
-            @Html.DisplayName("Notes")
-        </th>
-        <th>
-            <form action="CreateSupplier">
-                <input type="submit" value="+"/>
-            </form>
-        </th>
-
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.strCompanyName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.strContactFirstName)
-                @Html.DisplayFor(modelItem => item.strContactLastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.strAddress1)
-                @Html.DisplayFor(modelItem => item.strContactState)
-                @Html.DisplayFor(modelItem => item.strZip)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.strEmail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.strPhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.strURL)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.strNotes)
-            </td>
-            <td>
-                @Html.ActionLink(" ", "EditSupplier", new { Supplier_ID = item.intSupplierID }, new { @class = "fa-solid fa-pen" })
-                &nbsp;
-                @*Delete is dummied out for now. Replace "Suppliers" with "DeleteSupplier" when we're good.*@
-                @Html.ActionLink(" ", "Suppliers", new { Supplier_ID = item.intSupplierID }, new { @class = "fa-solid fa-trash" })
-            </td>
-        </tr>
-    }
+<table>
+	<colgroup>
+		<col style="width: 12%;">
+		<col style="width: 12%;">
+		<col style="width: 18%;">
+		<col style="width: 15%;">
+		<col style="width: 7%;">
+		<col style="width: 20%;">
+	</colgroup>
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayName("Company Name")
+			</th>
+			<th>
+				@Html.DisplayName("Contact Name")
+			</th>
+			<th>
+				@Html.DisplayName("Address")
+			</th>
+			<th>
+				@Html.DisplayName("Email")
+			</th>
+			<th>
+				@Html.DisplayName("Phone Number")
+			</th>
+			<th>
+				@Html.DisplayName("Notes")
+			</th>
+			<th>
+				Edit
+			</th>
+			<th>
+				Delete
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model) {
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.strCompanyName)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.strContactFirstName)
+					@Html.DisplayFor(modelItem => item.strContactLastName)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.strAddress1)
+					@Html.DisplayFor(modelItem => item.strContactState)
+					@Html.DisplayFor(modelItem => item.strZip)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.strEmail)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.strPhoneNumber)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.strNotes)
+				</td>
+				<td>
+					@Html.ActionLink(" ", "EditSupplier", new { Supplier_ID = item.intSupplierID }, new { @class = "fa-solid fa-pen" })
+					@*<button class="button-action-edit-delete" onclick="location.href='@Url.Action("EditSupplier", "Profile", new { Supplier_ID = item.intSupplierID }))';return false;"><i class="fa-solid fa-pen-to-square"></i> Edit</button>*@
+				</td>
+				<td>
+					@*Delete is dummied out for now. Replace "Suppliers" with "DeleteSupplier" when we're good.*@
+					@Html.ActionLink(" ", "Suppliers", new { Supplier_ID = item.intSupplierID }, new { @class = "fa-solid fa-trash" })
+					@*< button class="button-action-edit-delete" onclick="location.href='@Url.Action("DeleteSupplier", "Profile", new { Supplier_ID = item.intSupplierID }))';return false;"><i class="fa-solid fa-trash"></i> Delete</button>*@
+				</td>
+			</tr>
+		}
+	</tbody>
 </table>
+<div style="text-align: right;">
+	<form action="CreateSupplier">
+		<input type="submit" value="+ Add Supplier" />
+	</form>
+</div>
