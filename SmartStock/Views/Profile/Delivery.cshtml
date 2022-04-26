@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SmartStock.Models.TProductPriceHistory>
+﻿@model IEnumerable<SmartStock.Models.TInventory>
 
 
 @using (Html.BeginForm())
@@ -26,12 +26,10 @@
                         @Html.DisplayFor(modelItem => item.strProductName)
                     </td>
                     <td>
-                        @Html.EditorFor(modelItem => item.monCostPerUnit, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(modelItem => item.monCostPerUnit, "", new { @class = "text-danger" })
+                        @Html.TextBox("costPerUnit")
                     </td>
                     <td>
-                        @Html.EditorFor(modelItem => item., new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(modelItem => item.intPurchaseAmt, "", new { @class = "text-danger" })
+                        @Html.TextBox("quantity");
                     </td>
                 </tr>
                 }
