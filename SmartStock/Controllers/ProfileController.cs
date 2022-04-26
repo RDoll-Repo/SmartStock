@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Data.Entity;
 using System.Data;
+using System.Dynamic;
 
 namespace SmartStock.Controllers
 {
@@ -886,5 +887,35 @@ namespace SmartStock.Controllers
 				return View(c);
 			}
 		}
+
+		public ActionResult InventoryAdjustment(FormCollection col)
+        {
+			ViewBag.flag = 0;
+			IEnumerable<TInventory> products = GetAllInventory();
+
+			if (col["btnSubmit"] == "audit")
+			{
+				ViewBag.flag = 1;
+				Audit(products);
+			}
+			else if (col["btnSubmit"] == "delivery")
+            {
+				ViewBag.flag = 2;
+				Delivery(products);
+            }
+
+
+			return View(products);
+        }
+
+		public ActionResult Audit(IEnumerable<TInventory> list)
+        {
+			return PartialView(list);
+        }
+
+		public ActionResult Delivery(IEnumerable<TInventory> list)
+        {
+			return PartialView(list);
+        }
 	}
 }
