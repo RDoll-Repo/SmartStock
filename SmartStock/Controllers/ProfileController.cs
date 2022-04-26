@@ -886,5 +886,22 @@ namespace SmartStock.Controllers
 				return View(c);
 			}
 		}
+
+		public ActionResult InventoryAdjustment(FormCollection col)
+        {
+			ViewBag.flag = 0;
+
+			if (col["btnAudit"] == "audit")
+			{
+				ViewBag.flag = 1;
+			}
+			else if (col["btnDelivery"] == "delivery")
+            {
+				ViewBag.flag = 2;
+            }
+
+
+			return View();
+        }
 	}
 }
