@@ -2,6 +2,21 @@
     ViewBag.Title = "SignUp";
 }
 @model SmartStock.Models.User
+
+<style>
+	.center-top {
+		position: absolute;
+		left: 50%;
+		top: 15%;
+		transform: translate(-50%, -50%);
+		padding: 10px;
+	}
+
+	td {
+		padding: 3px;
+	}
+</style>
+
 @using (Html.BeginForm(FormMethod.Post))
 {
     if (Model.ActionType == SmartStock.Models.User.ActionTypes.RequiredFieldsMissing)

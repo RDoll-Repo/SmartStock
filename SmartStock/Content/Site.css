@@ -68,11 +68,6 @@ h2 {
     text-align: right;
 }
 
-td {
-    padding-right: 10px;
-    padding-top: 5px;
-}
-
 .icon-bar a {
     display: block;
     text-align: center;
@@ -117,9 +112,8 @@ button, input[type=submit], input[type=button] {
     cursor: pointer;
     padding: 12px 30px 12px 30px;
     background-color: dimgray;
-    color: black;
-    border: 1px solid white;
-}
+    color: white;
+} 
 
 button i {
     margin-right: 0.35em;

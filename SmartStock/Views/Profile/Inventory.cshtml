@@ -1,63 +1,100 @@
 ﻿@model IEnumerable<SmartStock.Models.TInventory>
 @{
-    ViewBag.Title = "Inventory";
+	ViewBag.Title = "Inventory";
 }
+<style>
+	th, td {
+		vertical-align: middle;
+	}
+	table, td, th {
+		border: 1px solid white;
+	}
+	table {
+		width: 1200px;
+		border-collapse: collapse;
+	}
+	.button-action-edit-delete {
+		padding: 4px 12px;
+		width: 100px;
+		background-color: dimgray;
+		color: white;
+	}
+
+	.button-action-edit-delete:hover {
+		background-color: gray;
+	}
+</style>
+
 <h2>@ViewBag.Title</h2>
 
-<table class="table table-striped table-condensed">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(Model => Model.strProductName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(Model => Model.intInvCount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(Model => Model.strUnitType)
-        </th>
-        <th>
-            @Html.DisplayNameFor(Model => Model.blnIsLow)
-        </th>
-        <th>
-            @Html.DisplayNameFor(Model => Model.TCategory.strCategory)
-        </th>
-        <th>
-            @Html.DisplayNameFor(Model => Model.TProductLocation.strLocation)
-        </th>
-        <th>
-            <form action="CreateItem">
-                <input type="submit" value="+" />
-            </form>
-        </th>
+<table>
+	<colgroup>
+		<col style="width: 30%;">
+		<col style="width: 10%;">
+		<col style="width: 10%;">
+		<col style="width: 30%;">
+		<col style="width: 30%;">
+		<col style="width: 30%;">
+		<col style="width: 30%;">
+	</colgroup>
 
-    </tr>
-
-    @foreach (var item in Model)
-    {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.strProductName)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.intInvCount)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.strUnitType)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.blnIsLow)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.TCategory.strCategory)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.TProductLocation.strLocation)
-    </td>
-    <td>
-        @Html.ActionLink("Edit", "EditItem", new { InventoryID = item.intInventoryID })
-
-        @Html.ActionLink("Delete", "DeleteItem", new { InventoryID = item.intInventoryID })
-    </td>
-</tr>
-    }
+	<thead>
+		<tr>
+			<th>
+				Product
+			</th>
+			<th>
+				Count
+			</th>
+			<th>
+				Unit
+			</th>
+			<th>
+				Catagory
+			</th>
+			<th>
+				Location
+			</th>
+			<th>
+				Edit
+			</th>
+			<th>
+				Delete
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model) {
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.strProductName)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.intInvCount)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.strUnitType)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.TCategory.strCategory)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.TProductLocation.strLocation)
+			</td>
+			<td>
+				@Html.ActionLink("Edit", "EditItem", new { InventoryID = item.intInventoryID })
+				@*<button class="button-action-edit-delete" onclick="location.href='@Url.Action("EditItem", "Profile", new { InventoryID = item.intInventoryID }))';return false;"><i class="fa-solid fa-pen-to-square"></i> Edit</button>*@
+			</td>
+			<td>
+				@*<button class="button-action-edit-delete" onclick="location.href='@Url.Action("DeleteItem", "Profile", new { InventoryID = item.intInventoryID }))';return false;"><i class="fa-solid fa-trash"></i> Delete</button>*@
+				@Html.ActionLink("Delete", "DeleteItem", new { InventoryID = item.intInventoryID })
+			</td>
+		</tr>
+		}
+	</tbody>
 </table>
+<div style="text-align: right;">
+	<form action="CreateItem">
+		<input class="button-action" type="submit" value="+ Add Item" />
+	</form>
+</div>

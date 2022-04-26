@@ -202,9 +202,9 @@ namespace SmartStock.Controllers {
                         i.ActionType = Models.Inventory.ActionTypes.InsertSuccessful;
                         // clear fields
                         //ModelState.Clear();
-                        i.ProductName = "";
-                        i.InvCount = 0;
-                        i.UnitType = "";
+                        //i.ProductName = "";
+                        //i.InvCount = 0;
+                        //i.UnitType = "";
                         return View(i); // in palce of dynamic table
                     }
                     if (i.ActionType != Models.Inventory.ActionTypes.NoType) {
