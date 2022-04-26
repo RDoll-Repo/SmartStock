@@ -7,10 +7,10 @@
 <table class="table table-striped table-condensed">
     <tr>
         <th>
-            @Html.DisplayNameFor(Model => Model.strAlert)
+            @Html.DisplayName("Date")
         </th>
         <th>
-            @Html.DisplayNameFor(Model => Model.dtmAlertDate)
+            @Html.DisplayName("Message")
         </th>
 
         <th>
@@ -25,11 +25,12 @@
     {
 <tr>
     <td>
-        @Html.DisplayFor(modelItem => item.strAlert)
-    </td>
-    <td>
         @Html.DisplayFor(modelItem => item.dtmAlertDate)
     </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.strAlert)
+    </td>
+
     <td>
         @Html.ActionLink("Edit", "EditCard", new { Card_ID = item.intAlertID })
 

@@ -1,72 +1,72 @@
-﻿@model SmartStock.Models.Inventory
+﻿@model SmartStock.Models.TInventory
 
-
-
-<h2>Edit Item</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-<div class="form-horizontal">
-    <h4>TInventory</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.InventoryID)
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
-        </div>
+    <div class="center-up">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.intInventoryID)
+        <form action="editItem">
+            <table>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <h1>Edit Item</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(model => model.strProductName, "Product Name")
+                    </td>
+                    <td colspan="2">
+                        @Html.EditorFor(model => model.strProductName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.strProductName, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(model => model.intInvCount, "Item Quantity")
+                    </td>
+                    <td colspan="2">
+                        @Html.EditorFor(model => model.intInvCount, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.intInvCount, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(model => model.strUnitType, "Unit Type")
+                    </td>
+                    <td colspan="2">
+                        @Html.EditorFor(model => model.strUnitType, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.strUnitType, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(model => model.intCategoryID, "Category")
+                    </td>
+                    <td colspan="2">
+                        @Html.DropDownList("catagoryName", "Select a Category")
+                        @Html.ValidationMessageFor(model => model.intCategoryID, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(model => model.intProductLocationID, "Location")
+                    </td>
+                    <td colspan="2">
+                        @Html.DropDownList("location", "Select a Location")
+                        @Html.ValidationMessageFor(model => model.intProductLocationID, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <button id="btnBack" name="btnCancel" value="back" class="button-action"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                        <button id="btnEditUser" name="btnSubmit" value="editSubmit" class="button-action"><i class="fas fa-user-plus"></i> Submit </button>
+                    </td>
+                </tr>
+            </table>
+        </form>
     </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.InvCount, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.InvCount, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.InvCount, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.UnitType, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.UnitType, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.UnitType, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.blnIsLow, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.blnIsLow)
-                @Html.ValidationMessageFor(model => model.blnIsLow, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    </div>
-    <div class="form-group">
-
-        <div class="col-md-10">
-            @Html.DropDownList("catagoryName", "Select a Category")
-        </div>
-    </div>
-    <div class="form-group">
-
-        <div class="col-md-10">
-            @Html.DropDownList("location", "Select a Location")
-        </div>
-    </div>
-   
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <button id="btnBack" name="btnCancel" value="back" class="button-action"><i class="fa-solid fa-arrow-left"></i> Back</button>
-            <button id="btnEditItem" name="btnSubmit" value="editSubmit" class="button-action"><i class="fas fa-user-plus"></i> Submit </button>
-        </div>
-    </div>
-</div>
 }
-

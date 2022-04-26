@@ -1,32 +1,38 @@
-﻿@model SmartStock.Models.Card
+﻿@model SmartStock.Models.TAlert
 
-
-
-<h2>Edit Card</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Card_ID)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Message, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Message, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
-            </div>
-        </div>
+<div class="center-up">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.intAlertID)
+    <form action="editMessage">
+        <table>
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    <h1>Edit Message</h1>
+                </td>
+            </tr>
+            <tr>
+                <td class="table-label">
+                    @Html.LabelFor(model => model.strAlert, "Message")
+                </td>
+                <td colspan="2">
+                    @Html.EditorFor(model => model.strAlert, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.strAlert, "", new { @class = "text-danger" })
+                </td>
+            </tr>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <button id="btnBack" name="btnCancel" value="back" class="button-action"><i class="fa-solid fa-arrow-left"></i> Back</button>
-                <button id="btnEditUser" name="btnSubmit" value="editSubmit" class="button-action"><i class="fas fa-user-plus"></i> Submit </button>
-            </div>
-        </div>
-    </div>
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    <button id="btnBack" name="btnCancel" value="back" class="button-action"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <button id="btnEditUser" name="btnSubmit" value="editSubmit" class="button-action"><i class="fas fa-user-plus"></i> Submit </button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
 }
 

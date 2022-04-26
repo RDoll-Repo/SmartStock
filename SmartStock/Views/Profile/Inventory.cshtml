@@ -4,25 +4,26 @@
 }
 <h2>@ViewBag.Title</h2>
 
+
 <table class="table table-striped table-condensed">
     <tr>
         <th>
-            @Html.DisplayNameFor(Model => Model.strProductName)
+            @Html.DisplayName("Product Name")
         </th>
         <th>
-            @Html.DisplayNameFor(Model => Model.intInvCount)
+            @Html.DisplayName("Inventory Count")
         </th>
         <th>
-            @Html.DisplayNameFor(Model => Model.strUnitType)
+            @Html.DisplayName("Unit Type")
         </th>
         <th>
-            @Html.DisplayNameFor(Model => Model.blnIsLow)
+            @Html.DisplayName("Is Low")
         </th>
         <th>
-            @Html.DisplayNameFor(Model => Model.TCategory.strCategory)
+            @Html.DisplayName("Category")
         </th>
         <th>
-            @Html.DisplayNameFor(Model => Model.TProductLocation.strLocation)
+            @Html.DisplayName("Stored Location")
         </th>
         <th>
             <form action="CreateItem">
