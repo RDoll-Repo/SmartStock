@@ -7,7 +7,7 @@
 
     <div class="center-up">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <form action="audit">
+        <form action="delivery">
             <table class="table table-striped table-condensed">
                 <tr>
                     <th>
@@ -29,14 +29,14 @@
                         @Html.TextBox("costPerUnit")
                     </td>
                     <td>
-                        @Html.TextBox("quantity");
+                        @Html.TextBox("quantity")
                     </td>
                 </tr>
                 }
                     <tr>
-                        <td colspan="2" style="text-align: center;">
+                        <td colspan="3" style="text-align: center;">
                             <button id="btnBack" name="btnCancel" value="back" class="button-action"><i class="fa-solid fa-arrow-left"></i> Back</button>
-                            <button id="btnEditUser" name="btnSubmit" value="editSubmit" class="button-action"><i class="fas fa-user-plus"></i> Submit </button>
+                            <button id="btnEditUser" name="btnSubmit" value="editSubmit" class="button-action"><i class="fa-solid fa-truck-ramp-box"></i> Submit </button>
                         </td>
                     </tr>
                 </table>

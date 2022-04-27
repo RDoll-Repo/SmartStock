@@ -11,10 +11,7 @@
         <button id="btnDelivery" name="btnSubmit" value="delivery" class="button-action"><i class="fa-solid fa-truck-ramp-box"></i> Delivery</button>
     </div>
 
-    if (ViewBag.flag == 0)
-    {
-        <h1>Select an Adjustment Type</h1>
-    }
+
     if (ViewBag.flag == 1)
     {
         @Html.Partial("Audit");
