@@ -109,11 +109,34 @@ namespace SmartStock.Controllers
 		{
 			return View(GetAllCards());
 		}
-		IEnumerable<TAlert> GetAllCards()
+		IEnumerable<Card> GetAllCards()
 		{
 			using (DBModel db = new DBModel())
 			{
-				return db.TAlerts.ToList<TAlert>();
+				// Sample data to verify my cards work
+				
+				Card x = new Card();
+				x.CardType = Card.CardTypes.Announcement;
+				x.AlertDateTime = DateTime.Now;
+				x.Message = "This is an annoucnemnt";
+
+				Card y = new Card();
+				y.CardType = Card.CardTypes.StockAlert;
+				y.AlertDateTime = DateTime.Now;
+				y.Message = "You are running low on {item}, be sure to order more soon. ";
+
+				Card z = new Card();
+				z.CardType = Card.CardTypes.PriceIncrease;
+				z.AlertDateTime = DateTime.Now;
+				z.Message = "The price of {item} has increased from {former cost} to { current cost} since { two months before now}. Consider switching suppliers";
+
+				List<Card> list = new List<Card>();
+                list.Add(x);
+				list.Add(y);
+				list.Add(z);
+
+				return list;
+				//return db.TAlerts.ToList<TAlert>();
 			}
 
 		}
@@ -916,6 +939,11 @@ namespace SmartStock.Controllers
 		public ActionResult Delivery(IEnumerable<TInventory> list)
         {
 			return PartialView(list);
+        }
+
+		public ActionResult AnnoucnementCard()
+        {
+			return PartialView();
         }
 	}
 }
