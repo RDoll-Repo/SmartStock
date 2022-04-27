@@ -55,40 +55,6 @@
 			</div>
 		</div>
 	}
-<div style="text-align:center;">
-	<table>
-		<tr>
-			<th>
-				@Html.DisplayName("Date")
-			</th>
-			<th>
-				@Html.DisplayName("Message")
-			</th>
-
-			<th>
-				<form action="CreateCard">
-					<input type="submit" value="+" />
-				</form>
-			</th>
-		</tr>
-
-		@*@foreach (var item in Model)
-				{
-			<tr>
-				<td>
-					@Html.DisplayFor(modelItem => item.dtmAlertDate)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.strAlert)
-				</td>
-
-				<td>
-					@Html.ActionLink("Edit", "EditCard", new { Card_ID = item.intAlertID })
-
-					@Html.ActionLink("Delete", "DeleteCard", new { Card_ID = item.intAlertID })
-				</td>
-			</tr>
-				}*@
-	</table>
-</div>
-</div>
+	<form action="CreateCard">
+		<input type="submit" value="+" />
+	</form>
