@@ -72,7 +72,7 @@
 				<tbody>
 					<tr>
 						<td>
-							@Html.TextBoxFor(model => model.ProductName, new { @placeholder = "Item Name" })
+							<input type="text" id="ProductName" name="ProductName">
 						</td>
 						<td>
 							@Html.DropDownList("catagoryName", "Select a Catagory")
@@ -81,10 +81,10 @@
 							@Html.DropDownList("location", "Select a Location")
 						</td>
 						<td>
-							@Html.TextBoxFor(model => model.InvCount, new { @placeholder = "Amount" })
+							<input type="text" id="InvCount" name="InvCount">
 						</td>
 						<td>
-							@Html.TextBoxFor(model => model.UnitType, new { @placeholder = "lb, gal, case" })
+							<input type="text" id="UnitType" name="UnitType" placeholder="lb, gal, case">
 						</td>
 					</tr>
 				</tbody>
