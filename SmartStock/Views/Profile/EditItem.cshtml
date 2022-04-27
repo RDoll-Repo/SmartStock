@@ -19,7 +19,7 @@
                     <td class="table-label">
                         @Html.LabelFor(model => model.strProductName, "Product Name")
                     </td>
-                    <td colspan="2">
+                    <td>
                         @Html.EditorFor(model => model.strProductName, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.strProductName, "", new { @class = "text-danger" })
                     </td>

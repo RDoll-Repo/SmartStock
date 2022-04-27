@@ -91,7 +91,6 @@
 			</td>
 			<td>
 				<button class="button-action-edit-delete" onclick="location.href='@Url.Action("EditItem", "Profile", new { InventoryID = item.intInventoryID })';"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
-				@Html.ActionLink("Delete", "DeleteItem", new { InventoryID = item.intInventoryID })
 			</td>
 			<td>
 				<button class="button-action-edit-delete" onclick="location.href='@Url.Action("DeleteItem", "Profile", new { InventoryID = item.intInventoryID })';"><i class="fa-solid fa-trash"></i> Delete</button>
@@ -100,11 +99,11 @@
 		}
 	</tbody>
 </table>
-<div style="text-align: right;">
-    <form action="CreateItem">
-        <input class="button-action" type="submit" value="+ Add Item" />
-    </form>
-    <form action="InventoryAdjustment">
-        <input class="button-action" type="submit" value="Inventory Adjustment" />
-    </form>
+<div style="display: inline-flex;">
+	<form action="CreateItem">
+		<button class="button-action" type="submit">+ Add Item</button>
+	</form>
+	<form action="InventoryAdjustment">
+		<button class="button-action" type="submit">Inventory Adjustment</button>
+	</form>
 </div>

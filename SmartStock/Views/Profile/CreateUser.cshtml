@@ -41,7 +41,7 @@
                     <td class="table-label">
                         @Html.LabelFor(Model => Model.First_Name, "First Name:")
                     </td>
-                    <td colspan="2">
+                    <td>
                         @Html.TextBoxFor(Model => Model.First_Name, new { @autofocus = "autofocus" })
                     </td>
                 </tr>
@@ -85,11 +85,14 @@
                         @Html.TextBoxFor(Model => Model.Password)
                     </td>
                 </tr>
-                <tr>
-                    <td colspan="2">
-                        @Html.DropDownList("rolename", "Select a Role")
-                    </td>
-                </tr>
+				<tr>
+					<td class="table-label">
+						Select a role:
+					</td>
+					<td colspan="2">
+						@Html.DropDownList("rolename", "Select a Role")
+					</td>
+				</tr>
                 <tr>
                     <td colspan="2" style="text-align: center;">
                         <button id="btnBack" name="btnCancel" value="back" class="button-action"><i class="fa-solid fa-arrow-left"></i> Back</button>
