@@ -1,8 +1,59 @@
-﻿@model IEnumerable<SmartStock.Models.TAlert>
+﻿@model IEnumerable<SmartStock.Models.Card>
 @{
     ViewBag.Title = "Dashboard";
 }
 <h2>@ViewBag.Title</h2>
+
+
+<style>
+    .card {
+        vertical-align: middle;
+        background-color: blue;
+        padding: 50px 20px;
+        margin: 70px 2px;
+        border-radius: 16px;
+        width: 700px;
+    }
+
+    .icon {
+        float: left;
+    }
+
+    .message {
+        
+    }
+
+</style>
+
+@foreach (var item in Model)
+{
+    <div class="col-4">
+        <div>
+            <div class="card">
+                <div class="icon">
+                    @if (item.CardType == SmartStock.Models.Card.CardTypes.Announcement)
+                    {
+                        <i class='fa-solid fa-bullhorn fa-5x'></i>
+                    }
+                    @if (item.CardType == SmartStock.Models.Card.CardTypes.StockAlert)
+                    {
+                        <i class='fa-solid fa-sort-down fa-5x'></i>
+                    }
+                    @if (item.CardType == SmartStock.Models.Card.CardTypes.PriceIncrease)
+                    {
+                        <i class='fa-solid fa-money-bill-wave fa-5x'></i>
+                    }
+                </div>
+                <div class="message">
+                    <div>@Html.DisplayFor(modelItem => item.AlertDateTime)</div>
+                    <div>@Html.DisplayFor(modelItem => item.Message)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
 
 <table class="table table-striped table-condensed">
     <tr>
@@ -21,7 +72,7 @@
 
     </tr>
 
-    @foreach (var item in Model)
+    @*@foreach (var item in Model)
     {
 <tr>
     <td>
@@ -37,5 +88,5 @@
         @Html.ActionLink("Delete", "DeleteCard", new { Card_ID = item.intAlertID })
     </td>
 </tr>
-    }
+    }*@
 </table>

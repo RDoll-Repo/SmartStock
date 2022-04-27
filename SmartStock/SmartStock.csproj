@@ -282,6 +282,7 @@
     <Content Include="Views\Profile\InventoryAdjustment.cshtml" />
     <Content Include="Views\Profile\Audit.cshtml" />
     <Content Include="Views\Profile\Delivery.cshtml" />
+    <Content Include="Views\Profile\AnnouncementCard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
