@@ -4,13 +4,13 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="TAlerts">
           <Key>
             <PropertyRef Name="intAlertID" />
           </Key>
           <Property Name="intAlertID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="strAlert" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="strAlert" Type="varchar" MaxLength="1000" Nullable="false" />
           <Property Name="dtmAlertDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="TCategory">
@@ -45,7 +45,7 @@
           </Key>
           <Property Name="intProductPriceHistoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="strProductName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="dtmPurchaseDate" Type="date" Nullable="false" />
+          <Property Name="dtmPurchaseDate" Type="datetime" Nullable="false" />
           <Property Name="strUnitType" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="monCostPerUnit" Type="money" Nullable="false" />
           <Property Name="intPurchaseAmt" Type="int" Nullable="false" />
@@ -148,6 +148,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="AUDIT_INVENTORY" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="InventoryID" Type="bigint" Mode="InOut" />
+          <Parameter Name="InvCount" Type="int" Mode="In" />
+        </Function>
+        <Function Name="AVG_INV" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="ProductName" Type="varchar" Mode="In" />
+          <Parameter Name="avg_PurchaseAmt" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="DELETE_ALERT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
           <Parameter Name="AlertID" Type="bigint" Mode="InOut" />
         </Function>
@@ -163,10 +171,13 @@
         <Function Name="DELETE_USER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
           <Parameter Name="User_ID" Type="bigint" Mode="InOut" />
         </Function>
+        <Function Name="GETPRICECHANGE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="ProductName" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="INSERT_ALERT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
           <Parameter Name="AlertID" Type="bigint" Mode="InOut" />
           <Parameter Name="Alert" Type="varchar" Mode="In" />
-          <Parameter Name="AlertDate" Type="date" Mode="In" />
+          <Parameter Name="AlertDate" Type="datetime" Mode="In" />
         </Function>
         <Function Name="INSERT_INVENTORY" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
           <Parameter Name="InventoryID" Type="bigint" Mode="InOut" />
@@ -180,7 +191,7 @@
         <Function Name="INSERT_PRODUCTPRICEHISTORY" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
           <Parameter Name="PPHID" Type="bigint" Mode="InOut" />
           <Parameter Name="ProductName" Type="varchar" Mode="In" />
-          <Parameter Name="PurchaseDate" Type="date" Mode="In" />
+          <Parameter Name="PurchaseDate" Type="datetime" Mode="In" />
           <Parameter Name="CostPerUnit" Type="money" Mode="In" />
           <Parameter Name="UnitType" Type="varchar" Mode="In" />
           <Parameter Name="PurchaseAmt" Type="int" Mode="In" />
@@ -232,7 +243,7 @@
         <Function Name="UPDATE_ALERT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
           <Parameter Name="AlertID" Type="bigint" Mode="InOut" />
           <Parameter Name="Alert" Type="varchar" Mode="In" />
-          <Parameter Name="AlertDate" Type="date" Mode="In" />
+          <Parameter Name="AlertDate" Type="datetime" Mode="In" />
         </Function>
         <Function Name="UPDATE_INVENTORY" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
           <Parameter Name="InventoryID" Type="bigint" Mode="InOut" />
@@ -246,7 +257,7 @@
         <Function Name="UPDATE_PRODUCTPRICEHISTORY" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
           <Parameter Name="PPHID" Type="bigint" Mode="InOut" />
           <Parameter Name="ProductName" Type="varchar" Mode="In" />
-          <Parameter Name="PurchaseDate" Type="date" Mode="In" />
+          <Parameter Name="PurchaseDate" Type="datetime" Mode="In" />
           <Parameter Name="CostPerUnit" Type="money" Mode="In" />
           <Parameter Name="UnitType" Type="varchar" Mode="In" />
           <Parameter Name="PurchaseAmt" Type="int" Mode="In" />
@@ -254,7 +265,7 @@
           <Parameter Name="SupplierID" Type="int" Mode="In" />
         </Function>
         <Function Name="UPDATE_SUPPLIER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
-          <Parameter Name="Supplier_ID" Type="bigint" Mode="InOut" />
+          <Parameter Name="Supplier_ID" Type="bigint" Mode="In" />
           <Parameter Name="Company_Name" Type="varchar" Mode="In" />
           <Parameter Name="Contact_FirstName" Type="varchar" Mode="In" />
           <Parameter Name="Contact_LastName" Type="varchar" Mode="In" />
@@ -306,8 +317,7 @@
             <End Role="TUser" EntitySet="TUser" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -316,7 +326,7 @@
             <PropertyRef Name="intAlertID" />
           </Key>
           <Property Name="intAlertID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="strAlert" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="strAlert" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="dtmAlertDate" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="TCategory">
@@ -355,7 +365,7 @@
           </Key>
           <Property Name="intProductPriceHistoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="strProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="dtmPurchaseDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="dtmPurchaseDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="strUnitType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="monCostPerUnit" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="intPurchaseAmt" Type="Int32" Nullable="false" />
@@ -494,19 +504,19 @@
             <End Role="TUser" EntitySet="TUsers" />
           </AssociationSet>
           <FunctionImport Name="DELETE_ALERT">
-            <Parameter Name="AlertID" Mode="InOut" Type="Int64" />
+          <Parameter Name="AlertID" Mode="InOut" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="DELETE_INVENTORY">
-            <Parameter Name="InventoryID" Mode="InOut" Type="Int64" />
+          <Parameter Name="InventoryID" Mode="InOut" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="DELETE_PRODUCTPRICEHISTORY">
-            <Parameter Name="PPHID" Mode="InOut" Type="Int64" />
+          <Parameter Name="PPHID" Mode="InOut" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="DELETE_SUPPLIER">
-            <Parameter Name="Supplier_ID" Mode="InOut" Type="Int64" />
+          <Parameter Name="Supplier_ID" Mode="InOut" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="DELETE_USER">
-            <Parameter Name="User_ID" Mode="InOut" Type="Int64" />
+          <Parameter Name="User_ID" Mode="InOut" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="INSERT_ALERT">
             <Parameter Name="AlertID" Mode="InOut" Type="Int64" />
@@ -560,19 +570,19 @@
             <Parameter Name="Password" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SELECT_ALERT" ReturnType="Collection(Model.SELECT_ALERT_Result)">
-            <Parameter Name="AlertID" Mode="In" Type="Int64" />
+          <Parameter Name="AlertID" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="SELECT_INVENTORY" ReturnType="Collection(Model.SELECT_INVENTORY_Result)">
-            <Parameter Name="InventoryID" Mode="In" Type="Int64" />
+          <Parameter Name="InventoryID" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="SELECT_PRODUCTPRICEHISTORY" ReturnType="Collection(Model.SELECT_PRODUCTPRICEHISTORY_Result)">
-            <Parameter Name="PPHID" Mode="In" Type="Int64" />
+          <Parameter Name="PPHID" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="SELECT_SUPPLIER" ReturnType="Collection(Model.SELECT_SUPPLIER_Result)">
-            <Parameter Name="Supplier_ID" Mode="In" Type="Int64" />
+          <Parameter Name="Supplier_ID" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="SELECT_USER" ReturnType="Collection(Model.SELECT_USER_Result)">
-            <Parameter Name="User_ID" Mode="In" Type="Int64" />
+          <Parameter Name="User_ID" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_ALERT">
             <Parameter Name="AlertID" Mode="InOut" Type="Int64" />
@@ -599,7 +609,7 @@
             <Parameter Name="SupplierID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_SUPPLIER">
-            <Parameter Name="Supplier_ID" Mode="InOut" Type="Int64" />
+            <Parameter Name="Supplier_ID" Mode="In" Type="Int64" />
             <Parameter Name="Company_Name" Mode="In" Type="String" />
             <Parameter Name="Contact_FirstName" Mode="In" Type="String" />
             <Parameter Name="Contact_LastName" Mode="In" Type="String" />
@@ -620,6 +630,17 @@
             <Parameter Name="User_Name" Mode="In" Type="String" />
             <Parameter Name="Password" Mode="In" Type="String" />
             <Parameter Name="Role_ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AUDIT_INVENTORY">
+            <Parameter Name="InventoryID" Mode="InOut" Type="Int64" />
+            <Parameter Name="InvCount" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AVG_INV">
+            <Parameter Name="ProductName" Mode="In" Type="String" />
+            <Parameter Name="avg_PurchaseAmt" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GETPRICECHANGE">
+          <Parameter Name="ProductName" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="LOGIN_Result">
@@ -872,6 +893,9 @@
           <FunctionImportMapping FunctionImportName="UPDATE_PRODUCTPRICEHISTORY" FunctionName="Model.Store.UPDATE_PRODUCTPRICEHISTORY" />
           <FunctionImportMapping FunctionImportName="UPDATE_SUPPLIER" FunctionName="Model.Store.UPDATE_SUPPLIER" />
           <FunctionImportMapping FunctionImportName="UPDATE_USER" FunctionName="Model.Store.UPDATE_USER" />
+          <FunctionImportMapping FunctionImportName="AUDIT_INVENTORY" FunctionName="Model.Store.AUDIT_INVENTORY" />
+          <FunctionImportMapping FunctionImportName="AVG_INV" FunctionName="Model.Store.AVG_INV" />
+          <FunctionImportMapping FunctionImportName="GETPRICECHANGE" FunctionName="Model.Store.GETPRICECHANGE" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
