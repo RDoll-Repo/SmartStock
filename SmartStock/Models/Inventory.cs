@@ -16,6 +16,7 @@ namespace SmartStock.Models
         public int ProductlocationID { get; set; }
         public int SupplierID { get; set; }
 
+        public decimal unitCost { get; set; }
         //public string UnitType = string.Empty;
         public long InventoryID = 0;
         //public string ProductName = string.Empty;
@@ -60,6 +61,24 @@ namespace SmartStock.Models
                 if (InventoryID != 0)
                 { //insert new product
                     this.ActionType = db.AuditInventory(this);
+                }
+                else
+                {
+                    return this.ActionType;
+                }
+                return this.ActionType;
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+        }
+
+        public Inventory.ActionTypes iDeliverySave()
+        {
+            try
+            {
+                Database db = new Database();
+                if (InventoryID != 0)
+                { //insert new product
+                    this.ActionType = db.DeliveryInventory(this);
                 }
                 else
                 {
