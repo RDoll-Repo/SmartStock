@@ -4,56 +4,82 @@
 {
     <div class="center-up">
         <form action="initInventory">
-            <table>
-                <tr>
-                    <td colspan="2" style="text-align: center;">
-                        <h1>Add Inventory</h1>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="table-label">
-                        @Html.TextBoxFor(model => model.ProductName, new { @placeholder = "Item Name" })
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        @Html.DropDownList("catagoryName", "Select a Category")
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        @Html.DropDownList("location", "Select a Location")
-                    </td>
-                    <td colspan="2">
-                        @Html.TextBoxFor(model => model.InvCount, new { @placeholder = "Added Amount" })
-                    </td>
-                </tr>
-                <tr>
-                    <td class="table-label">
-                        @Html.TextBoxFor(model => model.CostPerUnit, new { @placeholder = "Cost Per Unit" })
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        @Html.TextBoxFor(model => model.UnitType, new { @placeholder = "Unit Type" })
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        @Html.DropDownList("user", "Current User")
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        @Html.DropDownList("supplier", "Select a Supplier")
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="text-align: center;">
-                        <button id="btnAddProduct" name="btnSubmit" value="addproduct" class="button-action"><i class="fas fa-user-plus"></i> Add-Item</button>
-                    </td>
-                </tr>
-            </table>
+			<table>
+				<tr>
+					<td colspan="2" style="text-align: center;">
+						<h1>Add Inventory</h1>
+					</td>
+				</tr>
+				<tr>
+					<td class="table-label">
+						Item:
+					</td>
+					<td>
+						@Html.TextBoxFor(model => model.ProductName, new { @placeholder = "Item Name" })
+					</td>
+				</tr>
+				<tr>
+					<td class="table-label">
+						Category:
+					</td>
+					<td>
+						@Html.DropDownList("catagoryName", "Select a Category")
+					</td>
+				</tr>
+				<tr>
+					<td class="table-label">
+						Location:
+					</td>
+					<td colspan="2">
+						@Html.DropDownList("location", "Select a Location")
+					</td>
+				</tr>
+				<tr>
+					<td class="table-label">
+						Amount:
+					</td>
+					<td colspan="2">
+						@Html.TextBoxFor(model => model.InvCount, new { @placeholder = "40" })
+					</td>
+				</tr>
+				<tr>
+					<td class="table-label">
+						Cost Per Unit: $
+					</td>
+					<td class="table-label">
+						@Html.TextBoxFor(model => model.CostPerUnit, new { @placeholder = "5" })
+					</td>
+				</tr>
+				<tr>
+					<td class="table-label">
+						Unit Type:
+					</td>
+					<td colspan="2">
+						@Html.TextBoxFor(model => model.UnitType, new { @placeholder = "LB" })
+					</td>
+				</tr>
+				<tr>
+					<td class="table-label">
+						Received By:
+					</td>
+					<td colspan="2">
+						@Html.DropDownList("user", "Select a User")
+					</td>
+				</tr>
+				<tr>
+					<td class="table-label">
+						Sourced By:
+					</td>
+					<td colspan="2">
+						@Html.DropDownList("supplier", "Select a Supplier")
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" style="text-align: center;">
+						<button id="btnAddProduct" name="btnSubmit" value="addproduct" class="button-action"><i class="fa-solid fa-box-open"></i> Add-Item</button>
+					</td>
+				</tr>
+			</table>
         </form>
     </div>
 }

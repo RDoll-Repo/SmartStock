@@ -52,7 +52,7 @@
                     <td class="table-label">
                         @Html.LabelFor(Model => Model.strCompanyName, "Company Name")
                     </td>
-                    <td colspan="2">
+                    <td>
                         @Html.EditorFor(model => model.strCompanyName, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.strCompanyName, "", new { @class = "text-danger" })
                     </td>

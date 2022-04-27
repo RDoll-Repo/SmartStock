@@ -4,15 +4,21 @@
 }
 
 <style>
+	td {
+		background-color: #252524;
+	}
+
+	th {
+		background-color: #1b1a19;
+	}
 	th, td {
 		vertical-align: middle;
 	}
 
 	table, td, th {
-		border: 1px solid white;
 		font-size: 14px;
+		border: 1px solid #3A3A38;
 	}
-
 	table {
 		width: 1200px;
 		border-collapse: collapse;
@@ -34,10 +40,10 @@
 
 <table>
 	<colgroup>
-		<col style="width: 12%;">
-		<col style="width: 12%;">
+		<col style="width: 10%;">
+		<col style="width: 10%;">
 		<col style="width: 18%;">
-		<col style="width: 15%;">
+		<col style="width: 19%;">
 		<col style="width: 7%;">
 		<col style="width: 20%;">
 	</colgroup>
@@ -94,19 +100,17 @@
 					@Html.DisplayFor(modelItem => item.strNotes)
 				</td>
 				<td>
-					@Html.ActionLink(" ", "EditSupplier", new { Supplier_ID = item.intSupplierID }, new { @class = "fa-solid fa-pen" })
-					@*<button class="button-action-edit-delete" onclick="location.href='@Url.Action("EditSupplier", "Profile", new { Supplier_ID = item.intSupplierID }))';return false;"><i class="fa-solid fa-pen-to-square"></i> Edit</button>*@
+					<button class="button-action-edit-delete" onclick="location.href='@Url.Action("EditSupplier", "Profile", new { Supplier_ID = item.intSupplierID })';"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
 				</td>
 				<td>
 					@*Delete is dummied out for now. Replace "Suppliers" with "DeleteSupplier" when we're good.*@
-					@Html.ActionLink(" ", "Suppliers", new { Supplier_ID = item.intSupplierID }, new { @class = "fa-solid fa-trash" })
-					@*< button class="button-action-edit-delete" onclick="location.href='@Url.Action("DeleteSupplier", "Profile", new { Supplier_ID = item.intSupplierID }))';return false;"><i class="fa-solid fa-trash"></i> Delete</button>*@
+					<button class="button-action-edit-delete" onclick="location.href='@Url.Action("DeleteSupplier", "Profile", new { Supplier_ID = item.intSupplierID })';"><i class="fa-solid fa-trash"></i> Delete</button>
 				</td>
 			</tr>
 		}
 	</tbody>
 </table>
-<div style="text-align: right;">
+<div style="display: inline-flex;">
 	<form action="CreateSupplier">
 		<input type="submit" value="+ Add Supplier" />
 	</form>

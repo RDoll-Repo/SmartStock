@@ -2,91 +2,59 @@
 @{
     ViewBag.Title = "Dashboard";
 }
-<h2>@ViewBag.Title</h2>
-
-
 <style>
-    .card {
-        vertical-align: middle;
-        background-color: blue;
-        padding: 50px 20px;
-        margin: 70px 2px;
-        border-radius: 16px;
-        width: 700px;
-    }
+	.card {
+		vertical-align: middle;
+		background-color: #3e3e3c;
+		padding: 30px 30px;
+		margin: 50px 2px;
+		border: 1px solid #1b1a19;
+		border-radius: 8px;
+		width: 1200px;
+	}
 
-    .icon {
-        float: left;
-    }
+	.icon {
+		float: left;
+		margin-right: 20px;
+		padding-bottom: 10px;
+		color: #cdcdcb;
+	}
 
-    .message {
-        
-    }
+	.date {
+		font-size: 14px;
+		color: grey;
+	}
+
+	.message {
+		font-size: 20px;
+	}
 
 </style>
-
-@foreach (var item in Model)
-{
-    <div class="col-4">
-        <div>
-            <div class="card">
-                <div class="icon">
-                    @if (item.CardType == SmartStock.Models.Card.CardTypes.Announcement)
-                    {
-                        <i class='fa-solid fa-bullhorn fa-5x'></i>
-                    }
-                    @if (item.CardType == SmartStock.Models.Card.CardTypes.StockAlert)
-                    {
-                        <i class='fa-solid fa-sort-down fa-5x'></i>
-                    }
-                    @if (item.CardType == SmartStock.Models.Card.CardTypes.PriceIncrease)
-                    {
-                        <i class='fa-solid fa-money-bill-wave fa-5x'></i>
-                    }
-                </div>
-                <div class="message">
-                    <div>@Html.DisplayFor(modelItem => item.AlertDateTime)</div>
-                    <div>@Html.DisplayFor(modelItem => item.Message)</div>
-                </div>
-            </div>
-        </div>
-    </div>
-}
-
-
-
-<table class="table table-striped table-condensed">
-    <tr>
-        <th>
-            @Html.DisplayName("Date")
-        </th>
-        <th>
-            @Html.DisplayName("Message")
-        </th>
-
-        <th>
-            <form action="CreateCard">
-                <input type="submit" value="+" />
-            </form>
-        </th>
-
-    </tr>
-
-    @*@foreach (var item in Model)
-    {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.dtmAlertDate)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.strAlert)
-    </td>
-
-    <td>
-        @Html.ActionLink("Edit", "EditCard", new { Card_ID = item.intAlertID })
-
-        @Html.ActionLink("Delete", "DeleteCard", new { Card_ID = item.intAlertID })
-    </td>
-</tr>
-    }*@
-</table>
+<div class="center-up-db">
+	<h1 style="text-align: center;">@ViewBag.Title</h1>
+	@foreach (var item in Model) {
+		<div>
+			<div>
+				<div class="card">
+					<div class="icon">
+						@if (item.CardType == SmartStock.Models.Card.CardTypes.Announcement) {
+							<i class='fa-solid fa-bullhorn fa-3x'></i>
+						}
+						@if (item.CardType == SmartStock.Models.Card.CardTypes.StockAlert) {
+							<i class="fa-solid fa-box-open fa-3x"></i>
+						}
+						@if (item.CardType == SmartStock.Models.Card.CardTypes.PriceIncrease) {
+							<i class='fa-solid fa-money-bill-wave fa-3x'></i>
+						}
+					</div>
+					<div class="message">
+						<div class="date">@Html.DisplayFor(modelItem => item.AlertDateTime)</div>
+						<div>@Html.DisplayFor(modelItem => item.Message)</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+	<form action="CreateCard">
+		<input type="submit" value="+" />
+	</form>
