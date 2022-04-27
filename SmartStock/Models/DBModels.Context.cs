@@ -347,8 +347,12 @@ namespace SmartStock.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UPDATE_PRODUCTPRICEHISTORY", pPHID, productNameParameter, purchaseDateParameter, costPerUnitParameter, unitTypeParameter, purchaseAmtParameter, userIDParameter, supplierIDParameter);
         }
     
-        public virtual int UPDATE_SUPPLIER(ObjectParameter supplier_ID, string company_Name, string contact_FirstName, string contact_LastName, string contact_PhoneNumber, string contact_Email, string contact_Address1, string contact_Zip, string uRL, string notes, string contact_State)
+        public virtual int UPDATE_SUPPLIER(Nullable<long> supplier_ID, string company_Name, string contact_FirstName, string contact_LastName, string contact_PhoneNumber, string contact_Email, string contact_Address1, string contact_Zip, string uRL, string notes, string contact_State)
         {
+            var supplier_IDParameter = supplier_ID.HasValue ?
+                new ObjectParameter("Supplier_ID", supplier_ID) :
+                new ObjectParameter("Supplier_ID", typeof(long));
+    
             var company_NameParameter = company_Name != null ?
                 new ObjectParameter("Company_Name", company_Name) :
                 new ObjectParameter("Company_Name", typeof(string));
@@ -389,7 +393,7 @@ namespace SmartStock.Models
                 new ObjectParameter("Contact_State", contact_State) :
                 new ObjectParameter("Contact_State", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UPDATE_SUPPLIER", supplier_ID, company_NameParameter, contact_FirstNameParameter, contact_LastNameParameter, contact_PhoneNumberParameter, contact_EmailParameter, contact_Address1Parameter, contact_ZipParameter, uRLParameter, notesParameter, contact_StateParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UPDATE_SUPPLIER", supplier_IDParameter, company_NameParameter, contact_FirstNameParameter, contact_LastNameParameter, contact_PhoneNumberParameter, contact_EmailParameter, contact_Address1Parameter, contact_ZipParameter, uRLParameter, notesParameter, contact_StateParameter);
         }
     
         public virtual int UPDATE_USER(Nullable<long> user_ID, string first_Name, string last_Name, string phone_Number, string email, string user_Name, string password, Nullable<int> role_ID)
@@ -427,6 +431,37 @@ namespace SmartStock.Models
                 new ObjectParameter("Role_ID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UPDATE_USER", user_IDParameter, first_NameParameter, last_NameParameter, phone_NumberParameter, emailParameter, user_NameParameter, passwordParameter, role_IDParameter);
+        }
+    
+        public virtual int AUDIT_INVENTORY(ObjectParameter inventoryID, Nullable<int> invCount)
+        {
+            var invCountParameter = invCount.HasValue ?
+                new ObjectParameter("InvCount", invCount) :
+                new ObjectParameter("InvCount", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AUDIT_INVENTORY", inventoryID, invCountParameter);
+        }
+    
+        public virtual int AVG_INV(string productName, string avg_PurchaseAmt)
+        {
+            var productNameParameter = productName != null ?
+                new ObjectParameter("ProductName", productName) :
+                new ObjectParameter("ProductName", typeof(string));
+    
+            var avg_PurchaseAmtParameter = avg_PurchaseAmt != null ?
+                new ObjectParameter("avg_PurchaseAmt", avg_PurchaseAmt) :
+                new ObjectParameter("avg_PurchaseAmt", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AVG_INV", productNameParameter, avg_PurchaseAmtParameter);
+        }
+    
+        public virtual int GETPRICECHANGE(string productName)
+        {
+            var productNameParameter = productName != null ?
+                new ObjectParameter("ProductName", productName) :
+                new ObjectParameter("ProductName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GETPRICECHANGE", productNameParameter);
         }
     }
 }
