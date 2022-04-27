@@ -15,6 +15,7 @@ namespace SmartStock.Models
         public int CategoryID { get; set; }
         public int ProductlocationID { get; set; }
         public int SupplierID { get; set; }
+        public int CostPerUnit { get; set; }
 
         //public string UnitType = string.Empty;
         public long InventoryID = 0;

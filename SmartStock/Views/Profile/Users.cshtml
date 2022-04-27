@@ -4,12 +4,20 @@
 	ViewBag.Title = "Users";
 }
 <style>
+	td {
+		background-color: #252524;
+	}
+
+	th {
+		background-color: #1b1a19;
+	}
+
 	th, td {
 		vertical-align: middle;
 	}
 
 	table, td, th {
-		border: 1px solid white;
+		border: 1px solid #3A3A38;
 	}
 
 	table {
@@ -86,12 +94,10 @@
 				@Html.DisplayFor(modelItem => item.TRole.strRoleName)
 			</td>
 			<td>
-				@Html.ActionLink(" ", "EditUser", new { User_ID = item.intUserID }, new { @class = "fa-solid fa-pen" })
-				@*<button class="button-action-edit-delete" onclick="location.href='@Url.Action("EditUser", "Profile", new { User_ID = item.intUserID }))';return false;"><i class="fa-solid fa-pen-to-square"></i> Edit</button>*@
+				<button class="button-action-edit-delete" onclick="location.href='@Url.Action("EditUser", "Profile", new { User_ID = item.intUserID })';"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
 			</td>
 			<td>
-				@Html.ActionLink(" ", "DeleteUser", new { User_ID = item.intUserID }, new { @class = "fa-solid fa-trash" })
-				@*<button class="button-action-edit-delete" onclick="location.href='@Url.Action("DeleteUser", "Profile", new { User_ID = item.intUserID }))';return false;"><i class="fa-solid fa-trash"></i> Delete</button>*@
+				<button class="button-action-edit-delete" onclick="location.href='@Url.Action("DeleteUser", "Profile", new { User_ID = item.intUserID })';"><i class="fa-solid fa-trash"></i> Delete</button>
 			</td>
 		</tr>
 		}

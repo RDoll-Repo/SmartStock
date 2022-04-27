@@ -3,11 +3,18 @@
 	ViewBag.Title = "Inventory";
 }
 <style>
+	td {
+		background-color: #252524;
+	}
+
+	th {
+		background-color: #1b1a19;
+	}
 	th, td {
 		vertical-align: middle;
 	}
 	table, td, th {
-		border: 1px solid white;
+		border: 1px solid #3A3A38;
 	}
 	table {
 		width: 1200px;
@@ -83,12 +90,11 @@
 				@Html.DisplayFor(modelItem => item.TProductLocation.strLocation)
 			</td>
 			<td>
-				@Html.ActionLink("Edit", "EditItem", new { InventoryID = item.intInventoryID })
-				@*<button class="button-action-edit-delete" onclick="location.href='@Url.Action("EditItem", "Profile", new { InventoryID = item.intInventoryID }))';return false;"><i class="fa-solid fa-pen-to-square"></i> Edit</button>*@
+				<button class="button-action-edit-delete" onclick="location.href='@Url.Action("EditItem", "Profile", new { InventoryID = item.intInventoryID })';"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+				@Html.ActionLink("Delete", "DeleteItem", new { InventoryID = item.intInventoryID })
 			</td>
 			<td>
-				@*<button class="button-action-edit-delete" onclick="location.href='@Url.Action("DeleteItem", "Profile", new { InventoryID = item.intInventoryID }))';return false;"><i class="fa-solid fa-trash"></i> Delete</button>*@
-				@Html.ActionLink("Delete", "DeleteItem", new { InventoryID = item.intInventoryID })
+				<button class="button-action-edit-delete" onclick="location.href='@Url.Action("DeleteItem", "Profile", new { InventoryID = item.intInventoryID })';"><i class="fa-solid fa-trash"></i> Delete</button>
 			</td>
 		</tr>
 		}
