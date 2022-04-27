@@ -911,30 +911,105 @@ namespace SmartStock.Controllers
 			}
 		}
 
-		public ActionResult InventoryAdjustment(FormCollection col)
+		public ActionResult InventoryAdjustment()
         {
 			ViewBag.flag = 0;
-			IEnumerable<TInventory> products = GetAllInventory();
+			//IEnumerable<TInventory> products = GetAllInventory();
 
-			if (col["btnSubmit"] == "audit")
+
+
+			return View();
+        }
+
+		[HttpPost]
+		public ActionResult InventoryAdjustment(FormCollection col)
+		{
+
+			try
 			{
-				ViewBag.flag = 1;
-				Audit(products);
+				IEnumerable<TInventory> products = GetAllInventory();
+				if (col["btnSubmit"] == "audit")
+				{
+					ViewBag.flag = 1;
+					//Audit(products);
+					return RedirectToAction("Audit");
+
+				}
+				else if (col["btnSubmit"] == "delivery")
+				{
+					ViewBag.flag = 2;
+					Delivery(products);
+				}
+				return View(products);
 			}
-			else if (col["btnSubmit"] == "delivery")
-            {
-				ViewBag.flag = 2;
-				Delivery(products);
-            }
+			catch (Exception)
+			{
+				///*Models*/.Card c = new Models.Card();
+				return View();
+			}
+		}
+
+		//public ActionResult Audit(IEnumerable<TInventory> list)
+  //      {
+		//	return PartialView(list);
+  //      }
 
 
-			return View(products);
-        }
 
-		public ActionResult Audit(IEnumerable<TInventory> list)
-        {
-			return PartialView(list);
-        }
+		public ActionResult Audit()
+		{
+			//Create db context object here 
+			using (DBModel dbContext = new DBModel())
+			{
+				var Inv = dbContext.TInventories.ToList();
+				return View(Inv);
+			}
+		}
+
+		[HttpPost]
+		public ActionResult Audit(FormCollection col, List<TInventory> list)
+		{
+			if (ModelState.IsValid)
+			{
+				using (DBModel dbContext = new DBModel())
+				//try
+				{
+					Models.Inventory i = new Models.Inventory();
+					if (col["btnCancel"] == "back")
+					{
+						return RedirectToAction("InventoryAdjustment");
+					}
+
+
+					if (col["btnSubmit"] == "editSubmit")
+					{ 
+						foreach (var Inv in list)
+						{
+							
+							var c = dbContext.TInventories.Where(a => a.intInventoryID.Equals(Inv.intInventoryID)).FirstOrDefault();
+							if (c != null)
+							{
+								c.intInventoryID = Inv.intInventoryID;
+								c.intInvCount = Inv.intInvCount;
+							}
+							i.InvCount = c.intInvCount;
+							i.InventoryID = c.intInventoryID;
+							i.AuditSave();
+							i.SaveInventorySession();
+						}
+						return RedirectToAction("InventoryAdjustment");
+					}
+					return View(i);
+				}
+				return View(list);
+			}
+			else
+			{
+				return View(list);
+			}
+			
+		}
+
 
 		public ActionResult Delivery(IEnumerable<TInventory> list)
         {

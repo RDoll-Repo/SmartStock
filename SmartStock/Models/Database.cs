@@ -462,6 +462,36 @@ namespace SmartStock.Models
 			catch (Exception ex) { throw new Exception(ex.Message); }
 		}
 
+		public Inventory.ActionTypes AuditInventory(Inventory i)
+		{
+			try
+			{
+				SqlConnection cn = null;
+				if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
+				SqlCommand cm = new SqlCommand("AUDIT_INVENTORY", cn);
+				int intReturnValue = -1;
+
+				SetParameter(ref cm, "@InventoryID", i.InventoryID, SqlDbType.BigInt);
+				SetParameter(ref cm, "@InvCount", i.InvCount, SqlDbType.Int);
+
+				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.Int, Direction: ParameterDirection.ReturnValue);
+
+				cm.ExecuteReader();
+
+				intReturnValue = (int)cm.Parameters["ReturnValue"].Value;
+				CloseDBConnection(ref cn);
+
+				switch (intReturnValue)
+				{
+					case 1: //new updated
+						return Inventory.ActionTypes.UpdateSuccessful;
+					default:
+						return Inventory.ActionTypes.Unknown;
+				}
+			}
+			catch (Exception ex) { throw new Exception(ex.Message); }
+		}
+
 		public Inventory.ActionTypes DeleteInventory(Inventory i)
 		{
 			try
