@@ -938,23 +938,16 @@ namespace SmartStock.Controllers
 				else if (col["btnSubmit"] == "delivery")
 				{
 					ViewBag.flag = 2;
-					Delivery(products);
+					//Delivery(products);
+					return RedirectToAction("Delivery");
 				}
 				return View(products);
 			}
 			catch (Exception)
 			{
-				///*Models*/.Card c = new Models.Card();
 				return View();
 			}
 		}
-
-		//public ActionResult Audit(IEnumerable<TInventory> list)
-  //      {
-		//	return PartialView(list);
-  //      }
-
-
 
 		public ActionResult Audit()
 		{
@@ -1011,10 +1004,86 @@ namespace SmartStock.Controllers
 		}
 
 
-		public ActionResult Delivery(IEnumerable<TInventory> list)
-        {
-			return PartialView(list);
-        }
+		public ActionResult Delivery()
+		{
+			DBModel dbContext = new DBModel();
+			IEnumerable<SelectListItem> items4 = dbContext.TUsers.Select(tu => new SelectListItem
+			{
+				Value = tu.intUserID.ToString(),
+				Text = tu.strFirstName
+
+			});
+			ViewBag.user = items4;
+
+			IEnumerable<SelectListItem> items2 = dbContext.TSuppliers.Select(s => new SelectListItem
+			{
+				Value = s.intSupplierID.ToString(),
+				Text = s.strCompanyName
+
+			});
+			ViewBag.supplier = items2;
+			var Inv = dbContext.TInventories.ToList();
+			return View(Inv);
+		}
+
+		[HttpPost]
+		public ActionResult Delivery(FormCollection col, List<TInventory> list)
+		{
+			if (ModelState.IsValid)
+			{
+				using (DBModel dbContext = new DBModel())
+				//try
+				{
+					Models.Inventory i = new Models.Inventory();
+					Models.ProductPriceHistory pph = new Models.ProductPriceHistory();
+					if (col["btnCancel"] == "back")
+					{
+						return RedirectToAction("InventoryAdjustment");
+					}
+
+
+					if (col["btnSubmit"] == "editSubmit")
+					{
+						foreach (var Inv in list)
+						{
+
+							var c = dbContext.TInventories.Where(a => a.intInventoryID.Equals(Inv.intInventoryID)).FirstOrDefault();
+							if (c != null)
+							{
+								c.intInventoryID = Inv.intInventoryID;
+								c.strProductName = Inv.strProductName;
+								c.cost = Inv.cost;
+								c.amount = Inv.amount;	
+								c.strUnitType = Inv.strUnitType;
+							}
+							pph.UserID = Convert.ToInt32(col["user"]);
+							pph.SupplierID = Convert.ToInt32(col["supplier"]);
+							i.ProductName = c.strProductName;
+							i.InvCount = c.amount;
+							i.InventoryID = c.intInventoryID;
+							pph.CostPerUnit = Convert.ToDecimal(c.cost);
+							pph.PurchaseAmt = c.amount;
+							pph.ProductName = c.strProductName;
+							pph.ProductPriceHistoryID = 0;
+
+							pph.Save();
+							i.iDeliverySave();
+
+							i.SaveInventorySession();
+							pph.SaveProductPriceSession();
+						}
+						return RedirectToAction("InventoryAdjustment");
+					}
+					return View(i);
+				}
+				return View(list);
+			}
+			else
+			{
+				return View(list);
+			}
+
+		}
 
 		public ActionResult AnnoucnementCard()
         {

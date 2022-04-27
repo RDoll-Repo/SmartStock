@@ -1,9 +1,46 @@
-﻿@model IEnumerable<SmartStock.Models.TInventory>
+﻿@model List<SmartStock.Models.TInventory>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Delivery", "Profile", FormMethod.Post))
 {
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.AntiForgeryToken()
+    <table>
+        <tr>
+            <th></th>
+            <th>Product Name</th>
+            <th>Cost Per Unit</th>
+            <th>Purchased Amount</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>
+                <td colspan="2">@Html.DropDownList("user", "Current User")</td>
+                <td colspan="2">@Html.DropDownList("supplier", "Select a Supplier")</td>
+            <td>
+        </tr>
+
+          
+       @for (int i = 0; i < Model.Count; i++)
+       {
+            <tr>
+                <td>@Html.HiddenFor(model => model[i].intInventoryID)</td>
+                <td>@Html.DisplayFor(model => model[i].strProductName)</td>
+                <td>@Html.TextBoxFor(model => model[i].cost)</td>
+                <td>@Html.TextBoxFor(model => model[i].amount)</td>
+                <td>@Html.DisplayFor(model => model[i].strUnitType)</td>
+                <td>@Html.HiddenFor(model => model[i].strProductName)</td>
+                <td>@Html.HiddenFor(model => model[i].strUnitType)</td>
+            </tr>
+        }
+    </table>
+    <td colspan="2" style="text-align: center;">
+        <button id="btnBack" name="btnCancel" value="back" class="button-action"><i class="fa-solid fa-arrow-left"></i> Back</button>
+        <button id="btnEditUser" name="btnSubmit" value="editSubmit" class="button-action"><i class="fas fa-user-plus"></i> Submit </button>
+    </td>
+}
+
 
     <div class="center-up">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -43,3 +80,4 @@
             </form>
         </div>
     }
+

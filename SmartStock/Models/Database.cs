@@ -492,6 +492,70 @@ namespace SmartStock.Models
 			catch (Exception ex) { throw new Exception(ex.Message); }
 		}
 
+		public Inventory.ActionTypes DeliveryInventory(Inventory i)
+		{
+			try
+			{
+				SqlConnection cn = null;
+				if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
+				SqlCommand cm = new SqlCommand("DELIVERY_INVENTORY", cn);
+				int intReturnValue = -1;
+
+				SetParameter(ref cm, "@InventoryID", i.InventoryID, SqlDbType.BigInt);
+				SetParameter(ref cm, "@InvCount", i.InvCount, SqlDbType.Int);
+
+				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.Int, Direction: ParameterDirection.ReturnValue);
+
+				cm.ExecuteReader();
+
+				intReturnValue = (int)cm.Parameters["ReturnValue"].Value;
+				CloseDBConnection(ref cn);
+
+				switch (intReturnValue)
+				{
+					case 1: //new updated
+						return Inventory.ActionTypes.UpdateSuccessful;
+					default:
+						return Inventory.ActionTypes.Unknown;
+				}
+			}
+			catch (Exception ex) { throw new Exception(ex.Message); }
+		}
+
+		public ProductPriceHistory.ActionTypes DeliveryProductPrice(ProductPriceHistory pph)
+		{
+			try
+			{
+				SqlConnection cn = null;
+				if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
+				SqlCommand cm = new SqlCommand("DELIVERY_PRODUCTPRICE", cn);
+				int intReturnValue = -1;
+
+				SetParameter(ref cm, "@PPHID", pph.ProductPriceHistoryID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
+				SetParameter(ref cm, "@ProductName", pph.ProductName, SqlDbType.VarChar);
+				SetParameter(ref cm, "@CostPerUnit", pph.CostPerUnit, SqlDbType.Money);
+				SetParameter(ref cm, "@PurchaseAmt", pph.PurchaseAmt, SqlDbType.Int);
+				SetParameter(ref cm, "@PurchaseDate", pph.PurchaseDate, SqlDbType.DateTime);
+
+
+				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.Int, Direction: ParameterDirection.ReturnValue);
+
+				cm.ExecuteReader();
+
+				intReturnValue = (int)cm.Parameters["ReturnValue"].Value;
+				CloseDBConnection(ref cn);
+
+				switch (intReturnValue)
+				{
+					case 1: //new updated
+						return ProductPriceHistory.ActionTypes.UpdateSuccessful;
+					default:
+						return ProductPriceHistory.ActionTypes.Unknown;
+				}
+			}
+			catch (Exception ex) { throw new Exception(ex.Message); }
+		}
+
 		public Inventory.ActionTypes DeleteInventory(Inventory i)
 		{
 			try

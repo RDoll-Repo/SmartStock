@@ -463,5 +463,35 @@ namespace SmartStock.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GETPRICECHANGE", productNameParameter);
         }
+    
+        public virtual int DELIVERY_INVENTORY(ObjectParameter inventoryID, Nullable<int> invCount)
+        {
+            var invCountParameter = invCount.HasValue ?
+                new ObjectParameter("InvCount", invCount) :
+                new ObjectParameter("InvCount", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DELIVERY_INVENTORY", inventoryID, invCountParameter);
+        }
+    
+        public virtual int DELIVERY_PRODUCTPRICE(ObjectParameter pPHID, string productName, Nullable<System.DateTime> purchaseDate, Nullable<decimal> costPerUnit, Nullable<int> purchaseAmt)
+        {
+            var productNameParameter = productName != null ?
+                new ObjectParameter("ProductName", productName) :
+                new ObjectParameter("ProductName", typeof(string));
+    
+            var purchaseDateParameter = purchaseDate.HasValue ?
+                new ObjectParameter("PurchaseDate", purchaseDate) :
+                new ObjectParameter("PurchaseDate", typeof(System.DateTime));
+    
+            var costPerUnitParameter = costPerUnit.HasValue ?
+                new ObjectParameter("CostPerUnit", costPerUnit) :
+                new ObjectParameter("CostPerUnit", typeof(decimal));
+    
+            var purchaseAmtParameter = purchaseAmt.HasValue ?
+                new ObjectParameter("PurchaseAmt", purchaseAmt) :
+                new ObjectParameter("PurchaseAmt", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DELIVERY_PRODUCTPRICE", pPHID, productNameParameter, purchaseDateParameter, costPerUnitParameter, purchaseAmtParameter);
+        }
     }
 }

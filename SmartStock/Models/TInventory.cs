@@ -14,6 +14,8 @@ namespace SmartStock.Models
     
     public partial class TInventory
     {
+        public decimal cost { get; set; }
+        public int amount { get; set; }
         public int intInventoryID { get; set; }
         public string strProductName { get; set; }
         public int intInvCount { get; set; }
