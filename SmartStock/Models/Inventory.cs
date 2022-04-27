@@ -52,6 +52,24 @@ namespace SmartStock.Models
             catch (Exception ex) { throw new Exception(ex.Message); }
         }
 
+        public Inventory.ActionTypes AuditSave()
+        {
+            try
+            {
+                Database db = new Database();
+                if (InventoryID != 0)
+                { //insert new product
+                    this.ActionType = db.AuditInventory(this);
+                }
+                else
+                {
+                    return this.ActionType;
+                }
+                return this.ActionType;
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+        }
+
         public Inventory.ActionTypes Delete()
         {
             try
