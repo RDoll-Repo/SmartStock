@@ -27,6 +27,24 @@ namespace SmartStock.Models
             }
         }
 
+        public ProductPriceHistory.ActionTypes pphDeliverySave()
+        {
+            try
+            {
+                Database db = new Database();
+                if (ProductPriceHistoryID == 0)
+                { //insert new product
+                    this.ActionType = db.DeliveryProductPrice(this);
+                }
+                else
+                {
+                    return this.ActionType;
+                }
+                return this.ActionType;
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+        }
+
         public ProductPriceHistory.ActionTypes Save()
         {
             try

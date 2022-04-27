@@ -171,6 +171,17 @@
         <Function Name="DELETE_USER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
           <Parameter Name="User_ID" Type="bigint" Mode="InOut" />
         </Function>
+        <Function Name="DELIVERY_INVENTORY" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="InventoryID" Type="bigint" Mode="InOut" />
+          <Parameter Name="InvCount" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DELIVERY_PRODUCTPRICE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
+          <Parameter Name="PPHID" Type="bigint" Mode="InOut" />
+          <Parameter Name="ProductName" Type="varchar" Mode="In" />
+          <Parameter Name="PurchaseDate" Type="datetime" Mode="In" />
+          <Parameter Name="CostPerUnit" Type="money" Mode="In" />
+          <Parameter Name="PurchaseAmt" Type="int" Mode="In" />
+        </Function>
         <Function Name="GETPRICECHANGE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
           <Parameter Name="ProductName" Type="varchar" Mode="In" />
         </Function>
@@ -642,6 +653,17 @@
           <FunctionImport Name="GETPRICECHANGE">
           <Parameter Name="ProductName" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="DELIVERY_INVENTORY">
+            <Parameter Name="InventoryID" Mode="InOut" Type="Int64" />
+            <Parameter Name="InvCount" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DELIVERY_PRODUCTPRICE">
+            <Parameter Name="PPHID" Mode="InOut" Type="Int64" />
+            <Parameter Name="ProductName" Mode="In" Type="String" />
+            <Parameter Name="PurchaseDate" Mode="In" Type="DateTime" />
+            <Parameter Name="CostPerUnit" Mode="In" Type="Decimal" />
+            <Parameter Name="PurchaseAmt" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="LOGIN_Result">
           <Property Type="Int32" Name="intUserID" Nullable="false" />
@@ -896,6 +918,8 @@
           <FunctionImportMapping FunctionImportName="AUDIT_INVENTORY" FunctionName="Model.Store.AUDIT_INVENTORY" />
           <FunctionImportMapping FunctionImportName="AVG_INV" FunctionName="Model.Store.AVG_INV" />
           <FunctionImportMapping FunctionImportName="GETPRICECHANGE" FunctionName="Model.Store.GETPRICECHANGE" />
+          <FunctionImportMapping FunctionImportName="DELIVERY_INVENTORY" FunctionName="Model.Store.DELIVERY_INVENTORY" />
+          <FunctionImportMapping FunctionImportName="DELIVERY_PRODUCTPRICE" FunctionName="Model.Store.DELIVERY_PRODUCTPRICE" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
