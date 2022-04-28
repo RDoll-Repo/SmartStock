@@ -8,6 +8,7 @@ namespace SmartStock.Models
 
     public class ProductPriceHistory
     {
+        public decimal priceChangeComp;
         public long ProductPriceHistoryID = 0;
         public string ProductName = string.Empty;
         public DateTime PurchaseDate = DateTime.Now;
