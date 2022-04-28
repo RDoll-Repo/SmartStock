@@ -18,6 +18,7 @@ namespace SmartStock.Models
         public int CostPerUnit { get; set; }
 
         public decimal unitCost { get; set; }
+
         //public string UnitType = string.Empty;
         public long InventoryID = 0;
         //public string ProductName = string.Empty;

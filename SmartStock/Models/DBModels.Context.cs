@@ -61,7 +61,7 @@ namespace SmartStock.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DELETE_USER", user_ID);
         }
     
-        public virtual int INSERT_ALERT(ObjectParameter alertID, string alert, Nullable<System.DateTime> alertDate)
+        public virtual int INSERT_ALERT(ObjectParameter alertID, string alert, Nullable<System.DateTime> alertDate, string alertType)
         {
             var alertParameter = alert != null ?
                 new ObjectParameter("Alert", alert) :
@@ -71,7 +71,11 @@ namespace SmartStock.Models
                 new ObjectParameter("AlertDate", alertDate) :
                 new ObjectParameter("AlertDate", typeof(System.DateTime));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("INSERT_ALERT", alertID, alertParameter, alertDateParameter);
+            var alertTypeParameter = alertType != null ?
+                new ObjectParameter("AlertType", alertType) :
+                new ObjectParameter("AlertType", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("INSERT_ALERT", alertID, alertParameter, alertDateParameter, alertTypeParameter);
         }
     
         public virtual int INSERT_INVENTORY(ObjectParameter inventoryID, string productName, Nullable<int> invCount, string unitType, Nullable<bool> blnIsLow, Nullable<int> categoryID, Nullable<int> productlocationID)
@@ -442,17 +446,13 @@ namespace SmartStock.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AUDIT_INVENTORY", inventoryID, invCountParameter);
         }
     
-        public virtual int AVG_INV(string productName, string avg_PurchaseAmt)
+        public virtual int AVG_INV(string productName)
         {
             var productNameParameter = productName != null ?
                 new ObjectParameter("ProductName", productName) :
                 new ObjectParameter("ProductName", typeof(string));
     
-            var avg_PurchaseAmtParameter = avg_PurchaseAmt != null ?
-                new ObjectParameter("avg_PurchaseAmt", avg_PurchaseAmt) :
-                new ObjectParameter("avg_PurchaseAmt", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AVG_INV", productNameParameter, avg_PurchaseAmtParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AVG_INV", productNameParameter);
         }
     
         public virtual int GETPRICECHANGE(string productName)
