@@ -19,6 +19,8 @@ namespace SmartStock.Models
         public int SupplierID = 0;
         public ActionTypes ActionType = ActionTypes.NoType;
 
+        public bool dashCheck = false;
+
         public bool IsAuthenticated
         {
             get
@@ -62,6 +64,22 @@ namespace SmartStock.Models
                 return this.ActionType;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
+        }
+
+        public ProductPriceHistory.ActionTypes priceCheck()
+        {
+
+            Database db = new Database();
+            if (ProductName != null)
+            { //insert new product
+                this.ActionType = db.GetPriceChange(this);
+            }
+            else
+            {
+                return this.ActionType;
+            }
+            return this.ActionType;
+
         }
 
         public bool RemoveProductPriceSession()
