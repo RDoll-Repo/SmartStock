@@ -3,6 +3,12 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using SmartStock.Models;
+using System.Data.Entity;
+using System.Dynamic;
 
 namespace SmartStock.Models
 {
@@ -677,6 +683,66 @@ namespace SmartStock.Models
 				}
 			}
 			catch (Exception ex) { throw new Exception(ex.Message); }
+		}
+
+		public Inventory.ActionTypes GetAvgValue(Inventory i)
+		{
+			if(i.ProductName != null)
+			{ 
+				SqlConnection cn = null;
+				if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
+				SqlCommand cm = new SqlCommand("AVG_INV", cn);
+
+				SetParameter(ref cm, "@ProductName", i.ProductName, SqlDbType.VarChar);
+
+				var priceChangeComp = cm.Parameters.Add("@priceChangeComp", SqlDbType.Money);
+				priceChangeComp.Direction = ParameterDirection.ReturnValue;
+
+				cm.ExecuteReader();
+
+				var average = Convert.ToDouble(priceChangeComp.Value);
+
+				CloseDBConnection(ref cn);
+
+				DBModel dbContext = new DBModel();
+
+				var Inv = dbContext.TInventories.ToList();
+				var log = dbContext.TProductPriceHistories.ToList();
+				foreach (var item in Inv)
+				{
+					if (item.strProductName != null)
+					{
+						i.InvCount = item.intInvCount;
+					}
+					i.invCheck();
+
+				}
+				double Invcount = Convert.ToDouble(i.InvCount);
+				double lowCheck = (Invcount * .2);
+				if (average < lowCheck)
+				{
+					i.blnIsLow = true;
+					Card y = new Card();
+					y.CardType = Card.CardTypes.StockAlert;
+					y.AlertDateTime = DateTime.Now;
+					y.Message = ($"You are running low on {i.ProductName} , be sure to order more soon. ");
+				}
+				else
+				{
+					i.blnIsLow = false;
+				}
+
+				Models.Card c = new Models.Card();
+				SqlConnection cnn = null;
+				if (!GetDBConnection(ref cnn)) throw new Exception("Database did not connect");
+				SqlCommand cmm = new SqlCommand("INSERT_ALERT", cnn);
+
+				SetParameter(ref cm, "@Alert", c.Message, SqlDbType.VarChar);
+
+				cm.ExecuteReader();
+				CloseDBConnection(ref cn);
+			}
+			return Inventory.ActionTypes.Unknown;
 		}
 
 		private bool GetDBConnection(ref SqlConnection SQLConn)
