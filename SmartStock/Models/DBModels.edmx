@@ -12,6 +12,7 @@
           <Property Name="intAlertID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="strAlert" Type="varchar" MaxLength="1000" Nullable="false" />
           <Property Name="dtmAlertDate" Type="datetime" Nullable="false" />
+          <Property Name="strAlertType" Type="varchar" MaxLength="1000" Nullable="false" />
         </EntityType>
         <EntityType Name="TCategory">
           <Key>
@@ -154,7 +155,6 @@
         </Function>
         <Function Name="AVG_INV" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
           <Parameter Name="ProductName" Type="varchar" Mode="In" />
-          <Parameter Name="avg_PurchaseAmt" Type="varchar" Mode="In" />
         </Function>
         <Function Name="DELETE_ALERT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
           <Parameter Name="AlertID" Type="bigint" Mode="InOut" />
@@ -189,6 +189,7 @@
           <Parameter Name="AlertID" Type="bigint" Mode="InOut" />
           <Parameter Name="Alert" Type="varchar" Mode="In" />
           <Parameter Name="AlertDate" Type="datetime" Mode="In" />
+          <Parameter Name="AlertType" Type="varchar" Mode="In" />
         </Function>
         <Function Name="INSERT_INVENTORY" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="db_owner">
           <Parameter Name="InventoryID" Type="bigint" Mode="InOut" />
@@ -339,6 +340,7 @@
           <Property Name="intAlertID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="strAlert" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="dtmAlertDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="strAlertType" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="TCategory">
           <Key>
@@ -533,6 +535,7 @@
             <Parameter Name="AlertID" Mode="InOut" Type="Int64" />
             <Parameter Name="Alert" Mode="In" Type="String" />
             <Parameter Name="AlertDate" Mode="In" Type="DateTime" />
+            <Parameter Name="AlertType" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INVENTORY">
             <Parameter Name="InventoryID" Mode="InOut" Type="Int64" />
@@ -647,8 +650,7 @@
             <Parameter Name="InvCount" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="AVG_INV">
-            <Parameter Name="ProductName" Mode="In" Type="String" />
-            <Parameter Name="avg_PurchaseAmt" Mode="In" Type="String" />
+          <Parameter Name="ProductName" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GETPRICECHANGE">
           <Parameter Name="ProductName" Mode="In" Type="String" />
@@ -731,6 +733,7 @@
           <EntitySetMapping Name="TAlerts">
             <EntityTypeMapping TypeName="Model.TAlert">
               <MappingFragment StoreEntitySet="TAlerts">
+                <ScalarProperty Name="strAlertType" ColumnName="strAlertType" />
                 <ScalarProperty Name="intAlertID" ColumnName="intAlertID" />
                 <ScalarProperty Name="strAlert" ColumnName="strAlert" />
                 <ScalarProperty Name="dtmAlertDate" ColumnName="dtmAlertDate" />

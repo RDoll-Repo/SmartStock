@@ -113,63 +113,64 @@ namespace SmartStock.Controllers
 				Models.Inventory i = new Models.Inventory();
 
 				var Inv = dbContext.TInventories.ToList();
-				var log = dbContext.TProductPriceHistories.ToList();
 				foreach (var item in Inv)
 				{
-					if (item.strProductName != null)
+					if (item.intInventoryID == 1)
 					{
 						i.ProductName = item.strProductName;
+						i.invCheck();
 					}
-					//i.invCheck();
 				}
-				
-			
-				//return RedirectToAction("Inventory");
 			}
 
 			return View(GetAllCards());
 		}
-
-		//public ActionResult lowCard()
-		//{
-		//	Models.Inventory i = new Models.Inventory();
-		//	if (i.blnIsLow == true)
-		//	{
-		//		list.y;
-		//	}
-		//	return
-			
-		//}
-
 
 		IEnumerable<Card> GetAllCards()
 		{
 			using (DBModel db = new DBModel())
 			{
 				// Sample data to verify my cards work
-				
-				Card x = new Card();
-				x.CardType = Card.CardTypes.Announcement;
-				x.AlertDateTime = DateTime.Now;
-				x.Message = "message";
+				DBModel dbContext = new DBModel();
 
-				Card y = new Card();
-				y.CardType = Card.CardTypes.StockAlert;
-				y.AlertDateTime = DateTime.Now;
-				y.Message = "You are running low on { strProductName } , be sure to order more soon. ";
-
-				Card z = new Card();
-				z.CardType = Card.CardTypes.PriceIncrease;
-				z.AlertDateTime = DateTime.Now;
-				z.Message = "The price of {item} has increased from {former cost} to { current cost} since { two months before now}. Consider switching suppliers";
-
+				var msg = dbContext.TAlerts.ToList();
 				List<Card> list = new List<Card>();
-                list.Add(x);
-				list.Add(y);
-				list.Add(z);
 
+				foreach (var item in msg)
+				{
+					if (item.strAlertType == "msgAlert" &&  list.Count() < 4)
+					{
+						Models.Card c = new Models.Card();
+						c.Message = item.strAlert;
+						//Card c = new Card();
+						c.CardType = Card.CardTypes.Announcement;
+						c.AlertDateTime = DateTime.Now;
+						list.Add(c);
+					}
+					else if (item.strAlertType == "invAlert" && list.Count() < 4 )
+					{
+						Models.Card x = new Models.Card();
+						x.Message = item.strAlert;
+						//Card c = new Card();
+						x.CardType = Card.CardTypes.StockAlert;
+						x.AlertDateTime = DateTime.Now;
+						list.Add(x);
+					}
+					else if (item.strAlertType == "msgAlert" && list.Count() < 4)
+					{
+						Models.Card b = new Models.Card();
+						b.Message = item.strAlert;
+						//Card c = new Card();
+						b.CardType = Card.CardTypes.PriceIncrease;
+						b.AlertDateTime = DateTime.Now;
+						list.Add(b);
+					}
+					else
+					{ 
+						return list; 
+					}
+				}
 				return list;
-				//return db.TAlerts.ToList<TAlert>();
 			}
 
 		}

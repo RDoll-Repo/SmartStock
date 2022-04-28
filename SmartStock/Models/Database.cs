@@ -599,10 +599,12 @@ namespace SmartStock.Models
 				if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
 				SqlCommand cm = new SqlCommand("INSERT_ALERT", cn);
 				int intReturnValue = -1;
-
+				var thisCardType = "msgAlert";
 				SetParameter(ref cm, "@AlertID", c.Card_ID, SqlDbType.BigInt, Direction: ParameterDirection.Output);
 				SetParameter(ref cm, "@Alert", c.Message, SqlDbType.VarChar);
 				SetParameter(ref cm, "@AlertDate", c.AlertDateTime, SqlDbType.DateTime);
+				SetParameter(ref cm, "@AlertType", thisCardType, SqlDbType.VarChar);
+
 
 				SetParameter(ref cm, "ReturnValue", 0, SqlDbType.TinyInt, Direction: ParameterDirection.ReturnValue);
 
@@ -714,33 +716,34 @@ namespace SmartStock.Models
 					{
 						i.InvCount = item.intInvCount;
 					}
-					i.invCheck();
+					//i.invCheck();
+					double Invcount = Convert.ToDouble(i.InvCount);
+					double lowCheck = (average * .2);
+					if (Invcount < lowCheck)
+					{
+						i.blnIsLow = true;
+						Card y = new Card();
+						y.CardType = Card.CardTypes.StockAlert;
+						y.AlertDateTime = DateTime.Now;
+						y.Message = ($"You are running low on {item.strProductName} , be sure to order more soon. ");
+						var thisCardType = "invAlert";
+						SqlConnection cnn = null;
+						if (!GetDBConnection(ref cnn)) throw new Exception("Database did not connect");
+						SqlCommand cmm = new SqlCommand("INSERT_ALERT", cnn);
 
+						SetParameter(ref cmm, "@Alert", y.Message, SqlDbType.VarChar);
+						SetParameter(ref cmm, "@AlertDate", y.AlertDateTime, SqlDbType.DateTime);
+						SetParameter(ref cmm, "@AlertType", thisCardType, SqlDbType.VarChar);
+
+						cmm.ExecuteReader();
+						CloseDBConnection(ref cnn);
+					}
+					else
+					{
+						i.blnIsLow = false;
+					}
 				}
-				double Invcount = Convert.ToDouble(i.InvCount);
-				double lowCheck = (Invcount * .2);
-				if (average < lowCheck)
-				{
-					i.blnIsLow = true;
-					Card y = new Card();
-					y.CardType = Card.CardTypes.StockAlert;
-					y.AlertDateTime = DateTime.Now;
-					y.Message = ($"You are running low on {i.ProductName} , be sure to order more soon. ");
-				}
-				else
-				{
-					i.blnIsLow = false;
-				}
-
-				Models.Card c = new Models.Card();
-				SqlConnection cnn = null;
-				if (!GetDBConnection(ref cnn)) throw new Exception("Database did not connect");
-				SqlCommand cmm = new SqlCommand("INSERT_ALERT", cnn);
-
-				SetParameter(ref cm, "@Alert", c.Message, SqlDbType.VarChar);
-
-				cm.ExecuteReader();
-				CloseDBConnection(ref cn);
+				
 			}
 			return Inventory.ActionTypes.Unknown;
 		}

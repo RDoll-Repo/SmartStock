@@ -30,99 +30,99 @@
 
 	<div class="center-up">
 		<form action="addUser">
-			<table>
-				<tr>
-					<td colspan="2" style="text-align: center;">
-						<h1>@ViewBag.Title</h1>
-					</td>
-				</tr>
-				<tr>
-					<td class="table-label">
-						@Html.LabelFor(Model => Model.Company_Name, "Company Name:")
-					</td>
-					<td>
-						@Html.TextBoxFor(Model => Model.Company_Name, new { @autofocus = "autofocus" })
-					</td>
-				</tr>
-				<tr>
-					<td class="table-label">
-						@Html.LabelFor(Model => Model.Contact_FirstName, "Contact First Name:")
-					</td>
-					<td colspan="2">
-						@Html.TextBoxFor(Model => Model.Contact_FirstName)
-					</td>
-				</tr>
-				<tr>
-					<td class="table-label">
-						@Html.LabelFor(Model => Model.Contact_LastName, "Contact Last Name:")
-					</td>
-					<td colspan="2">
-						@Html.TextBoxFor(Model => Model.Contact_LastName)
-					</td>
-				</tr>
-				<tr>
-					<td class="table-label">
-						@Html.LabelFor(Model => Model.Contact_Address1, "Address:")
-					</td>
-					<td colspan="2">
-						@Html.TextBoxFor(Model => Model.Contact_Address1)
-					</td>
-				</tr>
-				<tr>
-					<td class="table-label">
-						@Html.LabelFor(Model => Model.Contact_State, "State:")
-					</td>
-					<td colspan="2">
-						@Html.TextBoxFor(Model => Model.Contact_State)
-					</td>
-				</tr>
-				<tr>
-					<td class="table-label">
-						@Html.LabelFor(Model => Model.Contact_Zip, "Zip:")
-					</td>
-					<td colspan="2">
-						@Html.TextBoxFor(Model => Model.Contact_Zip)
-					</td>
-				</tr>
-				<tr>
-					<td class="table-label">
-						@Html.LabelFor(Model => Model.Contact_PhoneNumber, "Contact Phone Number:")
-					</td>
-					<td colspan="2">
-						@Html.TextBoxFor(Model => Model.Contact_PhoneNumber)
-					</td>
-				</tr>
-				<tr>
-					<td class="table-label">
-						@Html.LabelFor(Model => Model.Contact_Email, "Contact Email:")
-					</td>
-					<td colspan="2">
-						@Html.TextBoxFor(Model => Model.Contact_Email)
-					</td>
-				</tr>
-				<tr>
-					<td class="table-label">
-						@Html.LabelFor(Model => Model.URL, "Business Site:")
-					</td>
-					<td colspan="2">
-						@Html.TextBoxFor(Model => Model.URL)
-					</td>
-				</tr>
-				<tr>
-					<td class="table-label">
-						@Html.LabelFor(Model => Model.Notes, "Notes:")
-					</td>
-					<td colspan="2">
-						@Html.TextBoxFor(Model => Model.Notes)
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2" style="text-align: center;">
-						<button id="btnBack" name="btnCancel" value="back" class="button-action"><i class="fa-solid fa-arrow-left"></i> Back</button>
-						<button id="btnSignUp" name="btnSubmit" value="addsupplier" class="button-action"><i class="fas fa-user-plus"></i> Add-Supplier</button>
-					</td>
-				</tr>
-			</table>
+            <table>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <h1>@ViewBag.Title</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(Model => Model.Company_Name, "Company Name:")
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(Model => Model.Company_Name, new { @autofocus = "autofocus" })
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(Model => Model.Contact_FirstName, "Contact First Name:")
+                    </td>
+                    <td colspan="2">
+                        @Html.TextBoxFor(Model => Model.Contact_FirstName)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(Model => Model.Contact_LastName, "Contact Last Name:")
+                    </td>
+                    <td colspan="2">
+                        @Html.TextBoxFor(Model => Model.Contact_LastName)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(Model => Model.Contact_Address1, "Address:")
+                    </td>
+                    <td colspan="2">
+                        @Html.TextBoxFor(Model => Model.Contact_Address1)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(Model => Model.Contact_State, "State:")
+                    </td>
+                    <td colspan="2">
+                        @Html.TextBoxFor(Model => Model.Contact_State)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(Model => Model.Contact_Zip, "Zip:")
+                    </td>
+                    <td colspan="2">
+                        @Html.TextBoxFor(Model => Model.Contact_Zip)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(Model => Model.Contact_PhoneNumber, "Contact Phone Number:")
+                    </td>
+                    <td colspan="2">
+                        @Html.TextBoxFor(Model => Model.Contact_PhoneNumber)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(Model => Model.Contact_Email, "Contact Email:")
+                    </td>
+                    <td colspan="2">
+                        @Html.TextBoxFor(Model => Model.Contact_Email)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(Model => Model.URL, "Website link:")
+                    </td>
+                    <td colspan="2">
+                        @Html.TextBoxFor(Model => Model.URL)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-label">
+                        @Html.LabelFor(Model => Model.Notes, "Notes:")
+                    </td>
+                    <td colspan="2">
+                        @Html.TextBoxFor(Model => Model.Notes)
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <button id="btnBack" name="btnCancel" value="back" class="button-action"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                        <button id="btnSignUp" name="btnSubmit" value="addsupplier" class="button-action"><i class="fas fa-user-plus"></i> Add-Supplier</button>
+                    </td>
+                </tr>
+            </table>
 		</form>
 	</div>
 }

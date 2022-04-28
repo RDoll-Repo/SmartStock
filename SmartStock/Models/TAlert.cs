@@ -17,5 +17,6 @@ namespace SmartStock.Models
         public int intAlertID { get; set; }
         public string strAlert { get; set; }
         public System.DateTime dtmAlertDate { get; set; }
+        public string strAlertType { get; set; }
     }
 }
