@@ -107,21 +107,6 @@ namespace SmartStock.Controllers
 
 		public ActionResult Dashboard()
 		{
-			using (DBModel dbContext = new DBModel())
-			//try
-			{
-				Models.Inventory i = new Models.Inventory();
-
-				var Inv = dbContext.TInventories.ToList();
-				foreach (var item in Inv)
-				{
-					if (item.intInventoryID == 1)
-					{
-						i.ProductName = item.strProductName;
-						i.invCheck();
-					}
-				}
-			}
 
 			return View(GetAllCards());
 		}
@@ -140,6 +125,7 @@ namespace SmartStock.Controllers
 				{
 					if (item.strAlertType == "msgAlert" &&  list.Count() < 4)
 					{
+						
 						Models.Card c = new Models.Card();
 						c.Card_ID = item.intAlertID;
 						c.Message = item.strAlert;
@@ -150,6 +136,7 @@ namespace SmartStock.Controllers
 					}
 					else if (item.strAlertType == "invAlert" && list.Count() < 4 )
 					{
+						
 						Models.Card x = new Models.Card();
 						x.Card_ID = item.intAlertID;
 						x.Message = item.strAlert;
@@ -158,7 +145,7 @@ namespace SmartStock.Controllers
 						x.AlertDateTime = DateTime.Now;
 						list.Add(x);
 					}
-					else if (item.strAlertType == "msgAlert" && list.Count() < 4)
+					else if (item.strAlertType == "priceChangeAlert" && list.Count() < 4)
 					{
 						Models.Card b = new Models.Card();
 						b.Card_ID = item.intAlertID;
@@ -1008,25 +995,44 @@ namespace SmartStock.Controllers
 					Models.Inventory i = new Models.Inventory();
 					if (col["btnCancel"] == "back")
 					{
+						var Inv = dbContext.TInventories.ToList();
+
 						return RedirectToAction("InventoryAdjustment");
 					}
 
+					
+
+
+
+					
 
 					if (col["btnSubmit"] == "editSubmit")
-					{ 
+					{
+
+
 						foreach (var Inv in list)
 						{
-							
+
 							var c = dbContext.TInventories.Where(a => a.intInventoryID.Equals(Inv.intInventoryID)).FirstOrDefault();
 							if (c != null)
 							{
 								c.intInventoryID = Inv.intInventoryID;
 								c.intInvCount = Inv.intInvCount;
 							}
+						
+
 							i.InvCount = c.intInvCount;
 							i.InventoryID = c.intInventoryID;
 							i.AuditSave();
 							i.SaveInventorySession();
+						}
+						Models.Inventory invent = new Models.Inventory();
+						var Inventory = dbContext.TInventories.ToList();
+						foreach (var item in Inventory)
+						{
+							invent.InventoryID = item.intInventoryID;
+							invent.ProductName = item.strProductName;
+							invent.invCheck();
 						}
 						return RedirectToAction("InventoryAdjustment");
 					}
@@ -1082,6 +1088,8 @@ namespace SmartStock.Controllers
 
 					if (col["btnSubmit"] == "editSubmit")
 					{
+						
+
 						foreach (var Inv in list)
 						{
 
@@ -1109,6 +1117,14 @@ namespace SmartStock.Controllers
 
 							i.SaveInventorySession();
 							pph.SaveProductPriceSession();
+						}
+						Models.ProductPriceHistory pphs = new Models.ProductPriceHistory();
+						var PPHLog = dbContext.TProductPriceHistories.ToList();
+						foreach (var items in PPHLog)
+						{
+							pphs.ProductPriceHistoryID = items.intProductPriceHistoryID;
+							pphs.ProductName = items.strProductName;
+							pphs.priceCheck();
 						}
 						return RedirectToAction("InventoryAdjustment");
 					}

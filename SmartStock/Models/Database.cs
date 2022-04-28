@@ -697,12 +697,12 @@ namespace SmartStock.Models
 
 				SetParameter(ref cm, "@ProductName", i.ProductName, SqlDbType.VarChar);
 
-				var priceChangeComp = cm.Parameters.Add("@priceChangeComp", SqlDbType.Money);
-				priceChangeComp.Direction = ParameterDirection.ReturnValue;
+				var avgInventory = cm.Parameters.Add("@avg_PurchaseAmt", SqlDbType.Money);
+				avgInventory.Direction = ParameterDirection.ReturnValue;
 
 				cm.ExecuteReader();
 
-				var average = Convert.ToDouble(priceChangeComp.Value);
+				var average = Convert.ToDouble(avgInventory.Value);
 
 				CloseDBConnection(ref cn);
 
@@ -712,31 +712,30 @@ namespace SmartStock.Models
 				var log = dbContext.TProductPriceHistories.ToList();
 				foreach (var item in Inv)
 				{
-					if (item.strProductName != null)
+					if (item.intInventoryID == i.InventoryID)
 					{
 						i.InvCount = item.intInvCount;
-					}
-					//i.invCheck();
-					double Invcount = Convert.ToDouble(i.InvCount);
-					double lowCheck = (average * .2);
-					if (Invcount < lowCheck)
-					{
-						i.blnIsLow = true;
-						Card y = new Card();
-						y.CardType = Card.CardTypes.StockAlert;
-						y.AlertDateTime = DateTime.Now;
-						y.Message = ($"You are running low on {item.strProductName} , be sure to order more soon. ");
-						var thisCardType = "invAlert";
-						SqlConnection cnn = null;
-						if (!GetDBConnection(ref cnn)) throw new Exception("Database did not connect");
-						SqlCommand cmm = new SqlCommand("INSERT_ALERT", cnn);
+						double Invcount = Convert.ToDouble(i.InvCount);
+						double lowCheck = (average * .2);
+						if (Invcount < lowCheck)
+						{
+							i.blnIsLow = true;
+							Card y = new Card();
+							y.CardType = Card.CardTypes.StockAlert;
+							y.AlertDateTime = DateTime.Now;
+							y.Message = ($"You are running low on {item.strProductName}, be sure to order more soon. ");
+							var thisCardType = "invAlert";
+							SqlConnection cnn = null;
+							if (!GetDBConnection(ref cnn)) throw new Exception("Database did not connect");
+							SqlCommand cmm = new SqlCommand("INSERT_ALERT", cnn);
 
-						SetParameter(ref cmm, "@Alert", y.Message, SqlDbType.VarChar);
-						SetParameter(ref cmm, "@AlertDate", y.AlertDateTime, SqlDbType.DateTime);
-						SetParameter(ref cmm, "@AlertType", thisCardType, SqlDbType.VarChar);
+							SetParameter(ref cmm, "@Alert", y.Message, SqlDbType.VarChar);
+							SetParameter(ref cmm, "@AlertDate", y.AlertDateTime, SqlDbType.DateTime);
+							SetParameter(ref cmm, "@AlertType", thisCardType, SqlDbType.VarChar);
 
-						cmm.ExecuteReader();
-						CloseDBConnection(ref cnn);
+							cmm.ExecuteReader();
+							CloseDBConnection(ref cnn);
+						}
 					}
 					else
 					{
@@ -746,6 +745,63 @@ namespace SmartStock.Models
 				
 			}
 			return Inventory.ActionTypes.Unknown;
+		}
+
+		public ProductPriceHistory.ActionTypes GetPriceChange(ProductPriceHistory pph)
+		{
+			if (pph.ProductName != null)
+			{
+				SqlConnection cn = null;
+				if (!GetDBConnection(ref cn)) throw new Exception("Database did not connect");
+				SqlCommand cm = new SqlCommand("GETPRICECHANGE", cn);
+
+				SetParameter(ref cm, "@ProductName", pph.ProductName, SqlDbType.VarChar);
+
+				var priceChangeComp = cm.Parameters.Add("@priceChangeComp", SqlDbType.Money);
+				priceChangeComp.Direction = ParameterDirection.ReturnValue;
+
+				cm.ExecuteReader();
+
+				var priceChgVal = Convert.ToDouble(priceChangeComp.Value);
+
+				CloseDBConnection(ref cn);
+
+				DBModel dbContext = new DBModel();
+
+				var Inv = dbContext.TInventories.ToList();
+				var log = dbContext.TProductPriceHistories.ToList();
+				foreach (var item in log)
+				{
+					if (item.intProductPriceHistoryID == pph.ProductPriceHistoryID)
+					{
+						pph.CostPerUnit = item.monCostPerUnit;
+						//i.invCheck();
+						double CostPerUnits = Convert.ToDouble(pph.CostPerUnit);
+						double priceChgValue = (priceChgVal);
+						if (CostPerUnits > priceChgValue)
+						{
+							Card y = new Card();
+							y.CardType = Card.CardTypes.PriceIncrease;
+							y.AlertDateTime = DateTime.Now;
+							y.Message = ($"The price of {item.strProductName}, has raised. ");
+							var thisCardType = "priceChangeAlert";
+							SqlConnection cnn = null;
+							if (!GetDBConnection(ref cnn)) throw new Exception("Database did not connect");
+							SqlCommand cmm = new SqlCommand("INSERT_ALERT", cnn);
+
+							SetParameter(ref cmm, "@Alert", y.Message, SqlDbType.VarChar);
+							SetParameter(ref cmm, "@AlertDate", y.AlertDateTime, SqlDbType.DateTime);
+							SetParameter(ref cmm, "@AlertType", thisCardType, SqlDbType.VarChar);
+
+							cmm.ExecuteReader();
+							CloseDBConnection(ref cnn);
+						}
+					}
+
+				}
+
+			}
+			return ProductPriceHistory.ActionTypes.NoType;
 		}
 
 		private bool GetDBConnection(ref SqlConnection SQLConn)
