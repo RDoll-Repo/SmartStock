@@ -1,10 +1,9 @@
 ﻿@model List<SmartStock.Models.TInventory>
-
-
 @using (Html.BeginForm("Audit", "Profile", FormMethod.Post)) {
 @Html.AntiForgeryToken()
 <div class="center-up">
 	@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+	<h1 style="text-align:center;">Audit</h1>
 	<table>
 		<tr>
 			<th>Product Name</th>
