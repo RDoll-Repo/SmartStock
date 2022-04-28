@@ -107,8 +107,41 @@ namespace SmartStock.Controllers
 
 		public ActionResult Dashboard()
 		{
+			using (DBModel dbContext = new DBModel())
+			//try
+			{
+				Models.Inventory i = new Models.Inventory();
+
+				var Inv = dbContext.TInventories.ToList();
+				var log = dbContext.TProductPriceHistories.ToList();
+				foreach (var item in Inv)
+				{
+					if (item.strProductName != null)
+					{
+						i.ProductName = item.strProductName;
+					}
+					//i.invCheck();
+				}
+				
+			
+				//return RedirectToAction("Inventory");
+			}
+
 			return View(GetAllCards());
 		}
+
+		//public ActionResult lowCard()
+		//{
+		//	Models.Inventory i = new Models.Inventory();
+		//	if (i.blnIsLow == true)
+		//	{
+		//		list.y;
+		//	}
+		//	return
+			
+		//}
+
+
 		IEnumerable<Card> GetAllCards()
 		{
 			using (DBModel db = new DBModel())
@@ -118,12 +151,12 @@ namespace SmartStock.Controllers
 				Card x = new Card();
 				x.CardType = Card.CardTypes.Announcement;
 				x.AlertDateTime = DateTime.Now;
-				x.Message = "This is an annoucnemnt";
+				x.Message = "message";
 
 				Card y = new Card();
 				y.CardType = Card.CardTypes.StockAlert;
 				y.AlertDateTime = DateTime.Now;
-				y.Message = "You are running low on {item}, be sure to order more soon. ";
+				y.Message = "You are running low on { strProductName } , be sure to order more soon. ";
 
 				Card z = new Card();
 				z.CardType = Card.CardTypes.PriceIncrease;

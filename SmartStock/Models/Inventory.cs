@@ -54,6 +54,22 @@ namespace SmartStock.Models
             catch (Exception ex) { throw new Exception(ex.Message); }
         }
 
+        public Inventory.ActionTypes invCheck()
+        {
+
+            Database db = new Database();
+            if (ProductName != null)
+            { //insert new product
+                this.ActionType = db.GetAvgValue(this);
+            }
+            else
+            {
+            return this.ActionType;
+            }
+        return this.ActionType;
+
+        }
+
         public Inventory.ActionTypes AuditSave()
         {
             try
