@@ -141,6 +141,7 @@ namespace SmartStock.Controllers
 					if (item.strAlertType == "msgAlert" &&  list.Count() < 4)
 					{
 						Models.Card c = new Models.Card();
+						c.Card_ID = item.intAlertID;
 						c.Message = item.strAlert;
 						//Card c = new Card();
 						c.CardType = Card.CardTypes.Announcement;
@@ -150,6 +151,7 @@ namespace SmartStock.Controllers
 					else if (item.strAlertType == "invAlert" && list.Count() < 4 )
 					{
 						Models.Card x = new Models.Card();
+						x.Card_ID = item.intAlertID;
 						x.Message = item.strAlert;
 						//Card c = new Card();
 						x.CardType = Card.CardTypes.StockAlert;
@@ -159,6 +161,7 @@ namespace SmartStock.Controllers
 					else if (item.strAlertType == "msgAlert" && list.Count() < 4)
 					{
 						Models.Card b = new Models.Card();
+						b.Card_ID = item.intAlertID;
 						b.Message = item.strAlert;
 						//Card c = new Card();
 						b.CardType = Card.CardTypes.PriceIncrease;
@@ -916,6 +919,7 @@ namespace SmartStock.Controllers
 		{
 			return View();
 		}
+
 		[HttpPost]
 		public ActionResult DeleteCard(FormCollection col, int Card_ID)
 		{
