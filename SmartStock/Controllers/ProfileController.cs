@@ -906,6 +906,7 @@ namespace SmartStock.Controllers
 		{
 			return View();
 		}
+
 		[HttpPost]
 		public ActionResult DeleteCard(FormCollection col, int Card_ID)
 		{

@@ -6,7 +6,7 @@
 	.card {
 		vertical-align: middle;
 		background-color: #3e3e3c;
-		padding: 30px 30px;
+		padding: 20px 20px;
 		margin: 50px 2px;
 		border: 1px solid #1b1a19;
 		border-radius: 8px;
@@ -29,6 +29,21 @@
 		font-size: 20px;
 	}
 
+	.trash{
+		text-align: right;
+	}
+
+	.button-action-edit-delete {
+		padding: 6px 6px;
+		background-color: dimgray;
+		color: white;
+		text-align:center;
+	}
+
+	.button-action-edit-delete:hover {
+		background-color: gray;
+	}
+
 </style>
 <div class="center-up-db">
 	<h1 style="text-align: center;">@ViewBag.Title</h1>
@@ -49,12 +64,19 @@
 					</div>
 					<div class="message">
 						<div class="date">@Html.DisplayFor(modelItem => item.AlertDateTime)</div>
-						<div>@Html.DisplayFor(modelItem => item.Message)</div>
+						<div>
+							@Html.DisplayFor(modelItem => item.Message)
+							<div class="trash">
+								<button class="button-action-edit-delete" onclick="location.href='@Url.Action("DeleteCard", "Profile", new { Card_ID = item.Card_ID })';"><i class="fa-solid fa-trash"></i></button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	}
+
 	<form action="CreateCard">
-		<input type="submit" value="+ New Announcement" />
+		<input class="button-action-edit-delete" type="submit" value="+ New Announcement" />
 	</form>
+</div>
